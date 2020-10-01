@@ -7,25 +7,30 @@ class LexerSuite(unittest.TestCase):
         """test identifiers"""
         self.assertTrue(TestLexer.checkLexeme("abc","abc,<EOF>",101))
 
-    def test_lower_upper_id(self):
-        self.assertTrue(TestLexer.checkLexeme("Var","Var,<EOF>",102))
+    def test_wrong_lower_identifier(self):
+        """test wrong identifiers"""
+        self.assertTrue(TestLexer.checkLexeme("abc.","abc,Error Token .",102))
 
-    def test_wrong_token(self):
-        self.assertTrue(TestLexer.checkLexeme("ab?svn","ab,Error Token ?",103))
+    def test_real(self):
+        self.assertTrue(TestLexer.checkLexeme("1.234","1.234,<EOF>",103))
 
-    def test_integer(self):
-        """test integers"""
-        self.assertTrue(TestLexer.checkLexeme("Var x;","Var,x,;,<EOF>",104))
+    def test_wrong_real1(self):
+        self.assertTrue(TestLexer.checkLexeme("1.234e-10","1.234e-10,<EOF>",104))
 
-    def test_illegal_escape(self):
-        """test illegal escape"""
-        self.assertTrue(TestLexer.checkLexeme(""" "abc\\h def"  ""","""Illegal Escape In String: abc\\h""",105))
+    def test_wrong_real2(self):
+        self.assertTrue(TestLexer.checkLexeme(".234e-10","Error Token .",105))
 
-    def test_unterminated_string(self):
-        """test unclosed string"""
-        self.assertTrue(TestLexer.checkLexeme(""" "abc def  ""","""Unclosed String: abc def  """,106))
+    def test_wrong_real3(self):
+        self.assertTrue(TestLexer.checkLexeme("12.e-10","Error Token 1",106))
 
-    def test_normal_string_with_escape(self):
-        """test normal string with escape"""
-        self.assertTrue(TestLexer.checkLexeme(""" "ab'"c\\n def"  ""","""ab'"c\\n def,<EOF>""",107))
+    def test_string_1(self):
+        self.assertTrue(TestLexer.checkLexeme("''", "'',<EOF>", 108))
 
+    def test_string_1(self):
+        self.assertTrue(TestLexer.checkLexeme("'Hoang Phuc'", "'Hoang Phuc',<EOF>", 108))
+
+    def test_string_2(self):
+        self.assertTrue(TestLexer.checkLexeme("'hello''eab'", "'hello''eab',<EOF>", 109))
+
+    def test_string_3(self):
+        self.assertTrue(TestLexer.checkLexeme("'L02_10''a", "'L02_10',Error Token '", 110))

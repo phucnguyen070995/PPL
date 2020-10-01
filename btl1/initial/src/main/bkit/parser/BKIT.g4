@@ -24,9 +24,18 @@ options{
 	language=Python3;
 }
 
-program  : VAR COLON ID SEMI EOF ;
+program  : VAR COLON ID REAL SEMI EOF ;
 
-ID: [a-z]+ ;
+fragment Letter: [a-z];
+fragment Number: [0-9];
+fragment SINGLEQUOTE: '\'';
+fragment DOT: '.';
+
+ID: Letter(Letter|Number)* ;
+
+STRING: '\''(~'\''|'\'''\'')*'\'';
+
+REAL: Number+((DOT Number+[eE][+-]?)|(DOT|([eE][+-]?)))Number+ ;
 
 SEMI: ';' ;
 
