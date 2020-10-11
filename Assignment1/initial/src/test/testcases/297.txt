@@ -1,0 +1,5 @@
+string NguyenVanHoaiLinh (){
+    if (a<2)
+    {a;do {a;a = 1.;}while a; int a,b,c,d; cbcd= fbasjdn;}
+    else {ok;}
+}

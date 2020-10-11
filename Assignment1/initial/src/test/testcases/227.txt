@@ -1,0 +1,5 @@
+string NguyenVanHoaiLinh (){
+    if (a<2)
+    {;}
+    else {ok;}
+}

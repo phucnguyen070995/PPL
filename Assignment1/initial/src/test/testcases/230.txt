@@ -1,0 +1,5 @@
+string NguyenVanHoaiLinh (){
+    if (a<2)
+    {a;do {a;}while a= 4; do {a= 3;}while a; }
+    else {ok;}
+}

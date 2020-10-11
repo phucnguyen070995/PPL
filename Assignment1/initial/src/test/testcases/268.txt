@@ -1,0 +1,4 @@
+int NguyenVanHoaiLinh (){
+    if (a){ a = 1; do{}abc b= 2;}
+    else {ok;}
+}

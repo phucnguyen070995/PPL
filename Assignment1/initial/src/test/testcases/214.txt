@@ -1,0 +1,4 @@
+boolean NguyenVanHoaiLinh (){
+    if (a){ a = 1; b= 2;}
+    else {ok;}
+}

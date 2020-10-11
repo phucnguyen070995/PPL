@@ -1,0 +1,5 @@
+string NguyenVanHoaiLinh (){
+    if (a<2)
+    {a;if (a==4){a;}int a,b,c,d; cbcd= adv<3;}
+    else {ok;}
+}

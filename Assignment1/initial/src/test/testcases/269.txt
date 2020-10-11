@@ -1,0 +1,6 @@
+int NguyenVanHoaiLinh (){
+    if (a<2)
+    { a = 1; do{a=2;}while a=a;
+    b= 2;}
+    else {ok;}
+}
