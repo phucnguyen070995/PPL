@@ -1,0 +1,16 @@
+Câu 1a)
+
+L(O) = [O,object]
+L(A) = [A,O, object]
+L(B) = [B,O, object]
+L(C) = [C,O, object]
+L(D) = [D] + merge(L(A), L(B), [A,B]) = [D] + merge([A,O, object], [B,O, object], [A,B]) = [D] + [A,B,O,object] = [D,A,B,O,object]
+L(E) = [E] + merge(L(C), L(A), [C,A]) = [E] + merge([C,O, object], [A,O, object], [C,A]) = [E] + [C,A,O,object] = [E,C,A,O,object]
+L(F) = [F] + merge(L(D), L(B), L(E), [D,B,E]) = [F] + merge([D,A,B,O,object], [B,O, object], [E,C,A,O,object], [D,B,E]) = [F,D] + merge([A,B,O,object], [B,O, object], [E,C,A,O,object], [B,E]) = error
+
+Change D(B,A)
+L(D) = [D] + merge(L(B), L(A), [B,A]) = [D] + merge([B,O, object], [A,O, object], [B,A]) = [D] + [B,A,O,object] = [D,B,A,O,object]
+L(F) = [F] + merge(L(D), L(B), L(E), [D,B,E]) = [F] + merge([D,B,A,O,object], [B,O, object], [E,C,A,O,object], [D,B,E]) = [F,D,B,E,C,A,O,object]
+
+Câu 1b)
+Class C call x.foo()
