@@ -1,1 +1,1 @@
-r,r,r,r,Error Token \
+r,r,r,r,\,rr,\,r,r,\,r,rr,\,r,r,\,r,<EOF>

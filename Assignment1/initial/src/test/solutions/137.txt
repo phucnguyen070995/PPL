@@ -1,1 +1,1 @@
-NoMoneyButCrazy,Unclosed String: 
+N,o,M,oney,B,ut,C,razy,",<EOF>

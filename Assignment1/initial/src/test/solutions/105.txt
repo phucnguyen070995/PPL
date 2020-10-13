@@ -1,1 +1,1 @@
-A_linh_123A,<EOF>
+A,_,linh,_,123,A,<EOF>

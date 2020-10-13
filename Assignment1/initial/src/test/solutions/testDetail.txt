@@ -1,3 +1,3 @@
-BOOLLIT true
-BOOLLIT false
-BOOLLIT true
+ID true
+ID false
+ID true

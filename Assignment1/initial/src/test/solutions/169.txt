@@ -1,1 +1,1 @@
-void,Func,(,),{,a,[,3,],Error Token ?
+void,F,unc,(,),{,a,[,3,],?,?,?,},<EOF>

@@ -1,1 +1,1 @@
-void,Func,(,),{,},<EOF>
+void,F,unc,(,),{,},<EOF>

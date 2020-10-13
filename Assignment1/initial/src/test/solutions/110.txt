@@ -1,1 +1,1 @@
-.11,Error Token .
+.,11,.,<EOF>

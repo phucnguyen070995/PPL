@@ -1,1 +1,1 @@
-Illegal Escape In String: a\s
+",a,\,s,?,?,?,?,?,?,?,<EOF>
