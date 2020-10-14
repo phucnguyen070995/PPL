@@ -117,7 +117,18 @@ INTERGER:   DECIMAL | HEXA | OCTAL;
 
 //-------------------------------Float---------------------------------
 
+fragment EXPONENT:  ('E' | 'e') (ADDOP | SUBOP)? NUMBER+
+fragment DECIMAL_PART: DOT NUMBER*
+FLOAT:              [1-9] NUMBER* (DECIMAL_PART 
+                        | EXPONENT
+                        | DECIMAL_PART EXPONENT
+                        | DECIMAL_PART)?
 
+//-------------------------------String---------------------------------
+
+STRING:             DOUBLE_QUOTE (
+                        
+                    )
 
 //-------------------------------Identifiers---------------------------------
 

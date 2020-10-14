@@ -1,1 +1,1 @@
-Error Token .
+.,234,e,-,10,<EOF>
