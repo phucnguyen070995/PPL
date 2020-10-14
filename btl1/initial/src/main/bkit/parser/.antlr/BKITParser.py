@@ -11,10 +11,10 @@ else:
 
 def serializedATN():
     with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3@")
-        buf.write("\f\4\2\t\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\2\2\3\2\2\2")
-        buf.write("\2\n\2\4\3\2\2\2\4\5\7\64\2\2\5\6\7\7\2\2\6\7\7:\2\2\7")
-        buf.write("\b\7@\2\2\b\t\7\n\2\2\t\n\7\2\2\3\n\3\3\2\2\2\2")
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3C")
+        buf.write("\13\4\2\t\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\2\2\3\2\2\2\2")
+        buf.write("\t\2\4\3\2\2\2\4\5\7\64\2\2\5\6\7\7\2\2\6\7\7>\2\2\7\b")
+        buf.write("\7\n\2\2\b\t\7\2\2\3\t\3\3\2\2\2\2")
         return buf.getvalue()
 
 
@@ -46,9 +46,9 @@ class BKITParser ( Parser ):
                       "BREAK", "CONTINUE", "DO", "ELSE", "ELSEIF", "ENDBODY", 
                       "ENDIF", "ENDFOR", "ENDWHILE", "FOR", "FUNCTION", 
                       "IF", "PARAMETER", "RETURN", "THEN", "VAR", "WHILE", 
-                      "TRUE", "FALSE", "ENDDO", "INTERGER", "ID", "WS", 
-                      "ERROR_CHAR", "UNCLOSE_STRING", "ILLEGAL_ESCAPE", 
-                      "UNTERMINATED_COMMENT", "REAL" ]
+                      "TRUE", "FALSE", "ENDDO", "INTERGER", "FLOAT", "STRING", 
+                      "ARRAY", "BOOLEAN", "ID", "WS", "ERROR_CHAR", "UNCLOSE_STRING", 
+                      "ILLEGAL_ESCAPE", "UNTERMINATED_COMMENT" ]
 
     RULE_program = 0
 
@@ -110,13 +110,16 @@ class BKITParser ( Parser ):
     FALSE=53
     ENDDO=54
     INTERGER=55
-    ID=56
-    WS=57
-    ERROR_CHAR=58
-    UNCLOSE_STRING=59
-    ILLEGAL_ESCAPE=60
-    UNTERMINATED_COMMENT=61
-    REAL=62
+    FLOAT=56
+    STRING=57
+    ARRAY=58
+    BOOLEAN=59
+    ID=60
+    WS=61
+    ERROR_CHAR=62
+    UNCLOSE_STRING=63
+    ILLEGAL_ESCAPE=64
+    UNTERMINATED_COMMENT=65
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
@@ -141,9 +144,6 @@ class BKITParser ( Parser ):
 
         def ID(self):
             return self.getToken(BKITParser.ID, 0)
-
-        def REAL(self):
-            return self.getToken(BKITParser.REAL, 0)
 
         def SEMI(self):
             return self.getToken(BKITParser.SEMI, 0)
@@ -170,10 +170,8 @@ class BKITParser ( Parser ):
             self.state = 4
             self.match(BKITParser.ID)
             self.state = 5
-            self.match(BKITParser.REAL)
-            self.state = 6
             self.match(BKITParser.SEMI)
-            self.state = 7
+            self.state = 6
             self.match(BKITParser.EOF)
         except RecognitionException as re:
             localctx.exception = re

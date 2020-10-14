@@ -26,7 +26,7 @@ options{
 	language=Python3;
 }
 
-program  : VAR COLON ID REAL SEMI EOF ;
+program  : (var_dec | func_dec)+ EOF;
 
 //-------------------------------Separators---------------------------------
 
@@ -97,15 +97,14 @@ fragment LOWCASE:       [a-z];
 fragment UPPERCASE:     [A-Z];
 fragment NUMBER:        [0-9];
 fragment UNDERCORE:     '_';
-fragment SINGLEQUOTE:   '\'';
 fragment BACKSPACE:     '\\b';
 fragment FORMFEED:      '\\f';
 fragment CARRIAGE_RETURN:'\\r';
 fragment NEWLINE:       '\\n';
 fragment HORIZONTAL_TAB:'\\t';
 fragment SINGLE_QUOTE:  '\'';
-fragment DOUBLE_QUOTE:  '\"';
-fragment BACK_SLASH:    '\\\\"';
+fragment DOUBLE_QUOTE:  '"';
+fragment BACK_SLASH:    '\\\\';
 
 //-------------------------------Literals---------------------------------
 //-------------------------------Integer---------------------------------
@@ -117,22 +116,45 @@ INTERGER:   DECIMAL | HEXA | OCTAL;
 
 //-------------------------------Float---------------------------------
 
-fragment EXPONENT:  ('E' | 'e') (ADDOP | SUBOP)? NUMBER+
-fragment DECIMAL_PART: DOT NUMBER*
+fragment EXPONENT:  ('E' | 'e') (ADDOP | SUBOP)? NUMBER+;
+fragment DECIMAL_PART: DOT NUMBER*;
 FLOAT:              [1-9] NUMBER* (DECIMAL_PART 
                         | EXPONENT
                         | DECIMAL_PART EXPONENT
-                        | DECIMAL_PART)?
+                        | DECIMAL_PART)?;
 
 //-------------------------------String---------------------------------
 
-STRING:             DOUBLE_QUOTE (
-                        
-                    )
+fragment ESCAPE_SEQUENCE    :   BACKSPACE
+                            |   FORMFEED
+                            |   CARRIAGE_RETURN
+                            |   NEWLINE
+                            |   HORIZONTAL_TAB
+                            |   SINGLE_QUOTE
+                            |   BACK_SLASH
+                            ;
 
+STRING:     DOUBLE_QUOTE (
+                SINGLE_QUOTE DOUBLE_QUOTE
+                | ESCAPE_SEQUENCE
+                | ~[\nEOF"]
+            )*
+            DOUBLE_QUOTE;
+
+//-------------------------------ARRAY---------------------------------
+
+ARRAY:  LCB (
+            INTERGER (COMMA INTERGER)*
+            | FLOAT (COMMA FLOAT)*
+            | STRING (COMMA STRING)*
+            | ARRAY (COMMA ARRAY)*
+            | BOOLEAN (COMMA BOOLEAN)*
+        ) RCB;
+
+BOOLEAN:    TRUE | FALSE;
 //-------------------------------Identifiers---------------------------------
 
-ID: LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)* ;
+ID: LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)*;
 
 
 
