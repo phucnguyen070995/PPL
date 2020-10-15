@@ -40,10 +40,9 @@ composite_variable: composite_var_name ASSIG ARRAY
                     | composite_var_name;
 composite_var_name: ID (LB INTERGER RB)+;
 
-
 //-------------------------------Function declaration---------------------------------
 
-func_dec:           FUNCTION COLON ID param_list? func_body;
+func_dec:           FUNCTION COLON (ID | ID params) func_body;
 
 params:             PARAMETER COLON param_list;
 param_list:         (ID | composite_var_name) COMMA param_list
@@ -51,31 +50,36 @@ param_list:         (ID | composite_var_name) COMMA param_list
                     | composite_var_name;
 
 func_body:          BODY COLON ( var_dec | statement_list)* ENDBODY DOT;
-// statement:          ( assignment | call | return_stmt) SEMI;
-// assignment:         ID ASSIG expression_stm;
-call:               ID LP (expression_stm (COMMA expression_stm)*)? RP;
-return_stmt:        RETURN expression_stm;
 
-expression_stm:     term1 ASSIG term1 | term1;
-term1:              term2 relational term2 | term2;
-term2:              term3 logical term2 | term3;
-term3:              term4 adding term3 | term4;
-term4:              term5 multiplying term4 | term5;
-term5:              NOT term5 | term6;
-term6:              (SUBOP | SUBF) term6 | term7;
-term7:              term8 (LB expression_stm RB) | term8;
-term8:              (LP expression_stm RP) | operand;
-operand:            BOOLEAN | FLOAT | INTERGER | STRING | composite_var_name | ID | callee;
+//-------------------------------Expressions---------------------------------
+
+expression_stm:     term1 relational term1 | term1;
+term1:              term1 logical term2 | term2;
+term2:              term2 adding term3 | term3;
+term3:              term3 multiplying term4 | term4;
+term4:              NOT term4 | term5;
+term5:              (SUBOP | SUBF) term5 | term6;
+term6:              term6 index_operators | term7;
+term7:              (LP expression_stm RP) | operand;
+operand:            BOOLEAN | FLOAT | INTERGER | STRING | ID | callee;
+
+index_operators:    LB expression_stm RB index_operators
+                    | LB expression_stm RB;
 
 //-------------------------------Call function---------------------------------
 
-callee:             ID LP (expression_stm (COMMA expression_stm)*)? RP;
+callee:             (ID | type_coercions) (LP | LP parameter_callee) RP;
+parameter_callee:   expression_stm COMMA parameter_callee
+                    | expression_stm;
+
+type_coercions:     'int_of_float' | 'float_of_int' | 'int_of_string' | 'string_of_int' | 'float_of_string' | 'string_of_float' | 'bool_of_string' | 'string_of_bool';
 
 //-------------------------------Statement---------------------------------
 
 statement_list:     statement_part statement_list
                     | statement_part;
 statement_part:     if_stm 
+                    | assign_stm
                     | do_while_stm SEMI
                     | for_stm
                     | break_stm
@@ -86,6 +90,10 @@ statement_part:     if_stm
                     | call_stm
                     | expression_stm SEMI;
 
+//-------------------------------Assignment Statement---------------------------------
+
+assign_stm:         expression_stm ASSIG expression_stm SEMI;
+
 //-------------------------------If Statement---------------------------------
                                     
 if_stm:             IF expression_stm (THEN statement_list | THEN statement_list elseif_else) ENDIF DOT;
@@ -93,11 +101,11 @@ elseif_else:        elseif_one elseif_else
                     | elseif_one
                     | else_one;
 elseif_one:         ELSEIF expression_stm THEN statement_list;
-else_one:               ELSE statement_list;
+else_one:           ELSE statement_list;
 
 //-------------------------------For Statement---------------------------------
 
-for_stm:            FOR LP expression_stm SEMI expression_stm SEMI expression_stm RP statement_list;
+for_stm:            FOR LP ID ASSIG INTERGER COMMA expression_stm COMMA expression_stm RP DO statement_list ENDFOR DOT;
 
 //-------------------------------return Statement---------------------------------
 
@@ -105,7 +113,7 @@ return_stm:         (RETURN | RETURN expression_stm) SEMI;
 
 //-------------------------------While Statement---------------------------------
 
-while_stm:          WHILE expression_stm DO (statement_list ENDWHILE | ENDWHILE) ENDWHILE DOT;
+while_stm:          WHILE expression_stm DO (statement_list ENDWHILE | ENDWHILE) DOT;
 
 //-------------------------------Do-While Statement---------------------------------
 
@@ -251,11 +259,10 @@ ARRAY:  LCB (
 //-------------------------------BOOLEAN---------------------------------
 
 BOOLEAN:    TRUE | FALSE;
+
 //-------------------------------Identifiers---------------------------------
 
 ID: LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)*;
-
-
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 

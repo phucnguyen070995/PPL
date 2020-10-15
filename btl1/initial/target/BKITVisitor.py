@@ -59,16 +59,6 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#call.
-    def visitCall(self, ctx:BKITParser.CallContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by BKITParser#return_stmt.
-    def visitReturn_stmt(self, ctx:BKITParser.Return_stmtContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by BKITParser#expression_stm.
     def visitExpression_stm(self, ctx:BKITParser.Expression_stmContext):
         return self.visitChildren(ctx)
@@ -109,18 +99,28 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#term8.
-    def visitTerm8(self, ctx:BKITParser.Term8Context):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by BKITParser#operand.
     def visitOperand(self, ctx:BKITParser.OperandContext):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by BKITParser#index_operators.
+    def visitIndex_operators(self, ctx:BKITParser.Index_operatorsContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by BKITParser#callee.
     def visitCallee(self, ctx:BKITParser.CalleeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#parameter_callee.
+    def visitParameter_callee(self, ctx:BKITParser.Parameter_calleeContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#type_coercions.
+    def visitType_coercions(self, ctx:BKITParser.Type_coercionsContext):
         return self.visitChildren(ctx)
 
 
@@ -131,6 +131,11 @@ class BKITVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BKITParser#statement_part.
     def visitStatement_part(self, ctx:BKITParser.Statement_partContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#assign_stm.
+    def visitAssign_stm(self, ctx:BKITParser.Assign_stmContext):
         return self.visitChildren(ctx)
 
 
