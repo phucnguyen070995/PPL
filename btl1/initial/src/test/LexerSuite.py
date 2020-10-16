@@ -97,3 +97,7 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme("{ {1.2, 2.3, 1.4},{  1.5 , 2.6},{ 1.7}}","{ {1.2, 2.3, 1.4},{  1.5 , 2.6},{ 1.7}},<EOF>",146))
     def test_array_8(self):
         self.assertTrue(TestLexer.checkLexeme("{ 1  , 2 ,    3 }","{ 1  , 2 ,    3 },<EOF>",147))
+    def test_string_6(self):
+        self.assertTrue(TestLexer.checkLexeme('"\'"','"\'",<EOF>',148))
+    def test_string_7(self):
+        self.assertTrue(TestLexer.checkLexeme('"'"','"'",<EOF>',149))

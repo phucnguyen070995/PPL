@@ -138,4 +138,22 @@ b[2][3] = 5;
 c[2] = {{1,3},{1,5,7}};"""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,220))
-    
+    def test_var_dec_func_dec_4(self):
+        input = """Function: test
+Parameter: n
+Body:
+    If n > 10 Then
+        Return 5;
+    Else
+        Return a[4][5 + b[2][3]];
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,221))
+    def test_var_dec_10(self):
+        input = """Var: a = "Xin chao moi nguoi!";
+Var: b = 5, c = False;"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,222))
+
+        

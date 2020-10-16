@@ -42,7 +42,10 @@ scalar_variable:    ID ASSIG (INTERGER | FLOAT | BOOLEAN | STRING)
                     | ID;
 composite_variable: composite_var_name ASSIG ARRAY
                     | composite_var_name;
-composite_var_name: ID (LB INTERGER RB)+;
+composite_var_name: ID many_demension;
+many_demension:     one_demension many_demension
+                    | one_demension;
+one_demension:      LB INTERGER RB;
 
 //-------------------------------Function declaration---------------------------------
 
@@ -53,7 +56,14 @@ param_list:         (ID | composite_var_name) COMMA param_list
                     | ID
                     | composite_var_name;
 
-func_body:          BODY COLON ( var_dec | statement_list)* ENDBODY DOT;
+func_body:          BODY (
+                        COLON var_dec_list 
+                        | COLON statement_list
+                        | COLON var_dec_list statement_list) 
+                    ENDBODY DOT;
+
+var_dec_list:       var_dec var_dec_list
+                    | var_dec;
 
 //-------------------------------Expressions---------------------------------
 
@@ -63,12 +73,12 @@ term2:              term2 adding term3 | term3;
 term3:              term3 multiplying term4 | term4;
 term4:              NOT term4 | term5;
 term5:              (SUBOP | SUBF) term5 | term6;
-term6:              term6 index_operators | term7;
+term6:              term6 LB expression_stm RB | term7;
 term7:              (LP expression_stm RP) | operand;
-operand:            BOOLEAN | FLOAT | INTERGER | STRING | ID | ARRAY | callee;
+operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | ARRAY | callee;
 
-index_operators:    LB expression_stm RB index_operators
-                    | LB expression_stm RB;
+// index_operators:    LB expression_stm RB index_operators
+//                     | LB expression_stm RB;
 
 //-------------------------------Call function---------------------------------
 
@@ -91,8 +101,7 @@ statement_part:     if_stm
                     | return_stm
                     | while_stm
                     | do_while_stm
-                    | call_stm
-                    | expression_stm SEMI;
+                    | call_stm;
 
 //-------------------------------Assignment Statement---------------------------------
 
@@ -100,7 +109,7 @@ assign_stm:         expression_stm ASSIG expression_stm SEMI;
 
 //-------------------------------If Statement---------------------------------
                                     
-if_stm:             IF expression_stm (THEN statement_list | THEN statement_list elseif_else) ENDIF DOT;
+if_stm:             IF expression_stm THEN ( statement_list | statement_list elseif_else) ENDIF DOT;
 elseif_else:        elseif_one elseif_else
                     | elseif_one
                     | else_one;
@@ -196,8 +205,8 @@ RETURN:     'Return';
 THEN:       'Then';
 VAR:        'Var';
 WHILE:      'While';
-TRUE:       'True';
-FALSE:      'False';
+fragment TRUE:       'True';
+fragment FALSE:      'False';
 ENDDO:      'EndDo';
 
 //-------------------------------FRAGMENT---------------------------------
@@ -221,12 +230,12 @@ fragment BACK_SLASH:    '\\\\';
 fragment HEXA:       '0'('x' | 'X') [1-9A-F] (NUMBER | [A-F])*;
 fragment DECIMAL:    [1-9] NUMBER* | '0';
 fragment OCTAL:      '0'('o' | 'O') [1-7][0-7]*;
-INTERGER:   DECIMAL | HEXA | OCTAL;
+INTERGER:            DECIMAL | HEXA | OCTAL;
 
 //-------------------------------Float---------------------------------
 
-fragment EXPONENT:  ('E' | 'e') (ADDOP | SUBOP)? NUMBER+;
-fragment DECIMAL_PART: DOT NUMBER*;
+fragment EXPONENT:      ('E' | 'e') (ADDOP | SUBOP)? NUMBER+;
+fragment DECIMAL_PART:  DOT NUMBER*;
 FLOAT:              [1-9] NUMBER* (DECIMAL_PART 
                         | EXPONENT
                         | DECIMAL_PART EXPONENT
@@ -246,7 +255,7 @@ fragment ESCAPE_SEQUENCE    :   BACKSPACE
 STRING:     DOUBLE_QUOTE (
                 SINGLE_QUOTE DOUBLE_QUOTE
                 | ESCAPE_SEQUENCE
-                | ~[\nEOF"]
+                | ~[\nEOF"']
             )*
             DOUBLE_QUOTE;
 
@@ -277,4 +286,4 @@ UNCLOSE_STRING: .;
 ILLEGAL_ESCAPE: .;
 UNTERMINATED_COMMENT: .;
 
-//chua co phan comment, array khi nhan dau cach se bi loi chac can phai chuyen sang parser array
+//chua co phan comment, kiem tra lai string
