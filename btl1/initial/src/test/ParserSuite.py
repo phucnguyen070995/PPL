@@ -27,7 +27,7 @@ class ParserSuite(unittest.TestCase):
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,206))
     def test_assignment_stm_1(self):
-        input = """a[3 + foo(2)] = a[b[2][3]] + 4;"""
+        input = """a[3 + foo(2)] = a[b [2][3]] + 4;"""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,207))
     def test_assignment_stm_2(self):
@@ -120,4 +120,22 @@ b = float_of_int (a) +. 2.0;
 EndIf."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,218))
+    def test_var_dec_func_dec_3(self):
+        input = """Function: test
+Parameter: n
+Body:
+    If n > 10 Then
+        Return 5;
+    Else
+        Return False;
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,219))
+    def test_var_dec_9(self):
+        input = """a = 1;
+b[2][3] = 5;
+c[2] = {{1,3},{1,5,7}};"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,220))
     

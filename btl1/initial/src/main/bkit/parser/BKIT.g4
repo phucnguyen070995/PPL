@@ -26,7 +26,11 @@ options{
 	language=Python3;
 }
 
-program  : (var_dec | func_dec | statement_list)+ EOF;
+program:            program_part EOF;
+program_part:       (var_dec | func_dec | statement_list) program_part
+                    | var_dec
+                    | func_dec
+                    | statement_list;
 
 //-------------------------------Variable declaration---------------------------------
 
@@ -61,7 +65,7 @@ term4:              NOT term4 | term5;
 term5:              (SUBOP | SUBF) term5 | term6;
 term6:              term6 index_operators | term7;
 term7:              (LP expression_stm RP) | operand;
-operand:            BOOLEAN | FLOAT | INTERGER | STRING | ID | callee;
+operand:            BOOLEAN | FLOAT | INTERGER | STRING | ID | ARRAY | callee;
 
 index_operators:    LB expression_stm RB index_operators
                     | LB expression_stm RB;
@@ -248,13 +252,14 @@ STRING:     DOUBLE_QUOTE (
 
 //-------------------------------ARRAY---------------------------------
 
-ARRAY:  LCB (
+ARRAY:  LCB ( 
             INTERGER (COMMA INTERGER)*
             | FLOAT (COMMA FLOAT)*
             | STRING (COMMA STRING)*
             | ARRAY (COMMA ARRAY)*
             | BOOLEAN (COMMA BOOLEAN)*
         ) RCB;
+
 
 //-------------------------------BOOLEAN---------------------------------
 
@@ -271,3 +276,5 @@ ERROR_CHAR: .;
 UNCLOSE_STRING: .;
 ILLEGAL_ESCAPE: .;
 UNTERMINATED_COMMENT: .;
+
+//chua co phan comment, array khi nhan dau cach se bi loi chac can phai chuyen sang parser array
