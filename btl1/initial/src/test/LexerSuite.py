@@ -159,7 +159,7 @@ class LexerSuite(unittest.TestCase):
         """test string"""
         # failure
         self.assertTrue(TestLexer.checkLexeme('{{True,False},{{True}},{False}}','{{True,False},{{True}},{False}},<EOF>',138))
-    def test_aray_boolean_1(self):
+    def test_aray_boolean_2(self):
         """test string"""
         # failure
         self.assertTrue(TestLexer.checkLexeme('{{12.e5,12.e5},{{12.e5}},{12.e5}}','{{12.e5,12.e5},{{12.e5}},{12.e5}},<EOF>',139))

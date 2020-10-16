@@ -26,7 +26,7 @@ options{
 	language=Python3;
 }
 
-program  : (var_dec | func_dec)+ EOF;
+program  : VAR COLON ID SEMI EOF;
 
 //-------------------------------Separators---------------------------------
 
