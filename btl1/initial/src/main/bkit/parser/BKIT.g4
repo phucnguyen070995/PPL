@@ -26,46 +26,151 @@ options{
 	language=Python3;
 }
 
-program  : VAR COLON ID SEMI EOF;
+program  : (var_dec | func_dec | statement_list)+ EOF;
+
+//-------------------------------Variable declaration---------------------------------
+
+var_dec:            VAR COLON variable_list SEMI;
+variable_list:      (scalar_variable | composite_variable) COMMA variable_list
+                    | scalar_variable
+                    | composite_variable;
+scalar_variable:    ID ASSIG (INTERGER | FLOAT | BOOLEAN | STRING)
+                    | ID;
+composite_variable: composite_var_name ASSIG ARRAY
+                    | composite_var_name;
+composite_var_name: ID (LB INTERGER RB)+;
+
+//-------------------------------Function declaration---------------------------------
+
+func_dec:           FUNCTION COLON (ID | ID params) func_body;
+
+params:             PARAMETER COLON param_list;
+param_list:         (ID | composite_var_name) COMMA param_list
+                    | ID
+                    | composite_var_name;
+
+func_body:          BODY COLON ( var_dec | statement_list)* ENDBODY DOT;
+
+//-------------------------------Expressions---------------------------------
+
+expression_stm:     term1 relational term1 | term1;
+term1:              term1 logical term2 | term2;
+term2:              term2 adding term3 | term3;
+term3:              term3 multiplying term4 | term4;
+term4:              NOT term4 | term5;
+term5:              (SUBOP | SUBF) term5 | term6;
+term6:              term6 index_operators | term7;
+term7:              (LP expression_stm RP) | operand;
+operand:            BOOLEAN | FLOAT | INTERGER | STRING | ID | callee;
+
+index_operators:    LB expression_stm RB index_operators
+                    | LB expression_stm RB;
+
+//-------------------------------Call function---------------------------------
+
+callee:             (ID | type_coercions) (LP | LP parameter_callee) RP;
+parameter_callee:   expression_stm COMMA parameter_callee
+                    | expression_stm;
+
+type_coercions:     'int_of_float' | 'float_of_int' | 'int_of_string' | 'string_of_int' | 'float_of_string' | 'string_of_float' | 'bool_of_string' | 'string_of_bool';
+
+//-------------------------------Statement---------------------------------
+
+statement_list:     statement_part statement_list
+                    | statement_part;
+statement_part:     if_stm 
+                    | assign_stm
+                    | do_while_stm SEMI
+                    | for_stm
+                    | break_stm
+                    | continue_stm
+                    | return_stm
+                    | while_stm
+                    | do_while_stm
+                    | call_stm
+                    | expression_stm SEMI;
+
+//-------------------------------Assignment Statement---------------------------------
+
+assign_stm:         expression_stm ASSIG expression_stm SEMI;
+
+//-------------------------------If Statement---------------------------------
+                                    
+if_stm:             IF expression_stm (THEN statement_list | THEN statement_list elseif_else) ENDIF DOT;
+elseif_else:        elseif_one elseif_else
+                    | elseif_one
+                    | else_one;
+elseif_one:         ELSEIF expression_stm THEN statement_list;
+else_one:           ELSE statement_list;
+
+//-------------------------------For Statement---------------------------------
+
+for_stm:            FOR LP ID ASSIG INTERGER COMMA expression_stm COMMA expression_stm RP DO statement_list ENDFOR DOT;
+
+//-------------------------------return Statement---------------------------------
+
+return_stm:         (RETURN | RETURN expression_stm) SEMI;
+
+//-------------------------------While Statement---------------------------------
+
+while_stm:          WHILE expression_stm DO (statement_list ENDWHILE | ENDWHILE) DOT;
+
+//-------------------------------Do-While Statement---------------------------------
+
+do_while_stm:       DO (statement_list WHILE | WHILE) expression_stm ENDDO DOT;
+
+//-------------------------------Other Statement---------------------------------
+
+break_stm:          BREAK SEMI;
+continue_stm:       CONTINUE SEMI;
+call_stm:           callee SEMI;
+
+//-------------------------------Operator Group---------------------------------
+
+multiplying:        MULOP | MULF | DIVOP | DIVF | MODOP;
+adding:             ADDOP | ADDF | SUBOP | SUBF;
+logical:            AND | OR;
+relational:         EQ | NEQ | LT | GT | LTE | GTE | NEQF | LTF | GTF | LTEF | GTEF;
 
 //-------------------------------Separators---------------------------------
 
-LP          :'('        ;
-RP          :')'        ;
-LB          :'['        ;
-RB          :']'        ;
-COLON       :':'        ;
-DOT         :'.'        ;
-COMMA       :','        ;
-SEMI        :';'        ;
-LCB         :'{'        ;
-RCB         :'}'        ;
+LP          :'(';
+RP          :')';
+LB          :'[';
+RB          :']';
+COLON       :':';
+DOT         :'.';
+COMMA       :',';
+SEMI        :';';
+LCB         :'{';
+RCB         :'}';
 
 //-------------------------------Operators---------------------------------
 
-ADDOP       :'+'        ;
-ADDF        :'+.'       ;
-SUBOP       :'-'        ;
-SUBF        :'-.'       ;
-MULOP       :'*'        ;
-MULF        :'*.'       ;
-DIVOP       :'\\'       ;
-DIVF        :'\\.'      ;
-MODOP       :'%'        ;
-NOT         :'!'        ;
-CONJ        :'&&'       ;
-DISJ        :'||'       ;
-EQ          :'=='       ;
-NEQ         :'!='       ;
-LT          :'<'        ;
-GT          :'>'        ;
-LTE         :'<='       ;
-GTE         :'>='       ;
-NEQF        :'=/='      ;
-LTF         :'<.'       ;
-GTF         :'>.'       ;
-LTEF        :'<=.'      ;
-GTEF        :'>=.'      ;
+ADDOP       :'+';
+ADDF        :'+.';
+SUBOP       :'-';
+SUBF        :'-.';
+MULOP       :'*';
+MULF        :'*.';
+DIVOP       :'\\';
+DIVF        :'\\.';
+MODOP       :'%';
+NOT         :'!';
+AND         :'&&';
+OR          :'||';
+EQ          :'==';
+NEQ         :'!=';
+LT          :'<';
+GT          :'>';
+LTE         :'<=';
+GTE         :'>=';
+NEQF        :'=/=';
+LTF         :'<.';
+GTF         :'>.';
+LTEF        :'<=.';
+GTEF        :'>=.';
+ASSIG       :'=';
 
 //-------------------------------Keywords---------------------------------
 
@@ -109,9 +214,9 @@ fragment BACK_SLASH:    '\\\\';
 //-------------------------------Literals---------------------------------
 //-------------------------------Integer---------------------------------
 
-fragment HEXA:       '0'('x' | 'X') ([1-9A-F] (NUMBER | [A-F])* | '0');
+fragment HEXA:       '0'('x' | 'X') [1-9A-F] (NUMBER | [A-F])*;
 fragment DECIMAL:    [1-9] NUMBER* | '0';
-fragment OCTAL:      '0'('o' | 'O') ([1-7][0-7]* | '0');
+fragment OCTAL:      '0'('o' | 'O') [1-7][0-7]*;
 INTERGER:   DECIMAL | HEXA | OCTAL;
 
 //-------------------------------Float---------------------------------
@@ -151,12 +256,13 @@ ARRAY:  LCB (
             | BOOLEAN (COMMA BOOLEAN)*
         ) RCB;
 
+//-------------------------------BOOLEAN---------------------------------
+
 BOOLEAN:    TRUE | FALSE;
+
 //-------------------------------Identifiers---------------------------------
 
 ID: LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)*;
-
-
 
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 

@@ -163,3 +163,11 @@ class LexerSuite(unittest.TestCase):
         """test string"""
         # failure
         self.assertTrue(TestLexer.checkLexeme('{{12.e5,12.e5},{{12.e5}},{12.e5}}','{{12.e5,12.e5},{{12.e5}},{12.e5}},<EOF>',139))
+    def test_hex_1(self):
+        self.assertTrue(TestLexer.checkLexeme("0x0","0,x0,<EOF>",140))
+    def test_hex_2(self):
+        self.assertTrue(TestLexer.checkLexeme("0XFFA012","0XFFA012,<EOF>",141))
+    def test_oct_1(self):
+        self.assertTrue(TestLexer.checkLexeme("0o0","0,o0,<EOF>",142))
+    def test_oct_2(self):
+        self.assertTrue(TestLexer.checkLexeme("0o12347896","0o12347,896,<EOF>",143))
