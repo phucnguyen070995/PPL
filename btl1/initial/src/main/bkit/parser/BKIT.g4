@@ -252,15 +252,15 @@ STRING:     DOUBLE_QUOTE (
 
 //-------------------------------ARRAY---------------------------------
 
-ARRAY:  LCB ( 
-            INTERGER (COMMA INTERGER)*
-            | FLOAT (COMMA FLOAT)*
-            | STRING (COMMA STRING)*
-            | ARRAY (COMMA ARRAY)*
-            | BOOLEAN (COMMA BOOLEAN)*
-        ) RCB;
+ARRAY:                  LCB SPACE (
+                            INTERGER (SPACE COMMA SPACE INTERGER)*
+                            | FLOAT (SPACE COMMA SPACE FLOAT)*
+                            | STRING (SPACE COMMA SPACE STRING)*
+                            | ARRAY (SPACE COMMA SPACE ARRAY)*
+                            | BOOLEAN (SPACE COMMA SPACE BOOLEAN)*
+                        ) SPACE RCB;
 
-
+fragment SPACE:         [ ]*;
 //-------------------------------BOOLEAN---------------------------------
 
 BOOLEAN:    TRUE | FALSE;

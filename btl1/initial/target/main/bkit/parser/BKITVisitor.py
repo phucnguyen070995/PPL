@@ -14,6 +14,11 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by BKITParser#program_part.
+    def visitProgram_part(self, ctx:BKITParser.Program_partContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by BKITParser#var_dec.
     def visitVar_dec(self, ctx:BKITParser.Var_decContext):
         return self.visitChildren(ctx)
