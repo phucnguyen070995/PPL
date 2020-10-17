@@ -1,1 +1,2 @@
-Error Token "
+"This is a string containing tab
+ 	",<EOF>

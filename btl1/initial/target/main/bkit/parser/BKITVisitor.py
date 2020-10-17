@@ -44,6 +44,16 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by BKITParser#many_demension.
+    def visitMany_demension(self, ctx:BKITParser.Many_demensionContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#one_demension.
+    def visitOne_demension(self, ctx:BKITParser.One_demensionContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by BKITParser#func_dec.
     def visitFunc_dec(self, ctx:BKITParser.Func_decContext):
         return self.visitChildren(ctx)
@@ -61,6 +71,11 @@ class BKITVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BKITParser#func_body.
     def visitFunc_body(self, ctx:BKITParser.Func_bodyContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#var_dec_list.
+    def visitVar_dec_list(self, ctx:BKITParser.Var_dec_listContext):
         return self.visitChildren(ctx)
 
 
@@ -106,11 +121,6 @@ class BKITVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BKITParser#operand.
     def visitOperand(self, ctx:BKITParser.OperandContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by BKITParser#index_operators.
-    def visitIndex_operators(self, ctx:BKITParser.Index_operatorsContext):
         return self.visitChildren(ctx)
 
 

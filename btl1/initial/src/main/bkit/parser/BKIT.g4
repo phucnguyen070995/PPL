@@ -77,9 +77,6 @@ term6:              term6 LB expression_stm RB | term7;
 term7:              (LP expression_stm RP) | operand;
 operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | ARRAY | callee;
 
-// index_operators:    LB expression_stm RB index_operators
-//                     | LB expression_stm RB;
-
 //-------------------------------Call function---------------------------------
 
 callee:             (ID | type_coercions) (LP | LP parameter_callee) RP;
@@ -251,13 +248,11 @@ fragment ESCAPE_SEQUENCE    :   BACKSPACE
                             |   SINGLE_QUOTE
                             |   BACK_SLASH
                             ;
+fragment EXCEPT_QUOTE:      SINGLE_QUOTE DOUBLE_QUOTE|
+                            '\\\'';
+fragment DENY_QUOTE:        SINGLE_QUOTE;
 
-STRING:     DOUBLE_QUOTE (
-                SINGLE_QUOTE DOUBLE_QUOTE
-                | ESCAPE_SEQUENCE
-                | ~[\nEOF"']
-            )*
-            DOUBLE_QUOTE;
+STRING:     DOUBLE_QUOTE (STR_CHAR)* DOUBLE_QUOTE;
 
 //-------------------------------ARRAY---------------------------------
 
@@ -281,9 +276,28 @@ ID: LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)*;
 WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 
 
-ERROR_CHAR: .;
-UNCLOSE_STRING: .;
-ILLEGAL_ESCAPE: .;
-UNTERMINATED_COMMENT: .;
+//ERROR_CHAR: .;
+//UNCLOSE_STRING: .;
+//ILLEGAL_ESCAPE: .;
+//UNTERMINATED_COMMENT: .;
 
-//chua co phan comment, kiem tra lai string
+fragment STR_CHAR: ~[\n\b"'\\] | ESCAPE_SEQUENCE | ('\'' '"');
+fragment ESC_ILLEGAL: '\\' ~[btnfr'\\] | '\\';
+
+ERROR_CHAR: .;
+UNCLOSE_STRING:
+	'"' STR_CHAR* ([\n\r] | EOF) {
+		y = str(self.text)
+		possible = ['\n', '\r']
+		if y[-1] in possible:
+			raise UncloseString(y[1:-1])
+		else:
+			raise UncloseString(y[1:])
+	};
+ILLEGAL_ESCAPE:
+	'"' STR_CHAR* ESC_ILLEGAL {
+		y = str(self.text)
+		raise IllegalEscape(y[1:])
+	};
+UNTERMINATED_COMMENT:
+	'**' .*? (~'*' ~'*' (EOF) | ~'*' '*' EOF) { raise UnterminatedComment() };

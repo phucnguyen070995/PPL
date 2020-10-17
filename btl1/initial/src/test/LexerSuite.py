@@ -101,3 +101,5 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme('"\'"','"\'",<EOF>',148))
     def test_string_7(self):
         self.assertTrue(TestLexer.checkLexeme('"'"','"'",<EOF>',149))
+    def test_string_8(self):
+        self.assertTrue(TestLexer.checkLexeme('"Em la:\n sanh vien!"','"Em",<EOF>',150))
