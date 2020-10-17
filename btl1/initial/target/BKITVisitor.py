@@ -134,11 +134,6 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#type_coercions.
-    def visitType_coercions(self, ctx:BKITParser.Type_coercionsContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by BKITParser#statement_list.
     def visitStatement_list(self, ctx:BKITParser.Statement_listContext):
         return self.visitChildren(ctx)

@@ -1,0 +1,5 @@
+** This is the comment.
+* This is the second comment
+* This is the third comment** 
+** This is unclosed comment **
+abc = 123xyz \ defz;

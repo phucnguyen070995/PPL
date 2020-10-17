@@ -1,2 +1,1 @@
-"Em la:
- sanh vien!",<EOF>
+Unclosed String: Em la:

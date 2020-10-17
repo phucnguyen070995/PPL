@@ -79,11 +79,11 @@ operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | ARRAY | callee;
 
 //-------------------------------Call function---------------------------------
 
-callee:             (ID | type_coercions) (LP | LP parameter_callee) RP;
+callee:             (ID | TYPE_COERCIONS) (LP | LP parameter_callee) RP;
 parameter_callee:   expression_stm COMMA parameter_callee
                     | expression_stm;
 
-type_coercions:     'int_of_float' | 'float_of_int' | 'int_of_string' | 'string_of_int' | 'float_of_string' | 'string_of_float' | 'bool_of_string' | 'string_of_bool';
+TYPE_COERCIONS:     'int_of_float' | 'float_of_int' | 'int_of_string' | 'string_of_int' | 'float_of_string' | 'string_of_float' | 'bool_of_string' | 'string_of_bool';
 
 //-------------------------------Statement---------------------------------
 
@@ -152,8 +152,8 @@ COLON       :':';
 DOT         :'.';
 COMMA       :',';
 SEMI        :';';
-LCB         :'{';
-RCB         :'}';
+fragment LCB:    '{';
+fragment RCB:    '}';
 
 //-------------------------------Operators---------------------------------
 
@@ -202,8 +202,8 @@ RETURN:     'Return';
 THEN:       'Then';
 VAR:        'Var';
 WHILE:      'While';
-fragment TRUE:       'True';
-fragment FALSE:      'False';
+fragment TRUE:   'True';
+fragment FALSE:  'False';
 ENDDO:      'EndDo';
 
 //-------------------------------FRAGMENT---------------------------------
@@ -212,14 +212,8 @@ fragment LOWCASE:       [a-z];
 fragment UPPERCASE:     [A-Z];
 fragment NUMBER:        [0-9];
 fragment UNDERCORE:     '_';
-fragment BACKSPACE:     '\\b';
-fragment FORMFEED:      '\\f';
-fragment CARRIAGE_RETURN:'\\r';
-fragment NEWLINE:       '\\n';
-fragment HORIZONTAL_TAB:'\\t';
 fragment SINGLE_QUOTE:  '\'';
 fragment DOUBLE_QUOTE:  '"';
-fragment BACK_SLASH:    '\\\\';
 
 //-------------------------------Literals---------------------------------
 //-------------------------------Integer---------------------------------
@@ -233,26 +227,16 @@ INTERGER:            DECIMAL | HEXA | OCTAL;
 
 fragment EXPONENT:      ('E' | 'e') (ADDOP | SUBOP)? NUMBER+;
 fragment DECIMAL_PART:  DOT NUMBER*;
-FLOAT:              [1-9] NUMBER* (DECIMAL_PART 
+FLOAT:                  ([1-9] NUMBER* | '0') (DECIMAL_PART 
                         | EXPONENT
                         | DECIMAL_PART EXPONENT
                         | DECIMAL_PART)?;
 
 //-------------------------------String---------------------------------
 
-fragment ESCAPE_SEQUENCE    :   BACKSPACE
-                            |   FORMFEED
-                            |   CARRIAGE_RETURN
-                            |   NEWLINE
-                            |   HORIZONTAL_TAB
-                            |   SINGLE_QUOTE
-                            |   BACK_SLASH
-                            ;
-fragment EXCEPT_QUOTE:      SINGLE_QUOTE DOUBLE_QUOTE|
-                            '\\\'';
-fragment DENY_QUOTE:        SINGLE_QUOTE;
+fragment ESCAPE_SEQUENCE:  '\\' [btnfr'\\];
 
-STRING:     DOUBLE_QUOTE (STR_CHAR)* DOUBLE_QUOTE;
+STRING:                     DOUBLE_QUOTE (CHAR)*? DOUBLE_QUOTE;
 
 //-------------------------------ARRAY---------------------------------
 
@@ -271,33 +255,38 @@ BOOLEAN:    TRUE | FALSE;
 
 //-------------------------------Identifiers---------------------------------
 
-ID: LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)*;
+ID:         LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)*;
 
-WS : [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
+//-------------------------------Skip token---------------------------------
 
+WS:         [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
+COMMENT     : '**' COMMENT_BODY*? '**' -> skip;
 
 //ERROR_CHAR: .;
 //UNCLOSE_STRING: .;
 //ILLEGAL_ESCAPE: .;
 //UNTERMINATED_COMMENT: .;
 
-fragment STR_CHAR: ~[\n\b"'\\] | ESCAPE_SEQUENCE | ('\'' '"');
-fragment ESC_ILLEGAL: '\\' ~[btnfr'\\] | '\\';
+fragment CHAR:              ~[\n"'\\] | ESCAPE_SEQUENCE | '\'' '"';
+fragment ESCAPE_ILLEGAL:    '\\' ~[btnfr'\\] | '\\' | ['] ~["];
+fragment COMMENT_BODY:      ~[*] ~[*] | ~[*] [*] | ~[*];
 
 ERROR_CHAR: .;
 UNCLOSE_STRING:
-	'"' STR_CHAR* ([\n\r] | EOF) {
+	'"' CHAR* ([\n\r] | EOF) {
 		y = str(self.text)
-		possible = ['\n', '\r']
-		if y[-1] in possible:
+		impossible = ['\n', '\r']
+		if y[-1] in impossible:
 			raise UncloseString(y[1:-1])
 		else:
 			raise UncloseString(y[1:])
 	};
 ILLEGAL_ESCAPE:
-	'"' STR_CHAR* ESC_ILLEGAL {
+	'"' CHAR* ESCAPE_ILLEGAL {
 		y = str(self.text)
 		raise IllegalEscape(y[1:])
 	};
 UNTERMINATED_COMMENT:
-	'**' .*? (~'*' ~'*' (EOF) | ~'*' '*' EOF) { raise UnterminatedComment() };
+	'**' COMMENT_BODY* EOF {
+        raise UnterminatedComment() 
+    };
