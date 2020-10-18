@@ -1,0 +1,8 @@
+Var: a = "a string";
+Var: b[5];
+Var: c, d = 6, e;
+Function: main
+Body:
+    x = y + (z -q) *. 10 +. 100.;
+    x = n >=. z;
+EndBody.

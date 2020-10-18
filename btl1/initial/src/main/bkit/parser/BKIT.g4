@@ -26,11 +26,16 @@ options{
 	language=Python3;
 }
 
-program:            program_part EOF;
-program_part:       (var_dec | func_dec | statement_list) program_part
-                    | var_dec
-                    | func_dec
-                    | statement_list;
+program:            var_dec_many func_dec_many EOF
+                    | var_dec_many EOF
+                    | func_dec_many EOF
+                    | ;
+
+var_dec_many:       var_dec var_dec_many
+                    | var_dec;
+
+func_dec_many:      func_dec func_dec_many
+                    | func_dec;
 
 //-------------------------------Variable declaration---------------------------------
 
@@ -49,17 +54,18 @@ one_demension:      LB INTERGER RB;
 
 //-------------------------------Function declaration---------------------------------
 
-func_dec:           FUNCTION COLON (ID | ID params) func_body;
+func_dec:           FUNCTION COLON ID ( | params) func_body;
 
 params:             PARAMETER COLON param_list;
 param_list:         (ID | composite_var_name) COMMA param_list
                     | ID
                     | composite_var_name;
 
-func_body:          BODY (
-                        COLON var_dec_list 
-                        | COLON statement_list
-                        | COLON var_dec_list statement_list) 
+func_body:          BODY COLON (
+                        var_dec_list 
+                        | statement_list
+                        | var_dec_list statement_list
+                        | )
                     ENDBODY DOT;
 
 var_dec_list:       var_dec var_dec_list
@@ -67,23 +73,25 @@ var_dec_list:       var_dec var_dec_list
 
 //-------------------------------Expressions---------------------------------
 
-expression_stm:     term1 relational term1 | term1;
+expression:         term1 relational term1 | term1;
 term1:              term1 logical term2 | term2;
 term2:              term2 adding term3 | term3;
 term3:              term3 multiplying term4 | term4;
 term4:              NOT term4 | term5;
 term5:              (SUBOP | SUBF) term5 | term6;
-term6:              term6 LB expression_stm RB | term7;
-term7:              (LP expression_stm RP) | operand;
+term6:              term6 LB expression RB | term7;
+term7:              (LP expression RP) | operand;
 operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | ARRAY | callee;
 
 //-------------------------------Call function---------------------------------
 
-callee:             (ID | TYPE_COERCIONS) (LP | LP parameter_callee) RP;
-parameter_callee:   expression_stm COMMA parameter_callee
-                    | expression_stm;
+callee:             ID LP ( | parameter_callee) RP;
+parameter_callee:   expression COMMA parameter_callee
+                    | expression;
 
-TYPE_COERCIONS:     'int_of_float' | 'float_of_int' | 'int_of_string' | 'string_of_int' | 'float_of_string' | 'string_of_float' | 'bool_of_string' | 'string_of_bool';
+//-------------------------------Call coercions (su dung assignment sau)---------------------------------
+// coercions:          TYPE_COERCIONS LP expression RP;
+// TYPE_COERCIONS:     'int_of_float' | 'float_of_int' | 'int_of_string' | 'string_of_int' | 'float_of_string' | 'string_of_float' | 'bool_of_string' | 'string_of_bool';
 
 //-------------------------------Statement---------------------------------
 
@@ -102,32 +110,36 @@ statement_part:     if_stm
 
 //-------------------------------Assignment Statement---------------------------------
 
-assign_stm:         expression_stm ASSIG expression_stm SEMI;
+assign_stm:         assign SEMI;
+assign:             ID (many_index | ) ASSIG expression;
+many_index:         one_index many_index
+                    | one_index;
+one_index:          LB expression RB;
 
 //-------------------------------If Statement---------------------------------
                                     
-if_stm:             IF expression_stm THEN ( statement_list | statement_list elseif_else) ENDIF DOT;
+if_stm:             IF expression THEN statement_list ( | elseif_else) ENDIF DOT;
 elseif_else:        elseif_one elseif_else
                     | elseif_one
                     | else_one;
-elseif_one:         ELSEIF expression_stm THEN statement_list;
+elseif_one:         ELSEIF expression THEN statement_list;
 else_one:           ELSE statement_list;
 
 //-------------------------------For Statement---------------------------------
 
-for_stm:            FOR LP ID ASSIG INTERGER COMMA expression_stm COMMA expression_stm RP DO statement_list ENDFOR DOT;
+for_stm:            FOR LP ID ASSIG expression COMMA expression COMMA expression RP DO ( statement_list | ) ENDFOR DOT;
 
 //-------------------------------return Statement---------------------------------
 
-return_stm:         (RETURN | RETURN expression_stm) SEMI;
+return_stm:         RETURN ( | expression) SEMI;
 
 //-------------------------------While Statement---------------------------------
 
-while_stm:          WHILE expression_stm DO (statement_list ENDWHILE | ENDWHILE) DOT;
+while_stm:          WHILE expression DO (statement_list | ) ENDWHILE DOT;
 
 //-------------------------------Do-While Statement---------------------------------
 
-do_while_stm:       DO (statement_list WHILE | WHILE) expression_stm ENDDO DOT;
+do_while_stm:       DO (statement_list | ) WHILE expression ENDDO DOT;
 
 //-------------------------------Other Statement---------------------------------
 
@@ -152,8 +164,8 @@ COLON       :':';
 DOT         :'.';
 COMMA       :',';
 SEMI        :';';
-fragment LCB:    '{';
-fragment RCB:    '}';
+LCB:        '{';
+RCB:        '}';
 
 //-------------------------------Operators---------------------------------
 
@@ -227,16 +239,18 @@ INTERGER:            DECIMAL | HEXA | OCTAL;
 
 fragment EXPONENT:      ('E' | 'e') (ADDOP | SUBOP)? NUMBER+;
 fragment DECIMAL_PART:  DOT NUMBER*;
-FLOAT:                  ([1-9] NUMBER* | '0') (DECIMAL_PART 
+FLOAT:                  DECIMAL (DECIMAL_PART 
                         | EXPONENT
                         | DECIMAL_PART EXPONENT
-                        | DECIMAL_PART)?;
+                        | DECIMAL_PART);
 
 //-------------------------------String---------------------------------
 
 fragment ESCAPE_SEQUENCE:  '\\' [btnfr'\\];
 
-STRING:                     DOUBLE_QUOTE (CHAR)*? DOUBLE_QUOTE;
+STRING:                     DOUBLE_QUOTE (CHAR)*? DOUBLE_QUOTE {
+                                self.text = self.text[1:-1]
+                            };
 
 //-------------------------------ARRAY---------------------------------
 
@@ -262,14 +276,14 @@ ID:         LOWCASE(LOWCASE|UPPERCASE|UNDERCORE|NUMBER)*;
 WS:         [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
 COMMENT     : '**' COMMENT_BODY*? '**' -> skip;
 
-//ERROR_CHAR: .;
-//UNCLOSE_STRING: .;
-//ILLEGAL_ESCAPE: .;
-//UNTERMINATED_COMMENT: .;
+// ERROR_CHAR: .;
+// UNCLOSE_STRING: .;
+// ILLEGAL_ESCAPE: .;
+// UNTERMINATED_COMMENT: .;
 
 fragment CHAR:              ~[\n"'\\] | ESCAPE_SEQUENCE | '\'' '"';
 fragment ESCAPE_ILLEGAL:    '\\' ~[btnfr'\\] | '\\' | ['] ~["];
-fragment COMMENT_BODY:      ~[*] ~[*] | ~[*] [*] | ~[*];
+fragment COMMENT_BODY:      ~[*] | [*] ~[*] | [*] EOF;
 
 ERROR_CHAR: .;
 UNCLOSE_STRING:

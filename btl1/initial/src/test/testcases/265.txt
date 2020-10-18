@@ -1,0 +1,8 @@
+Var: a = 0;
+Function: main
+Body:
+    Do
+        a >= 6 + b;
+    While a > b
+    EndDo
+EndBody.

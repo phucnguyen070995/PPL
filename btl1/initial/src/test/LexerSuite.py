@@ -52,19 +52,19 @@ class LexerSuite(unittest.TestCase):
     def test_array_4(self):
         self.assertTrue(TestLexer.checkLexeme("{{1,2},{{2}},{3}}","{{1,2},{{2}},{3}},<EOF>",124))
     def test_array_5(self):
-        self.assertTrue(TestLexer.checkLexeme("{{1,{2}}}","Error Token {",125))
+        self.assertTrue(TestLexer.checkLexeme("{{1,{2}}}","{,{,1,,,{2},},},<EOF>",125))
     def test_array_6(self):
         self.assertTrue(TestLexer.checkLexeme("{{1,2,1},{1,2},{1}}","{{1,2,1},{1,2},{1}},<EOF>",126))
     def test_string_1(self):
-        self.assertTrue(TestLexer.checkLexeme('"This is a string containing tab \t" ','"This is a string containing tab 	",<EOF>',127))
+        self.assertTrue(TestLexer.checkLexeme('"This is a string containing tab \\t" ','This is a string containing tab \\t,<EOF>',127))
     def test_string_2(self):
-        self.assertTrue(TestLexer.checkLexeme('"This is a string containing tab\n \t" ','Unclosed String: This is a string containing tab\n',128))
+        self.assertTrue(TestLexer.checkLexeme('"This is a string containing tab\n" ','Unclosed String: This is a string containing tab\n',128))
     def test_string_3(self):
-        self.assertTrue(TestLexer.checkLexeme('"He asked me: \'"Where is John?\'""','"He asked me: \'"Where is John?\'"",<EOF>',129))
+        self.assertTrue(TestLexer.checkLexeme('"He asked me: \'"Where is John?\'""','He asked me: \'"Where is John?\'",<EOF>',129))
     def test_string_4(self):
-        self.assertTrue(TestLexer.checkLexeme('"He asked" me: \'"Where is John?\'""','"He asked",me,:,Error Token \'',130))
+        self.assertTrue(TestLexer.checkLexeme('"He asked" me: \'"Where is John?\'""','He asked,me,:,Error Token \'',130))
     def test_string_5(self):
-        self.assertTrue(TestLexer.checkLexeme('""','"",<EOF>',131))
+        self.assertTrue(TestLexer.checkLexeme('""',',<EOF>',131))
     def test_float_1(self):
         self.assertTrue(TestLexer.checkLexeme('12.0e3','12.0e3,<EOF>',132))
     def test_float_2(self):
@@ -104,7 +104,7 @@ class LexerSuite(unittest.TestCase):
     def test_string_8(self):
         self.assertTrue(TestLexer.checkLexeme('"Em la:\n sanh vien!"','Unclosed String: Em la:\n',150))
     def test_comment_1(self):
-        self.assertTrue(TestLexer.checkLexeme('** This is the comment.**','<EOF>',151))
+        self.assertTrue(TestLexer.checkLexeme('** This is the comment.**** This is the comment.**','<EOF>',151))
     def test_comment_2(self):
         self.assertTrue(TestLexer.checkLexeme("""** This is the comment.
 * This is the second comment
@@ -113,17 +113,17 @@ class LexerSuite(unittest.TestCase):
         self.assertTrue(TestLexer.checkLexeme("""** This is the comment.
 * This is the second comment
 * This is the third comment** 
-** This is unclosed comment *""",'Unterminated Comment',153))
+** Ahis is unclosed comment *""",'Unterminated Comment',153))
     def test_string_9(self):
         self.assertTrue(TestLexer.checkLexeme('"\\abc"','Illegal Escape In String: \\a',154))
     def test_ILLEGAL_ESCAPE_1(self):
-        self.assertTrue(TestLexer.checkLexeme('"\\r"','"\\r",<EOF>',155))
+        self.assertTrue(TestLexer.checkLexeme('"\\r"','\\r,<EOF>',155))
     def test_ILLEGAL_ESCAPE_2(self):
-        self.assertTrue(TestLexer.checkLexeme('"\\r\\b\\t\\n\\f\\\'\\\\"','"\\r\\b\\t\\n\\f\\\'\\\\",<EOF>',156))
+        self.assertTrue(TestLexer.checkLexeme('"\\r\\b\\t\\n\\f\\\'\\\\"','\\r\\b\\t\\n\\f\\\'\\\\,<EOF>',156))
     def test_ILLEGAL_ESCAPE_3(self):
-        self.assertTrue(TestLexer.checkLexeme('"\\\'"','"\\\'",<EOF>',157))
+        self.assertTrue(TestLexer.checkLexeme('"\\\'"','\\\',<EOF>',157))
     def test_ILLEGAL_ESCAPE_4(self):
-        self.assertTrue(TestLexer.checkLexeme('"\'""','"\'"",<EOF>',158))
+        self.assertTrue(TestLexer.checkLexeme('"\'""','\'",<EOF>',158))
     def test_separate_token_1(self):
         self.assertTrue(TestLexer.checkLexeme("Function: Do While!.","Function,:,Do,While,!,.,<EOF>",159))
     def test_separate_token_2(self):
@@ -205,7 +205,7 @@ abc = 123xyz \ defz;""",'abc,=,123,xyz,\,defz,;,<EOF>',182))
     def test_hex_5(self):
         self.assertTrue(TestLexer.checkLexeme("0xABCDEF","0xABCDEF,<EOF>",189))
     def test_array_9(self):
-        self.assertTrue(TestLexer.checkLexeme("{{{1}},{{2},{3}}","Error Token {",190))
+        self.assertTrue(TestLexer.checkLexeme("{{{1}},{{2},{3}}","{,{{1}},,,{{2},{3}},<EOF>",190))
     def test_array_10(self):
         self.assertTrue(TestLexer.checkLexeme("{ {1   , 2 },{ { { {4 } } }     },{ 3     }    }","{ {1   , 2 },{ { { {4 } } }     },{ 3     }    },<EOF>",191))
     def test_float_13(self):
@@ -225,4 +225,4 @@ abc = 123xyz \ defz;""",'abc,=,123,xyz,\,defz,;,<EOF>',182))
     def test_float_20(self):
         self.assertTrue(TestLexer.checkLexeme("11.0","11.0,<EOF>",199))
     def test_float_21(self):
-        self.assertTrue(TestLexer.checkLexeme("0.12","0.12,<EOF>",200))
+        self.assertTrue(TestLexer.checkLexeme("0.","0.,<EOF>",200))

@@ -1,0 +1,4 @@
+Var: x[1] = {5}, y[5] = {6.}, z[1][2] = {0O56};
+Function: x 
+Body:
+EndBody.

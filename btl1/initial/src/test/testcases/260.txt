@@ -1,0 +1,8 @@
+Var: a = 0;
+Function: main
+Body:
+    Do
+        print("Hello World!");
+    While True
+    EndDo.
+EndBody.

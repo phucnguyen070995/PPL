@@ -1,0 +1,12 @@
+Var: a;
+Function: main
+Parameter: q , d[5]
+    Body: 
+    Var: x, y = 1, z = 3.5;
+    If((a > b) && (c < d)) Then
+        Break;
+    EndIf.                                          
+    x = foo("ahihi") + goo(0o12);
+    y = foo(x + goo(True));
+    print(x + y);
+EndBody.

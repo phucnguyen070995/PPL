@@ -1,0 +1,13 @@
+Var: x;
+Function: fact
+Parameter: n
+
+Body:
+    Var: i, x = 0;
+    For (i = 1, i < 3, i = i+5) Do
+        x = i +7;
+        If n > 100 Then
+            Break;
+        EndIf.
+    EndFor.
+EndBody.

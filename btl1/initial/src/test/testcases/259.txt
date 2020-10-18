@@ -1,0 +1,7 @@
+Var: a = 0;
+Function: main
+Body:
+    Do
+    While True
+    EndDo.
+EndBody.

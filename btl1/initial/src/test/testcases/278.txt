@@ -1,0 +1,27 @@
+Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        print("Hello World!");
+                    ElseIf n > 8 Then
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody.

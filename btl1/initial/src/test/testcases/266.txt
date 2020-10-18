@@ -1,0 +1,16 @@
+Var: a = 0;
+Function: main
+Body:
+    Do
+        Do
+            Do
+                print("Hello World!");
+            While a > b
+            EndDo.
+            print("Hello World!");
+        While a > b
+        EndDo.
+        print("Hello World!");
+    While a > b
+    EndDo.
+EndBody.

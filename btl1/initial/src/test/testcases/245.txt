@@ -1,0 +1,15 @@
+Var: x, y = 2., z = 3.5;
+Function: you
+Parameter: x , y[5]
+Body:
+Var: a, b, c = "string";
+Var: a = False;
+If (z == True) Then
+    Return 1;
+EndIf.
+While (True)  Do    
+    foo();
+    goo(a);
+    Break;                      
+EndWhile.
+EndBody.

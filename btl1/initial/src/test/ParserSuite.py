@@ -27,19 +27,35 @@ class ParserSuite(unittest.TestCase):
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,206))
     def test_assignment_stm_1(self):
-        input = """a[3 + foo(2)] = a[b [2][3]] + 4;"""
+        input = """Var: a = 0;
+Function: main
+Body:
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,207))
     def test_assignment_stm_2(self):
-        input = """v = (4. \. 3.) *. 3.14 *. r *. r *. r;"""
+        input = """Var: a = 0;
+Function: main
+Body:
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,208))
     def test_callee_stm_1(self):
-        input = """foo(a[1][2] + 2, x + 1);"""
+        input = """Var: a = 0;
+Function: main
+Body:
+    foo(a[1][2] + 2, x + 1);
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,209))
     def test_callee_stm_2(self):
-        input = """x = foo(a[1][2] + 2, x + 1);"""
+        input = """Var: a = 0;
+Function: main
+Body:
+    x = foo(a[1][2] + 2, x + 1);
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,210))
     def test_function_1(self):
@@ -55,9 +71,13 @@ EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,211))
     def test_for_1(self):
-        input = """For (i = 0, i < 10, 2) Do
-    writeln(i);
-EndFor."""
+        input = """Var: a = 0;
+Function: main
+Body:
+    For (i = 0, i < 10, 2) Do
+        writeln(i);
+    EndFor.
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,212))
     def test_var_dec_7(self):
@@ -67,7 +87,7 @@ Var: c, d = 6, e, f;
 Var: m, n[10];"""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,213))
-    def test_var_dec_func_dec_1(self):
+    def test_simple_program_1(self):
         input = """Var: x;
 Function: fact
     Parameter: n
@@ -90,7 +110,7 @@ Function: main
 Var: b[2][3]={{1,2,3},{4,5,6}};"""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,215))
-    def test_var_dec_func_dec_2(self):
+    def test_simple_program_2(self):
         input = """Var: x;
 Function: fact
     Parameter: n
@@ -109,18 +129,33 @@ Function: main
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,216))
     def test_callee_stm_3(self):
-        input = """foo (2 + x, 4. \. y);
-goo ();"""
+        input = """Var: a = 0;
+Function: main
+Body:
+    foo(a[1][2] + 2, x + 1);
+    foo (2 + x, 4. \. y);
+    goo ();
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,217))
     def test_type_coercions_1(self):
-        input = """If bool_of_string ("True") Then
-a = int_of_string (read ());
-b = float_of_int (a) +. 2.0;
-EndIf."""
+        input = """Var: a = 0;
+Function: main
+Body:
+    foo(a[1][2] + 2, x + 1);
+    foo (2 + x, 4. \. y);
+    goo ();
+    If bool_of_string ("True") Then
+        a = int_of_string (read ());
+        b = float_of_int (a) +. 2.0;
+        foo(a[1][2] + 2, x + 1);
+        foo (2 + x, 4. \. y);
+        goo ();
+    EndIf.
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,218))
-    def test_var_dec_func_dec_3(self):
+    def test_simple_program_3(self):
         input = """Function: test
 Parameter: n
 Body:
@@ -133,12 +168,19 @@ EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,219))
     def test_var_dec_9(self):
-        input = """a = 1;
-b[2][3] = 5;
-c[2] = {{1,3},{1,5,7}};"""
+        input = """Var: a = 1, b[2][3] = {5}, c[2] = {{1,3},{1,5,7}};
+Function: test
+Parameter: n
+Body:
+    If n > 10 Then
+        Return 5;
+    Else
+        Return False;
+    EndIf.
+EndBody."""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,220))
-    def test_var_dec_func_dec_4(self):
+    def test_simple_program_4(self):
         input = """Function: test
 Parameter: n
 Body:
@@ -155,5 +197,971 @@ EndBody."""
 Var: b = 5, c = False;"""
         expect = "successful"
         self.assertTrue(TestParser.checkParser(input,expect,222))
+    def test_if_stm_1(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        Return n;
+    ElseIf n > 8 Then
+        Return n + 1;
+    ElseIf n > 6 Then
+        Return n + 2;
+    ElseIf n > 4 Then
+        Return n + 3;
+    ElseIf n > 2 Then
+        Return n + 4;
+    Else
+        Return False;
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,223))
+    def test_if_stm_2(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        Return n;
+    ElseIf n > 8 Then
+        Return n + 1;
+    Else
+        Return False;
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,224))
+    def test_if_stm_3(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        Return n;
+    ElseIf n > 8 Then
+        Return n + 1;
+    ElseIf n > 6 Then
+        Return n + 2;
+    ElseIf n > 4 Then
+        Return n + 3;
+    ElseIf n > 2 Then
+        Return n + 4;
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,225))
+    def test_simple_program_5(self):
+        input = """Var:x;
+Function: x 
+Body: 
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,226))
+    def test_simple_program_6(self):
+        input = """Var: x[1] = {5}, y[5] = {6.}, z[1][2] = {0O56};
+Function: x 
+Body:
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,227))
+    def test_for_2(self):
+        input = """ Var: x;
+Function: fact
+Parameter: n
+Var: i;
+Body:
+For(i = 1, i < 3, i = i+5)
+Do
+    x = i +7;
+    If n > 100 Then
+        Break;
+    EndIf.
+EndFor.
+EndBody."""
+        expect = "Error on line 4 col 0: Var"
+        self.assertTrue(TestParser.checkParser(input,expect,228))
+    def test_for_3(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+
+Body:
+    Var: i, x = 0;
+    For (i = 1, i < 3, i = i+5) Do
+        x = i +7;
+        If n > 100 Then
+            Break;
+        EndIf.
+    EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,229))
+    def test_assignment_stm_3(self):
+        input = """Var: x = {{1,2},{{2}};"""
+        expect = "Error on line 1 col 9: {"
+        self.assertTrue(TestParser.checkParser(input,expect,230))
+    def test_for_4(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+    EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,231))
+    def test_for_5(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+        Return 1;
+        Break;
+        Continue;
+        foo(float_of_int (a) + 2);
+        goo(a+1);
+    EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,232))
+    def test_simple_program_7(self):
+        input = """Var: a = 5;
+Var: b[5];
+Var: c, d = 6, e;
+Function: main
+Body:
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,233))
+    def test_simple_program_8(self):
+        input = """Var: a = 5;
+Var: b[5];
+Var: c, d = 6, e;
+Function: main
+Body:
+    Var: b[5];
+    Var: c, d = 6, e;
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,234))
+    def test_simple_program_9(self):
+        input = """Var: a = 5;
+Var: b[5];
+Var: c, d = 6, e;
+Function: main
+Var: b[5];
+Var: c, d = 6, e;
+Body:
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody."""
+        expect = "Error on line 5 col 0: Var"
+        self.assertTrue(TestParser.checkParser(input,expect,235))
+    def test_while_1(self):
+        input = """Function: main
+Body:
+    While True print("Hello World!"); EndWhile.
+EndBody."""
+        expect = "Error on line 3 col 15: print"
+        self.assertTrue(TestParser.checkParser(input,expect,236))
+    def test_while_2(self):
+        input = """Function: main
+Body:
+    While True Do print("Hello World!"); EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,237))
+    def test_while_3(self):
+        input = """Function: main
+Body:
+    While True Do EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,238))
+    def test_simple_program_10(self):
+        input = """Var: a = "a string";
+Var: b[5];
+Var: c, d = 6, e;
+Function: main
+Body:
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,239))
+    def test_simple_program_11(self):
+        input = """Var: a = "a string";
+Var: b[5];
+Var: c, d = 6, e;
+Function: main
+Body:
+    x = y + (z -q) *. 10 +. 100.;
+    x = n >=. z;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,240))
+    def test_simple_program_12(self):
+        input = """Var: a = "a string";
+** Day la comment
+* Day cung la comment
+* Comment luon **
+Function: main
+Body:
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,241))
+    def test_simple_program_13(self):
+        input = """Var: a = "a string";
+** Day la comment
+* Day cung la comment
+* Comment luon 
+* Day cung la comment nhung chua dong lai**
+Function: main
+Body:
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,242))
+    def test_simple_program_14(self):
+        input = """**This is program
+* Here is declare
+* Here for function**"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,243))
+    def test_simple_program_15(self):
+        input = """"""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,244))
+    def test_simple_program_16(self):
+        input = """Var: x, y = 2., z = 3.5;
+Function: you
+Parameter: x , y[5]
+Body:
+Var: a, b, c = "string";
+Var: a = False;
+If (z == True) Then
+    Return 1;
+EndIf.
+While (True)  Do    
+    foo();
+    goo(a);
+    Break;                      
+EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,245))
+    def test_simple_program_17(self):
+        input = """Var: x, y = 1, z = 3.5;
+Var: t;
+Var: sp, yz;
+Function: you
+Parameter: q , d[5]
+Body:
+Var: a = "string", b;
+Var: c = False;
+foo(a + c);
+If (z == True) Then
+    x = d[y *. z +. t -. c \ 10];
+    Return 1;
+ElseIf x != 4.e5 Then
+    x = (a + b) * y - z + (sp *. yz);
+Else
+    Continue;
+EndIf.
+While (True)  Do    
+    foo();
+    goo(a);
+    Break;                      
+EndWhile.
+For (i = 0, i < 10, -2) Do
+    x = i;
+EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,246))
+    def test_simple_program_18(self):
+        input = """Var: a;
+Function: main
+Parameter: q , d[5]
+Body:                                       
+    x = foo(0XAB) + goo(0o12);
+    y = foo(x + goo(True));
+    print(x + y);
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,247))
+    def test_simple_program_19(self):
+        input = """Var: a;
+Function: main
+Parameter: q , d[5]
+Body:                                       
+    x = foo("ahihi") + goo(0o12);
+    y = foo(x + goo(True));
+    print(x + y);
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,248))
+    def test_simple_program_20(self):
+        input = """Var: uh;
+Function: main
+Parameter: q , d[5]
+Body:                                       
+    x = foo("ahihi") + goo(0o12);
+    y = foo(x + goo(True));
+    print(x + y);
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,249))
+    def test_simple_program_21(self):
+        input = """Var: a;
+Function: main
+Parameter: q , d[5]
+    Body: 
+    Var: x, y = 1, z = 3.5;
+    If((a > b) && (c < d)) Then
+        Break;
+    EndIf.                                          
+    x = foo("ahihi") + goo(0o12);
+    y = foo(x + goo(True));
+    print(x + y);
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,250))
+    def test_simple_program_22(self):
+        input = """Var: x;
+Function: fact
+Parameter: n, y
+Body:
+    While n[1] == a[2] Do
+        **Check**
+        Break;
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,251))
+    def test_while_4(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    While (a  >= 5) Do 
+        a = a + 1;
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,252))
+    def test_while_5(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    While (a <= - 5) Do 
+        a = a + - 1;
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,253))
+    def test_while_6(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    While (a <-= - 5) Do 
+        a = a + - 1;
+    EndWhile.
+EndBody."""
+        expect = "Error on line 4 col 15: ="
+        self.assertTrue(TestParser.checkParser(input,expect,254))
+    def test_while_7(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    While (a <= - 5) Do
+        a = a + - 1;
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,255))
+    def test_while_8(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    While (a <= - 5) Do 
+        a = a + - 1 + - 5 - -5;
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,256))
+    def test_do_while_1(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do 
+        a = a + - 1 + - 5 - -5;
+    While (a <= - 5) 
+    EndDo.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,257))
+    def test_do_while_2(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+    While a <= - 5
+    EndDo.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,258))
+    def test_do_while_3(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+    While True
+    EndDo.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,259))
+    def test_do_while_4(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+        print("Hello World!");
+    While True
+    EndDo.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,260))
+    def test_do_while_5(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+        print("Hello World!");
+    While
+    EndDo.
+EndBody."""
+        expect = "Error on line 7 col 4: EndDo"
+        self.assertTrue(TestParser.checkParser(input,expect,261))
+    def test_do_while_6(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+        print("Hello World!");
+    While (a > b) && (c < d)
+    EndDo.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,262))
+    def test_do_while_7(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+        print("Hello World!");
+    While (a > b)
+    EndDo
+EndBody."""
+        expect = "Error on line 8 col 0: EndBody"
+        self.assertTrue(TestParser.checkParser(input,expect,263))
+    def test_do_while_8(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+        print("Hello World!");
+    While a = b
+    EndDo
+EndBody."""
+        expect = "Error on line 6 col 12: ="
+        self.assertTrue(TestParser.checkParser(input,expect,264))
+    def test_do_while_9(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+        a >= 6 + b;
+    While a > b
+    EndDo
+EndBody."""
+        expect = "Error on line 5 col 10: >="
+        self.assertTrue(TestParser.checkParser(input,expect,265))
+    def test_do_while_10(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    Do
+        Do
+            Do
+                print("Hello World!");
+            While a > b
+            EndDo.
+            print("Hello World!");
+        While a > b
+        EndDo.
+        print("Hello World!");
+    While a > b
+    EndDo.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,266))
+    def test_while_9(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    While (a <= - 5) Do 
+        print("Hello World!");
+        While (a <= - 5) Do 
+            print("Hello World!");
+            While (a <= - 5) Do 
+                print("Hello World!");
+                While (a <= - 5) Do 
+                    print("Hello World!");
+                EndWhile.
+            EndWhile.
+        EndWhile.
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,267))
+    def test_while_10(self):
+        input = """Var: a = 0;
+Function: main
+Body:
+    While (a <= - 5) Do 
+        print("Hello World!");
+        While (a <= - 5) Do
+            Do
+                Do
+                    Do
+                        print("Hello World!");
+                    While a > b
+                    EndDo.
+                    print("Hello World!");
+                While a > b
+                EndDo.
+                print("Hello World!");
+            While a > b
+            EndDo.
+            print("Hello World!");
+            While (a <= - 5) Do 
+                print("Hello World!");
+                While (a <= - 5) Do 
+                    Do
+                        Do
+                            Do
+                                print("Hello World!");
+                            While a > b
+                            EndDo.
+                            print("Hello World!");
+                        While a > b
+                        EndDo.
+                        print("Hello World!");
+                    While a > b
+                    EndDo.
+                    print("Hello World!");
+                EndWhile.
+            EndWhile.
+        EndWhile.
+    EndWhile.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,268))
+    def test_for_6(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+        print("Hello World!");
+        For (i = 0, i < 10, i = i + 2) Do
+            For (i = 0, i < 10, i = i + 2) Do
+                print("Hello World!");
+                For (i = 0, i < 10, i = i + 2) Do
+                    For (i = 0, i < 10, i = i + 2) Do
+                        print("Hello World!");
+                    EndFor.
+                    print("Hello World!");
+                EndFor.
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,269))
+    def test_for_7(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+        For (i = 0, i < 10, i = i + 2) Do
+            If((a > b) && (c < d)) Then
+                Break;
+            EndIf. 
+            For (i = 0, i < 10, i = i + 2) Do         
+                For (i = 0, i < 10, i = i + 2) Do
+                    For (i = 0, i < 10, i = i + 2) Do  
+                        If((a > b) && (c < d)) Then
+                            If((a > b) && (c < d)) Then
+                                Break;
+                            EndIf. 
+                            Break;
+                        EndIf.     
+                    EndFor.
+                    print("Hello World!");
+                EndFor.
+                If((a > b) && (c < d)) Then
+                    Break;
+                EndIf. 
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,270))
+    def test_for_8(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+        For (i = 0, i < 10, i = i + 2) Do
+            If((a > b) && (c < d)) Then
+                Break
+            EndIf. 
+            For (i = 0, i < 10, i = i + 2) Do         
+                If((a > b) && (c < d)) Then
+                    Break;
+                EndIf. 
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody."""
+        expect = "Error on line 9 col 12: EndIf"
+        self.assertTrue(TestParser.checkParser(input,expect,271))
+    def test_for_9(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+        For (i = 0, i < 10, i = i + 2) Do
+            If((a > b) && (c < d)) Then
+                Break;
+            EndIf. 
+            For (i = 0, i < 10, i = i + 2) Do         
+                If((a = b) && (c < d)) Then
+                    Break;
+                EndIf. 
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody."""
+        expect = "Error on line 11 col 22: ="
+        self.assertTrue(TestParser.checkParser(input,expect,272))
+    def test_for_10(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+        For (i = 0, i < 10, i = i + 2) Do
+            If((a > b) && (c < d)) Then
+                Break;
+            EndIf. 
+            For (i = 0, i < 10, i = i + 2) Do         
+                If((a == b) && (c < d)) Then
+                    Break;
+                EndIf. 
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,273))
+    def test_if_stm_4(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n > 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        print("Hello World!");
+                    ElseIf n > 8 Then
+                        print("Hello World!");
+                    EndIf.
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    ElseIf n > 8 Then
+        print("Hello World!");
+    ElseIf n > 2 Then
+        print("Hello World!");
+    Else
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,274))
+    def test_if_stm_5(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n = 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        print("Hello World!");
+                    ElseIf n > 8 Then
+                        print("Hello World!");
+                    EndIf.
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    Else
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "Error on line 10 col 21: ="
+        self.assertTrue(TestParser.checkParser(input,expect,275))
+    def test_if_stm_6(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        print("Hello World!");
+                    ElseIf n > 8 Then
+                        print("Hello World!");
+                    EndIf.
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!")
+    Else
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "Error on line 25 col 4: Else"
+        self.assertTrue(TestParser.checkParser(input,expect,276))
+    def test_if_stm_7(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        print("Hello World!");
+                    ElseIf n > 8 Then
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!")
+    Else
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "Error on line 24 col 4: Else"
+        self.assertTrue(TestParser.checkParser(input,expect,277))
+    def test_if_stm_8(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        print("Hello World!");
+                    ElseIf n > 8 Then
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,278))
+    def test_if_stm_9(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        While (i < 5) Do
+                            a[i] = b +. 1.0;
+                            i = i + 1;
+                        EndWhile.
+                        print("Hello World!");
+                    ElseIf n >=. 8 Then
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            While (i < 5) Do
+                a[i] = b +. 1.0;
+                i = i + 1;
+            EndWhile.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,279))
+    def test_if_stm_10(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        While (i < 5) Do
+                            a[i] = b +. 1.0;
+                            i = i + 1;
+                        EndWhile.
+                        print("Hello World!");
+                    ElseIf n >=. 8a Then
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            While (i < 5) Do
+                a[i] = b +. 1.0;
+                i = i + 1;
+            EndWhile.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "Error on line 19 col 34: a"
+        self.assertTrue(TestParser.checkParser(input,expect,280))
+    def test_if_stm_10(self):
+        input = """Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        While (i < 5) Do
+                            a[i] = b +. 1.0;
+                            i = i + 1;
+                        EndWhile.
+                        print("Hello World!");
+                    ElseIf n >=. 8a Then
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            While (i < 5) Do
+                a[i] = b +. 1.0;
+                i = i + 1;
+            EndWhile.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "Error on line 19 col 34: a"
+        self.assertTrue(TestParser.checkParser(input,expect,280))
+    
+    
+    
 
         

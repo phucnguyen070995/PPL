@@ -1,0 +1,8 @@
+Var: a = 5;
+Var: b[5];
+Var: c, d = 6, e;
+Function: main
+Body:
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody.

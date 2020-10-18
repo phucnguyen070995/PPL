@@ -1,0 +1,29 @@
+Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+        For (i = 0, i < 10, i = i + 2) Do
+            If((a > b) && (c < d)) Then
+                Break;
+            EndIf. 
+            For (i = 0, i < 10, i = i + 2) Do         
+                For (i = 0, i < 10, i = i + 2) Do
+                    For (i = 0, i < 10, i = i + 2) Do  
+                        If((a > b) && (c < d)) Then
+                            If((a > b) && (c < d)) Then
+                                Break;
+                            EndIf. 
+                            Break;
+                        EndIf.     
+                    EndFor.
+                    print("Hello World!");
+                EndFor.
+                If((a > b) && (c < d)) Then
+                    Break;
+                EndIf. 
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody.

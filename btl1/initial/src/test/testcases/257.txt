@@ -1,0 +1,8 @@
+Var: a = 0;
+Function: main
+Body:
+    Do 
+        a = a + - 1 + - 5 - -5;
+    While (a <= - 5) 
+    EndDo.
+EndBody.

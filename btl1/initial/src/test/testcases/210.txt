@@ -1,1 +1,5 @@
-x = foo(a[1][2] + 2, x + 1);
+Var: a = 0;
+Function: main
+Body:
+    x = foo(a[1][2] + 2, x + 1);
+EndBody.

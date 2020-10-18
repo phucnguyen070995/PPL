@@ -1,0 +1,7 @@
+Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, i = i + 2) Do
+    EndFor.
+EndBody.

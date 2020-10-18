@@ -1,0 +1,8 @@
+Var: a;
+Function: main
+Parameter: q , d[5]
+Body:                                       
+    x = foo("ahihi") + goo(0o12);
+    y = foo(x + goo(True));
+    print(x + y);
+EndBody.

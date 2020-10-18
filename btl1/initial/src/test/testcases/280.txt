@@ -1,0 +1,35 @@
+Function: test
+Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        While (i < 5) Do
+                            a[i] = b +. 1.0;
+                            i = i + 1;
+                        EndWhile.
+                        print("Hello World!");
+                    ElseIf n >=. 8a Then
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            While (i < 5) Do
+                a[i] = b +. 1.0;
+                i = i + 1;
+            EndWhile.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody.
