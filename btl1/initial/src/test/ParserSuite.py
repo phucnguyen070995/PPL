@@ -283,7 +283,7 @@ Parameter: n
 
 Body:
     Var: i, x = 0;
-    For (i = 1, i < 3, i = i+5) Do
+    For (i = 1, i < 3, -. 5) Do
         x = i +7;
         If n > 100 Then
             Break;
@@ -301,7 +301,7 @@ EndBody."""
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10, -. 2) Do
     EndFor.
 EndBody."""
         expect = "successful"
@@ -311,7 +311,7 @@ EndBody."""
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10,  2) Do
         Return 1;
         Break;
         Continue;
@@ -776,13 +776,13 @@ EndBody."""
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10, 2) Do
         print("Hello World!");
-        For (i = 0, i < 10, i = i + 2) Do
-            For (i = 0, i < 10, i = i + 2) Do
+        For (i = 0, i < 10, -2) Do
+            For (i = 0, i < 10, 2) Do
                 print("Hello World!");
-                For (i = 0, i < 10, i = i + 2) Do
-                    For (i = 0, i < 10, i = i + 2) Do
+                For (i = 0, i < 10, 2) Do
+                    For (i = 0, i < 10, 2) Do
                         print("Hello World!");
                     EndFor.
                     print("Hello World!");
@@ -799,25 +799,25 @@ EndBody."""
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
-        For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10, 2) Do
+        For (i = 0, i < 10, 2) Do
             If((a > b) && (c < d)) Then
-                Break;
+                print("Hello World!");
             EndIf. 
-            For (i = 0, i < 10, i = i + 2) Do         
-                For (i = 0, i < 10, i = i + 2) Do
-                    For (i = 0, i < 10, i = i + 2) Do  
+            For (i = 0, i < 10, 2) Do         
+                For (i = 0, i < 10,-. 2) Do
+                    For (i = 0, i < 10, 2) Do  
                         If((a > b) && (c < d)) Then
                             If((a > b) && (c < d)) Then
-                                Break;
+                                print("Hello World!");
                             EndIf. 
-                            Break;
+                            print("Hello World!");
                         EndIf.     
                     EndFor.
                     print("Hello World!");
                 EndFor.
                 If((a > b) && (c < d)) Then
-                    Break;
+                    print("Hello World!");
                 EndIf. 
             EndFor.
             print("Hello World!");
@@ -831,14 +831,14 @@ EndBody."""
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
-        For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10, -2) Do
+        For (i = 0, i < 10,-.2) Do
             If((a > b) && (c < d)) Then
-                Break
+                print("Hello World!")
             EndIf. 
-            For (i = 0, i < 10, i = i + 2) Do         
+            For (i = 0, i < 10, 2) Do         
                 If((a > b) && (c < d)) Then
-                    Break;
+                    print("Hello World!");
                 EndIf. 
             EndFor.
             print("Hello World!");
@@ -852,14 +852,14 @@ EndBody."""
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
-        For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10, 2) Do
+        For (i = 0, i < 10, 2) Do
             If((a > b) && (c < d)) Then
-                Break;
+                print("Hello World!");
             EndIf. 
-            For (i = 0, i < 10, i = i + 2) Do         
+            For (i = 0, i < 10, - 2) Do         
                 If((a = b) && (c < d)) Then
-                    Break;
+                    print("Hello World!");
                 EndIf. 
             EndFor.
             print("Hello World!");
@@ -873,12 +873,12 @@ EndBody."""
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
-        For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10, 2) Do
+        For (i = 0, i < 10, 2) Do
             If((a > b) && (c < d)) Then
                 Break;
             EndIf. 
-            For (i = 0, i < 10, i = i + 2) Do         
+            For (i = 0, i < 10, -2) Do         
                 If((a == b) && (c < d)) Then
                     Break;
                 EndIf. 
@@ -1078,11 +1078,11 @@ Body:
             print("Hello World!");
         EndIf.
         print("Hello World!");
-    EndIf.
+    Else
         print("Hello World!");
     EndIf.
 EndBody."""
-        expect = "successful"
+        expect = "Error on line 35 col 0: EndBody"
         self.assertTrue(TestParser.checkParser(input,expect,279))
     def test_if_stm_10(self):
         input = """Function: test
@@ -1122,9 +1122,340 @@ Body:
 EndBody."""
         expect = "Error on line 19 col 34: a"
         self.assertTrue(TestParser.checkParser(input,expect,280))
-    def test_if_stm_10(self):
+    def test_assignment_stm_4(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,281))
+    def test_assignment_stm_5(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z -q) *. 10;
+    x = n =. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "Error on line 11 col 10: ="
+        self.assertTrue(TestParser.checkParser(input,expect,282))
+    def test_assignment_stm_6(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [[2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "Error on line 7 col 25: ["
+        self.assertTrue(TestParser.checkParser(input,expect,283))
+    def test_assignment_stm_7(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c = 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "Error on line 5 col 27: ="
+        self.assertTrue(TestParser.checkParser(input,expect,284))
+    def test_assignment_stm_8(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z -q) *. 10;
+    x != n >=. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "Error on line 11 col 6: !="
+        self.assertTrue(TestParser.checkParser(input,expect,285))
+    def test_assignment_stm_9(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 != r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,286))
+    def test_assignment_stm_10(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + - b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,287))
+    def test_if_stm_11(self):
+        input = """Function: foo
+            Parameter: a,b,c
+            Body:
+                If a < b Then
+                    While True Do
+                        Break;
+                    EndWhile.
+                ElseIf a == b Then
+                    For (i = 1, i < 10, 1) Do
+                        foo(foo(foo()));
+                    EndFor.
+                Else
+                    Do
+                        Continue;
+                    While (a \. 10.0 =/= 10.5)
+                    EndDo.
+                EndIf.
+            EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 288))
+    def test_if_stm_12(self):
+        input = """Function: foo
+            Parameter: a,b,c
+            Body:
+                a = 0x123456;
+                If a < b Then
+                    While True Do
+                        Break;
+                    EndWhile.
+                ElseIf a == b Then
+                    For (i = 1, i < 10, 1) Do
+                        foo(foo(foo(5)));
+                    EndFor.
+                Else
+                    Do
+                        Do
+                            Continue;
+                        While (a \. 10.0 =/= 10.5e-3)
+                        EndDo.
+                    While (a \. 10.0 =/= 10.5e-3)
+                    EndDo.
+                EndIf.
+            EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 289))
+    def test_simple_program_23(self):
+        input = """Function: foo
+            Parameter: a,b,c
+            Body:
+                Return boo( ( () ) );
+            EndBody."""
+        expect = "Error on line 4 col 31: )"
+        self.assertTrue(TestParser.checkParser(input, expect, 290))
+    def test_if_stm_13(self):
         input = """Function: test
 Body:
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n > 10 Then
+                    print("Hello World!");
+                ElseIf n = 8 Then
+                    If n > 10 Then
+                        print("Hello World!");
+                    ElseIf n > 8 Then
+                        print("Hello World!");
+                    EndIf.
+                    print("Hello World!");
+                EndIf.
+                print("Hello World!");
+            EndIf.
+            print("Hello World!");
+        EndIf.
+        print("Hello World!");
+    Else
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "Error on line 12 col 25: ="
+        self.assertTrue(TestParser.checkParser(input, expect, 291))
+    def test_for_11(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, 2) Do
+        For (i = 0, i < 10, 2) Do
+            If((a > b) && (c < d)) Then
+                print("Hello World!");
+            EndIf. 
+            For (i = 0, i < 10, - 2) Do         
+                If((a != b) >= (c < d)) Then
+                    print("Hello World!");
+                EndIf. 
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 292))
+    def test_for_12(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, 2) Do
+        For (i = 0, i < 10, 2) Do
+            If((a > b) && (c < d)) Then
+                print("Hello World!");
+            EndIf. 
+            For (i = 0, i < 10, - 2) Do         
+                If((a != b) >= (c < d)) Then
+                    print("Hello World!");
+                EndIf.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody."""
+        expect = "Error on line 17 col 0: EndBody"
+        self.assertTrue(TestParser.checkParser(input, expect, 293))
+    def test_assignment_stm_11(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z - *q) *. 10;
+    x = n >=. z;
+    x = d[y *. z +. t -. c \ 10];
+    x = (a + - b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "Error on line 10 col 17: *"
+        self.assertTrue(TestParser.checkParser(input, expect, 294))
+    def test_assignment_stm_12(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(2)] = a[b [2][3]] + 4;
+    v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+    x = foo(a[1][2] + 2, x + 1);
+    x = y + (z - q - 1 - 4 + 6) *. 10;
+    x = n >=. z;
+    x = d[y *. z +. t -. c % 10];
+    x = (a + - b) * y - z + (sp *. yz);
+    a = a + - 1 + - 5 - -5;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 295))
+    def test_assignment_stm_13(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(a[3 + foo(a[3 + foo(2)])])] = a[b [a[3 + foo(2)]][3]] + 4;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 296))
+    def test_assignment_stm_14(self):
+        input = """Var: x;
+Function: fact
+Parameter: n
+Body:
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3] = {{2,3,4},{4,5,6}};
+    a[3 + foo(a[3 + foo(a[3 + foo(2)])])] = a[b [a[3  foo(2)]][3]] + 4;
+EndBody."""
+        expect = "Error on line 7 col 54: foo"
+        self.assertTrue(TestParser.checkParser(input, expect, 297))
+    def test_assignment_stm_15(self):
+        input = """Function: fact
+Parameter: n
+Body:
+Var: x;
+    x = d[y *. z +. t -. c \ 10];
+    b[2][3][3 + foo(a[3 + foo(a[3 + foo(2)])])] = {{2,3,4},{4,5,6}};
+    a[3 + foo(a[3 + foo(a[3 + foo(2)])])] = a[b [a[3 * foo(2)]][3]] + 4;
+EndBody."""
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input, expect, 298))
+    def test_complex_program_1(self):
+        input = """Var: b[2][3] = {{2,3,4},{4,5,6}};
+Var: c, d = 6, e, f;
+Var: m, n[10];
+Function: test
+** Day la comment
+* Day cung la comment
+* Comment luon 
+* Day cung la comment nhung chua dong lai**
+Body:
+    Var: b[2][3] = {{2,3,4},{4,5,6}};
+    Var: c, d = 6, e, f;
+    Var: m, n[10];
     If n > 10 Then
         If n > 10 Then
             print("Hello World!");
@@ -1140,27 +1471,190 @@ Body:
                             a[i] = b +. 1.0;
                             i = i + 1;
                         EndWhile.
+                        x = d[y *. z +. t -. c \ 10];
+                        b[2][3] = {{2,3,4},{4,5,6}};
+                        a[3 + foo(2)] = a[b [2][3]] + 4;
+                        v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+                        x = foo(a[1][2] + 2, x + 1);
+                        x = y + (z -q) *. 10;
+                        x = n >=. z;
+                        x = d[y *. z +. t -. c \ 10];
+                        x = (a + - b) * y - z + (sp *. yz);
+                        a = a + - 1 + - 5 - -5;
                         print("Hello World!");
-                    ElseIf n >=. 8a Then
+                    ElseIf n >=. 8-.a Then
+                        ** Day la comment
+                        * Day cung la comment
+                        * Comment luon 
+                        * Day cung la comment nhung chua dong lai**
+                        For (i = 0, i < 10, 2) Do
+                            For (i = 0, i < 10, 2) Do
+                                If((a > b) && (c < d)) Then
+                                    Break;
+                                EndIf. 
+                                For (i = 0, i < 10, -2) Do         
+                                    If((a == b) && (c < d)) Then
+                                        Break;
+                                    EndIf. 
+                                EndFor.
+                                print("Hello World!");
+                            EndFor.
+                        EndFor.
                         print("Hello World!");
                     print("Hello World!");
                 EndIf.
+                ** Day la comment**
                 print("Hello World!");
             EndIf.
             While (i < 5) Do
                 a[i] = b +. 1.0;
                 i = i + 1;
+                foo(a[1][2] + 2, x + 1);
+                foo (2 + x, 4. \. y);
+                goo ();
+                If bool_of_string ("True") Then
+                    a = int_of_string (read ());
+                    b = float_of_int (a) +. 2.0;
+                    Do
+                        Do
+                            Do
+                                print("Hello World!");
+                            While a > b
+                            EndDo.
+                            print("Hello World!");
+                        While a > b
+                        EndDo.
+                        print("Hello World!");
+                    While a > b
+                    EndDo.
+                    foo(a[1][2] + 2, x + 1);
+                    foo (2 + x, 4. \. y);
+                    goo ();
+                EndIf.
             EndWhile.
+            ** *Day la comment**
             print("Hello World!");
         EndIf.
+        For (i = 0, i < 10,  2) Do
+            Return 1;
+            Break;
+            Continue;
+            foo(float_of_int (a) + 2);
+            goo(a+1);
+        EndFor.
         print("Hello World!");
     EndIf.
         print("Hello World!");
     EndIf.
 EndBody."""
-        expect = "Error on line 19 col 34: a"
-        self.assertTrue(TestParser.checkParser(input,expect,280))
-    
+        expect = "successful"
+        self.assertTrue(TestParser.checkParser(input,expect,299))
+    def test_complex_program_2(self):
+        input = """Var: b[2][3] = {{2,3,4},{4,5,6}};
+Var: c, d = 6, e, f;
+Var: m, n[10];
+Function: test
+** Day la comment
+* Day cung la comment
+* Comment luon 
+* Day cung la comment nhung chua dong lai**
+Body:
+    Var: b[2][3] = {{2,3,4},{4,5,6}};
+    Var: c, d = 6, e, f;
+    Var: m, n[10];
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        While (i < 5) Do
+                            a[i] = b +. 1.0;
+                            i = i + 1;
+                        EndWhile.
+                        x = d[y *. z +. t -. c \ 10];
+                        b[2][3] = {{2,3,4},{4,5,6}};
+                        a[3 + foo(2)] = a[b [2][3]] + 4;
+                        v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+                        x = foo(a[1][2] + 2, x + 1);
+                        x = y + (z -q) *. 10;
+                        x = n >=. z;
+                        x = d[y *. z +. t -. c \ 10];
+                        x = (a + - b) * y - z + (sp *. yz);
+                        a = a + - 1 + - 5 - -5;
+                        print("Hello World!");
+                    ElseIf n >=. 8-.a Then
+                        ** Day la comment
+                        * Day cung la comment
+                        * Comment luon 
+                        * Day cung la comment nhung chua dong lai**
+                        For (i = 0, i < 10, 2) Do
+                            For (i = 0, i < 10, 2) Do
+                                If((a > b) && (c < d)) Then
+                                    Break;
+                                EndIf 
+                                For (i = 0, i < 10, -2) Do         
+                                    If((a == b) && (c < d)) Then
+                                        Break;
+                                    EndIf. 
+                                EndFor.
+                                print("Hello World!");
+                            EndFor.
+                        EndFor.
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                ** Day la comment**
+                print("Hello World!");
+            EndIf.
+            While (i < 5) Do
+                a[i] = b +. 1.0;
+                i = i + 1;
+                foo(a[1][2] + 2, x + 1);
+                foo (2 + x, 4. \. y);
+                goo ();
+                If bool_of_string ("True") Then
+                    a = int_of_string (read ());
+                    b = float_of_int (a) +. 2.0;
+                    Do
+                        Do
+                            Do
+                                print("Hello World!");
+                            While a > b
+                            EndDo.
+                            print("Hello World!");
+                        While a > b
+                        EndDo.
+                        print("Hello World!");
+                    While a > b
+                    EndDo.
+                    foo(a[1][2] + 2, x + 1);
+                    foo (2 + x, 4. \. y);
+                    goo ();
+                EndIf.
+            EndWhile.
+            ** *Day la comment**
+            print("Hello World!");
+        EndIf.
+        For (i = 0, i < 10,  2) Do
+            Return 1;
+            Break;
+            Continue;
+            foo(float_of_int (a) + 2);
+            goo(a+1);
+        EndFor.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody."""
+        expect = "Error on line 49 col 32: For"
+        self.assertTrue(TestParser.checkParser(input,expect,300))
     
     
 

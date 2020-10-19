@@ -58,7 +58,7 @@ class LexerSuite(unittest.TestCase):
     def test_string_1(self):
         self.assertTrue(TestLexer.checkLexeme('"This is a string containing tab \\t" ','This is a string containing tab \\t,<EOF>',127))
     def test_string_2(self):
-        self.assertTrue(TestLexer.checkLexeme('"This is a string containing tab\n" ','Unclosed String: This is a string containing tab\n',128))
+        self.assertTrue(TestLexer.checkLexeme('"This is a string containing newline \n" ','Unclosed String: This is a string containing newline ',128))
     def test_string_3(self):
         self.assertTrue(TestLexer.checkLexeme('"He asked me: \'"Where is John?\'""','He asked me: \'"Where is John?\'",<EOF>',129))
     def test_string_4(self):
@@ -102,7 +102,7 @@ class LexerSuite(unittest.TestCase):
     def test_string_7(self):
         self.assertTrue(TestLexer.checkLexeme('"Hello anh em\\minh la sinh vien khoa may tinh"','Illegal Escape In String: Hello anh em\\m',149))
     def test_string_8(self):
-        self.assertTrue(TestLexer.checkLexeme('"Em la:\n sanh vien!"','Unclosed String: Em la:\n',150))
+        self.assertTrue(TestLexer.checkLexeme('"Em la:\n sanh vien!"','Unclosed String: Em la:',150))
     def test_comment_1(self):
         self.assertTrue(TestLexer.checkLexeme('** This is the comment.**** This is the comment.**','<EOF>',151))
     def test_comment_2(self):

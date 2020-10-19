@@ -1,0 +1,103 @@
+Var: b[2][3] = {{2,3,4},{4,5,6}};
+Var: c, d = 6, e, f;
+Var: m, n[10];
+Function: test
+** Day la comment
+* Day cung la comment
+* Comment luon 
+* Day cung la comment nhung chua dong lai**
+Body:
+    Var: b[2][3] = {{2,3,4},{4,5,6}};
+    Var: c, d = 6, e, f;
+    Var: m, n[10];
+    If n > 10 Then
+        If n > 10 Then
+            print("Hello World!");
+        ElseIf n > 8 Then
+            If n > 10 Then
+                print("Hello World!");
+            ElseIf n > 8 Then
+                If n != 10 Then
+                    print("Hello World!");
+                ElseIf n > 8 Then
+                    If n > 10 Then
+                        While (i < 5) Do
+                            a[i] = b +. 1.0;
+                            i = i + 1;
+                        EndWhile.
+                        x = d[y *. z +. t -. c \ 10];
+                        b[2][3] = {{2,3,4},{4,5,6}};
+                        a[3 + foo(2)] = a[b [2][3]] + 4;
+                        v = (4. \. 3.) *. 3.14 *. r *. r *. r;
+                        x = foo(a[1][2] + 2, x + 1);
+                        x = y + (z -q) *. 10;
+                        x = n >=. z;
+                        x = d[y *. z +. t -. c \ 10];
+                        x = (a + - b) * y - z + (sp *. yz);
+                        a = a + - 1 + - 5 - -5;
+                        print("Hello World!");
+                    ElseIf n >=. 8-.a Then
+                        ** Day la comment
+                        * Day cung la comment
+                        * Comment luon 
+                        * Day cung la comment nhung chua dong lai**
+                        For (i = 0, i < 10, 2) Do
+                            For (i = 0, i < 10, 2) Do
+                                If((a > b) && (c < d)) Then
+                                    Break;
+                                EndIf 
+                                For (i = 0, i < 10, -2) Do         
+                                    If((a == b) && (c < d)) Then
+                                        Break;
+                                    EndIf. 
+                                EndFor.
+                                print("Hello World!");
+                            EndFor.
+                        EndFor.
+                        print("Hello World!");
+                    print("Hello World!");
+                EndIf.
+                ** Day la comment**
+                print("Hello World!");
+            EndIf.
+            While (i < 5) Do
+                a[i] = b +. 1.0;
+                i = i + 1;
+                foo(a[1][2] + 2, x + 1);
+                foo (2 + x, 4. \. y);
+                goo ();
+                If bool_of_string ("True") Then
+                    a = int_of_string (read ());
+                    b = float_of_int (a) +. 2.0;
+                    Do
+                        Do
+                            Do
+                                print("Hello World!");
+                            While a > b
+                            EndDo.
+                            print("Hello World!");
+                        While a > b
+                        EndDo.
+                        print("Hello World!");
+                    While a > b
+                    EndDo.
+                    foo(a[1][2] + 2, x + 1);
+                    foo (2 + x, 4. \. y);
+                    goo ();
+                EndIf.
+            EndWhile.
+            ** *Day la comment**
+            print("Hello World!");
+        EndIf.
+        For (i = 0, i < 10,  2) Do
+            Return 1;
+            Break;
+            Continue;
+            foo(float_of_int (a) + 2);
+            goo(a+1);
+        EndFor.
+        print("Hello World!");
+    EndIf.
+        print("Hello World!");
+    EndIf.
+EndBody.

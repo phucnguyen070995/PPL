@@ -29,7 +29,7 @@ Body:
             print("Hello World!");
         EndIf.
         print("Hello World!");
-    EndIf.
+    Else
         print("Hello World!");
     EndIf.
 EndBody.

@@ -97,9 +97,8 @@ parameter_callee:   expression COMMA parameter_callee
 
 statement_list:     statement_part statement_list
                     | statement_part;
-statement_part:     if_stm 
+statement_part:     if_stm
                     | assign_stm
-                    | do_while_stm SEMI
                     | for_stm
                     | break_stm
                     | continue_stm

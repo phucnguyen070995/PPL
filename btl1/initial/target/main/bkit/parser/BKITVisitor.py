@@ -14,8 +14,13 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#program_part.
-    def visitProgram_part(self, ctx:BKITParser.Program_partContext):
+    # Visit a parse tree produced by BKITParser#var_dec_many.
+    def visitVar_dec_many(self, ctx:BKITParser.Var_dec_manyContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#func_dec_many.
+    def visitFunc_dec_many(self, ctx:BKITParser.Func_dec_manyContext):
         return self.visitChildren(ctx)
 
 
@@ -79,8 +84,8 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#expression_stm.
-    def visitExpression_stm(self, ctx:BKITParser.Expression_stmContext):
+    # Visit a parse tree produced by BKITParser#expression.
+    def visitExpression(self, ctx:BKITParser.ExpressionContext):
         return self.visitChildren(ctx)
 
 
@@ -134,11 +139,6 @@ class BKITVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by BKITParser#type_coercions.
-    def visitType_coercions(self, ctx:BKITParser.Type_coercionsContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by BKITParser#statement_list.
     def visitStatement_list(self, ctx:BKITParser.Statement_listContext):
         return self.visitChildren(ctx)
@@ -151,6 +151,21 @@ class BKITVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by BKITParser#assign_stm.
     def visitAssign_stm(self, ctx:BKITParser.Assign_stmContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#assign.
+    def visitAssign(self, ctx:BKITParser.AssignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#many_index.
+    def visitMany_index(self, ctx:BKITParser.Many_indexContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by BKITParser#one_index.
+    def visitOne_index(self, ctx:BKITParser.One_indexContext):
         return self.visitChildren(ctx)
 
 

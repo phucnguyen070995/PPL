@@ -1,2 +1,2 @@
-"This is a string containing tab
+"This is a string containing newline 
 " 

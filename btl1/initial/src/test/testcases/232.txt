@@ -2,7 +2,7 @@ Var: x;
 Function: fact
 Parameter: n
 Body:
-    For (i = 0, i < 10, i = i + 2) Do
+    For (i = 0, i < 10,  2) Do
         Return 1;
         Break;
         Continue;
