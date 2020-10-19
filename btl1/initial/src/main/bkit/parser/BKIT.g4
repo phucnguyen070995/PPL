@@ -29,7 +29,7 @@ options{
 program:            var_dec_many func_dec_many EOF
                     | var_dec_many EOF
                     | func_dec_many EOF
-                    | ;
+                    | EOF;
 
 var_dec_many:       var_dec var_dec_many
                     | var_dec;
