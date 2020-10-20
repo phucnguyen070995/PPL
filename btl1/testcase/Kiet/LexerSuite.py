@@ -382,7 +382,6 @@ class LexerSuite(unittest.TestCase):
 
 # SAMPLE
 
-
     def test_lower_identifier(self):
         """test identifiers"""
         self.assertTrue(TestLexer.checkLexeme("abc", "abc,<EOF>", 901))
@@ -423,10 +422,3 @@ class LexerSuite(unittest.TestCase):
             ' \"abc def  ', "Unclosed String: abc def  ", 909))
 
 # test
-    def test_string_80(self):
-        self.assertTrue(TestLexer.checkLexeme(
-            '"Em\\n la:\n sanh vien!"', 'Unclosed String: Em\\n la:', 910))
-
-    def test_string_20(self):
-        self.assertTrue(TestLexer.checkLexeme('"This is a string containing tab\n" ',
-                                              'Unclosed String: This is a string containing tab', 911))
