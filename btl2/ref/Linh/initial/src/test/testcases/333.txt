@@ -1,0 +1,9 @@
+
+    int man(){
+        do a;
+        b;
+        c;
+        d;
+        while(cc);
+    }
+    

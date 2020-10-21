@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[VarDecl(argc,IntType),VarDecl(argv,StringType)],ArrayTypePointer(FloatType),Block([If(BinaryOp(>,Id(x),IntLiteral(10)),BinaryOp(=,Id(x),BinaryOp(-,Id(x),IntLiteral(1))),CallExpr(Id(print),[Id(x)])),CallExpr(Id(print),[CallExpr(Id(funcall),[StringLiteral(x <= 10),BinaryOp(<=,Id(x),IntLiteral(10))])])]))])

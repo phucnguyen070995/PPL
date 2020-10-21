@@ -1,0 +1,21 @@
+
+            int main(){
+                int n;
+                n = 100;
+                if (n > 1) {
+                    int i;
+                    for (i = 2; i <= n; i = i + 1) {
+                            int sus, j;
+                            sus = 0;
+                            for (j = 1; j <= i; j = j + 1) {
+                                if ((i % j) == 0)
+                                sus = sus + 1;
+                            }
+                            if (sus == 2)
+                                printf(i);
+                    }
+                }       
+                else printf("MATH007");
+                return 0;
+            }
+        

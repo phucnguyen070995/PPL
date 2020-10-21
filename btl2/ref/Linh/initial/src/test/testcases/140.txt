@@ -1,0 +1,6 @@
+float[] main(int argc, string argv){
+            if (x > 10) x = x - 1;
+            else print(x);
+            print(funcall("x <= 10", x <= 10));
+        }
+        

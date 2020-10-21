@@ -1,0 +1,5 @@
+
+    void linh(){
+        if(a<b) a=b;
+    }
+    

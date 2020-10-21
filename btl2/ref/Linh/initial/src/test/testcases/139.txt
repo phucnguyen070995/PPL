@@ -1,0 +1,8 @@
+
+        void main(){
+            do 
+             something;
+            while "true";
+            funcall(funcall(1,exp-10),funcall);
+        }
+        

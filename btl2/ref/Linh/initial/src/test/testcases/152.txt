@@ -1,0 +1,10 @@
+  void main(){
+                if(x<=100) {
+                    if(x<=50){
+                        if(x<40){
+                            if(x<-10) return (a[a]);
+                        }
+                    }
+                }
+            }
+        

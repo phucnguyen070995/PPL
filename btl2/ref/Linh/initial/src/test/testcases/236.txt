@@ -1,0 +1,12 @@
+
+            int foo(int a, int b, int c){return a + b + c;}
+            int main(){
+                a = foo(1,2,3);
+                b = foo(2,3,4);
+                int c;
+                c = a + b;
+                print(c);
+                system("pause");
+                return 0;
+            }
+        

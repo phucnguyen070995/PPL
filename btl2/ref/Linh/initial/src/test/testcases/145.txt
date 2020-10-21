@@ -1,0 +1,12 @@
+  int global;
+        float[] main(int argc, string argv){
+            CallExpress = double(argc,len(argv) >= 0);
+            return CallExpress;
+        }
+        boolean True;
+        int double(int x,boolean True){
+            if (True)
+            return x*2;
+            else return x*x;
+        }
+        

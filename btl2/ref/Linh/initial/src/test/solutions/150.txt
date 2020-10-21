@@ -1,0 +1,1 @@
+Program([VarDecl(data,ArrayType(IntType,10)),FuncDecl(Id(main),[],IntType,Block([BinaryOp(=,Id(TEST50),CallExpr(Id(please),[CallExpr(Id(doing),[CallExpr(Id(something),[CallExpr(Id(on),[CallExpr(Id(this),[Id(testcase)])])])])])),Dowhile([Block([Block([Dowhile([Block([])],BooleanLiteral(true))])])],BooleanLiteral(false))]))])

@@ -1,0 +1,17 @@
+
+            int main(){
+                float a, b;
+                a = 0;
+                b = 0;
+                if (a == 0){
+                    if (b == 0)
+                        printf("PT VSN");
+                    else
+                        printf("PT VN");
+                }
+                else
+                    printf("Phuong trinh co mot nghiem la x: %d", -b / a);
+                system("pause");
+                return 0;
+            }
+        

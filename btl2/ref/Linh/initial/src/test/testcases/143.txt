@@ -1,0 +1,6 @@
+  int main(){
+            "do something here";
+            a = 1 + 2 - 3 / 4 * 5 >= 10* sqrt(2*x);
+            return 0;
+        }
+        

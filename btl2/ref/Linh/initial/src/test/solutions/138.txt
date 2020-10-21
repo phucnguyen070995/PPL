@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(recursiveReversed),[VarDecl(list,ArrayTypePointer(IntType))],ArrayTypePointer(IntType),Block([If(Id(list),Block([Return(BinaryOp(+,ArrayCell(Id(list),IntLiteral(0)),CallExpr(Id(recursiveReversed),[CallExpr(Id(remove),[Id(list),IntLiteral(0)])])))]),Block([Return(ArrayCell(Id(list),Id(null)))]))]))])

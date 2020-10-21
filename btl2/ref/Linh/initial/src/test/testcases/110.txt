@@ -1,0 +1,6 @@
+
+        float thuong(float a, float b)
+        {
+            return a/b;
+        }
+        

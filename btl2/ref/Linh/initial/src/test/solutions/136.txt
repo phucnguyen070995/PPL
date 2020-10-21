@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(type),[VarDecl(mctype,ArrayTypePointer(FloatType))],BoolType,Block([])),FuncDecl(Id(main),[],VoidType,Block([CallExpr(Id(callexpress),[CallExpr(Id(type),[Id(intinit)])]),Return(StringLiteral(something note good enough))]))])

@@ -1,0 +1,7 @@
+
+    int man(){
+        a[1] -b[n];
+        call();
+        pull();
+    }
+    

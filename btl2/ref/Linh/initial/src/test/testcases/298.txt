@@ -1,0 +1,23 @@
+
+            int main(){
+                int a, b, sa, sb, i;
+                a = 100;
+                b = 200;
+                sa = 0; 
+                sb = 0;
+                for (i = 1; i < a; i = i + 1) {
+                    if (a % i == 0)
+                        sa = sa + i;
+                }
+                for (i = 1; i < b; i = i + 1) {
+                    if (b % i == 0)
+                        sb = sb + i;
+                }
+                if (sa == b && sb == a) 
+                    printf("YES");
+                else 
+                    printf("NO");
+                printf("\n"); 
+                return 0;
+            }
+        

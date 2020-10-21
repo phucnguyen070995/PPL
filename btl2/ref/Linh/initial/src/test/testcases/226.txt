@@ -1,0 +1,10 @@
+
+            int main(){
+                int i,j;
+                float x;
+                if (i < j) 
+                    i = i + 1; 
+                    x = i * j;
+                return x * x;
+            }
+        

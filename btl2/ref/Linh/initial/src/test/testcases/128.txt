@@ -1,0 +1,6 @@
+int main(){
+                string str;
+                prinln(str,"\n");
+                if(true) {{{}}}{}{}{}{}{}{}
+            }
+        

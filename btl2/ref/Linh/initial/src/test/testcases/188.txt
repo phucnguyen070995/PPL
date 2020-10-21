@@ -1,0 +1,6 @@
+int main(){
+            do
+                print("test 188\n");
+            while
+                true;
+            }

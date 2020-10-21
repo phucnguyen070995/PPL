@@ -1,0 +1,6 @@
+
+    void call(){ print("a"); }
+    void main(){
+        call();  // this is call functions
+    }
+    

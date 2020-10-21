@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(man),[],IntType,Block([Dowhile([Id(a),Id(b),Id(c),Id(d)],Id(cc)),Dowhile([Id(a),Dowhile([Id(a),Id(b),Id(c),Id(d)],Id(a))],Id(a))]))])

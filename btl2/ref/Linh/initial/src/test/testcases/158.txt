@@ -1,0 +1,19 @@
+  
+        void main(){
+            print("Generation"); scanf("%d\n",n);
+            if(n>0){
+                if(n<2){
+                    print("1");
+                }
+            }
+            else {
+                print("N must be greater than 0");
+            }
+        }
+        int Fibonacy(int n){
+            if (n == 1 || n == 0) return 1;
+            else {
+                return Fibonacy(n-1)+Fibonacy(n-2);
+            }
+        }
+        

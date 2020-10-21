@@ -1,0 +1,10 @@
+  
+        string[] Add10(int x[],int len){
+            int i;
+               for(i=0;i<=len;i=i+1)
+                x[i]=x[i]*10;
+        }
+        boolean[] boolRes(){
+            return true;
+        }
+        

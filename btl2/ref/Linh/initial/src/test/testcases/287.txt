@@ -1,0 +1,12 @@
+
+            int convertDecimalToOctal(int decimalNumber){
+                int octalNumber, i;
+                octalNumber = 0;
+                i = 1;
+                for(decimalNumber; decimalNumber != 0; decimalNumber = decimalNumber / 8){
+                    octalNumber = octalNumber + (decimalNumber % 8) * i;
+                    i = i * 10;
+                }
+                return octalNumber;
+            }
+        

@@ -1,0 +1,1 @@
+Program([VarDecl(a,IntType),FuncDecl(Id(str),[VarDecl(dfx,IntType)],StringType,Block([VarDecl(a,IntType)]))])

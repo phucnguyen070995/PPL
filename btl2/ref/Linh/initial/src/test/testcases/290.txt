@@ -1,0 +1,13 @@
+
+            int main(){
+                int i, n;
+                float arr[100];
+                n = 10;
+                for(i = 1; i < n; i = i + 1){
+                if(arr[0] < arr[i])
+                    arr[0] = arr[i];
+                }
+                printf(arr[0]);
+                return 0;
+            }
+        

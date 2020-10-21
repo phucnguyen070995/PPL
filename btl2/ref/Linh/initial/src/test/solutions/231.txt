@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],IntType,Block([VarDecl(test,StringType),VarDecl(str,StringType),BinaryOp(=,Id(test),StringLiteral( MATH007 )),BinaryOp(=,Id(str),StringLiteral(The Beauty of Mathematics)),CallExpr(Id(print),[BinaryOp(+,BinaryOp(+,Id(test),Id(str)),StringLiteral( ))])]))])

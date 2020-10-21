@@ -1,0 +1,8 @@
+
+            int main(){}
+            void _(){}
+            string foo(){}
+            boolean foo2(){}
+            float foo3(){}
+
+        

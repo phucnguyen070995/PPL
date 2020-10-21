@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(man),[],IntType,Block([Return(StringLiteral(a))]))])

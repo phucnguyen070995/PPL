@@ -1,0 +1,12 @@
+void main(){
+            {
+                //Is this a comment? ;
+            }
+            {
+                funcall();
+            }
+            {
+                str="this is a block statement";
+            }
+        }
+        

@@ -1,0 +1,14 @@
+
+            float S(float R){
+                int s, PI;
+                s = 1;
+                if (R > 0){
+                    s = PI * R * R;
+                    return s;
+                }
+                else{ 
+                    printf("MATH007!");
+                    return 0;
+                    }
+            }
+        

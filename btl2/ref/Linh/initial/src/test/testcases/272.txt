@@ -1,0 +1,24 @@
+
+            int main(){
+                float n1, n2, n3;
+                n1 = 0;
+                n2 = 0;
+                n3 = 0;
+                if (n1 >= n2)
+                {
+                    if(n1 >= n3)
+                        printf(n1);
+                    else
+                        printf(n3);
+                }
+                else
+                {
+                    if(n2 >= n3)
+                        printf(n2);
+                    else
+                        printf(n3);
+                }
+                
+                return 0;
+            }
+        

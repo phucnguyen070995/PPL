@@ -1,0 +1,12 @@
+
+            int main(){
+                x = y = 5;
+                x || y && z;
+                x == y;
+                y != z;
+                z > t;
+                t >= a;
+                a <= b;
+                b < c;
+            }
+        

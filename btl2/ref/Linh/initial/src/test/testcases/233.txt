@@ -1,0 +1,9 @@
+
+            int main(){
+            int n;
+            print(n*n);
+            print("\t\n\r\b");
+            system("pause");
+            return 0;
+        }
+        

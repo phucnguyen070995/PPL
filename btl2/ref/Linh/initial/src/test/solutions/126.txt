@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],VoidType,Block([Block([]),Block([CallExpr(Id(funcall),[])]),Block([BinaryOp(=,Id(str),StringLiteral(this is a block statement))])]))])

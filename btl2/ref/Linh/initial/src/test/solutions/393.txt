@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[VarDecl(b,IntType),VarDecl(cc,StringType)],IntType,Block([Return(BooleanLiteral(false))]))])

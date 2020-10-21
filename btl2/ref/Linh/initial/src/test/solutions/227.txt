@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(Recursive),[VarDecl(n,IntType)],IntType,Block([If(BinaryOp(<=,Id(n),IntLiteral(0)),Return(IntLiteral(1)),Return(BinaryOp(*,Id(n),CallExpr(Id(Recursive),[BinaryOp(-,Id(n),IntLiteral(1))]))))]))])

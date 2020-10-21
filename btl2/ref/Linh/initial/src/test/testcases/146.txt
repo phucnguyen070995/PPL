@@ -1,0 +1,22 @@
+  int main(int argc, string argv){
+            {
+                {
+                    {
+
+                    }
+                }
+                {
+
+                }
+                //{}
+                do{
+                    int a;
+                }
+                {
+                    a = 1 + 2;
+                }
+                {{{{{{{{{{{{{{{{{{{Somethings;}}}}}}}}}}}}}}}}}}}
+                while true;
+            }
+        }
+        

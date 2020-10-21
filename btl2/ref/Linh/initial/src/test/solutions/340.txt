@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(A1man),[VarDecl(b,IntType),VarDecl(cc,StringType)],IntType,Block([Return(StringLiteral(a))]))])

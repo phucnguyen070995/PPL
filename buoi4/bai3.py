@@ -9,10 +9,9 @@ print(lessThan1(9,lst))
 def lessThan2(num, lst):
     if len(lst) == 0:
         return []
-    else:
-        if lst[0] < num:
-            return [lst[0]] + lessThan2(num, lst[1:])
-        return lessThan2(num, lst[1:])
+    if lst[0] < num:
+        return [lst[0]] + lessThan2(num, lst[1:])
+    return lessThan2(num, lst[1:])
 print(lessThan2(9,lst))
 
 def lessThan3(num, lst):

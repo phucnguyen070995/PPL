@@ -1,0 +1,13 @@
+  int main(int argc, string argv){
+            N = 100;
+            for (i = 0 ; i < N; i=i+1){
+                for (j = 0; j < N; j=j+1){
+                    for (k = 0; k < N; k=k+1){
+                        something[i] = something[k] + somthing[j];
+                        }
+                }
+                if(j == i) break;
+            }
+            return 0;
+        }
+        

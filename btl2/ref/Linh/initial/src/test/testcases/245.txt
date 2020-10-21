@@ -1,0 +1,12 @@
+
+            int main(){
+                int n, i, j;
+                for(i = 0; i <= n; i = i + 1){
+                    for(j = 0; j <= n; j = j + 1){
+                            int sum;
+                            sum = sum+(i*j);
+                    }
+                }
+                print(sum);
+            }
+        

@@ -1,0 +1,11 @@
+
+            int main() {
+            int n, a;
+            n = 400;
+            if(n>0){ 
+                a=sqrt(n);
+                if((a*a)==n) printf("True");
+                else printf("False");
+            }
+        }
+        

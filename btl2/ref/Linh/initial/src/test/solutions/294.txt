@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(CV),[VarDecl(R,FloatType)],FloatType,Block([VarDecl(PI,IntType),VarDecl(p,IntType),BinaryOp(=,Id(p),IntLiteral(1)),If(BinaryOp(>,Id(n),IntLiteral(0)),Block([BinaryOp(=,Id(p),BinaryOp(*,BinaryOp(*,IntLiteral(2),Id(PI)),Id(R))),Return(Id(p))]),Block([CallExpr(Id(printf),[StringLiteral(MATH007!)]),Return(IntLiteral(0))]))]))])

@@ -1,0 +1,7 @@
+
+    void maxlist(int lst){
+        for (i; i<1;i=i+1){
+            for (a;a;a){}
+        }
+    }
+    

@@ -1,0 +1,8 @@
+
+            int main(){
+            int a[1], b[2], c[3];
+            float x[4], y[5], z[6];
+            boolean c[7], d[8], e[9];
+            string g[10], h[11], i[12];
+            }
+        

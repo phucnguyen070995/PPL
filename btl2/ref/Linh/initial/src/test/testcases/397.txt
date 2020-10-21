@@ -1,0 +1,10 @@
+
+    int main(){
+        if (a<a=b){
+            if(a){}else{if(a){}}
+        }
+        else{
+            do a;b;c;while(c);
+        }
+    }
+    

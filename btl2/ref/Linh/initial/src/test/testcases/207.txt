@@ -1,0 +1,4 @@
+
+            int a, b, c[9];
+            float x, y, z;
+        

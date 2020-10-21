@@ -1,0 +1,5 @@
+
+    int A1man(int b,string cc){
+        return "a" ;
+    }
+    

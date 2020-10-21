@@ -12,8 +12,7 @@ print(flatten1(lst))
 def flatten2(lst):
     if len(lst) == 0:
         return []
-    else:
-        return lst[0] + flatten2(lst[1:])
+    return lst[0] + flatten2(lst[1:])
 print(flatten2(lst))
 
 lst = [lst1, lst2, lst3]

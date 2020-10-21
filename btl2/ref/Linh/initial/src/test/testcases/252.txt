@@ -1,0 +1,15 @@
+
+            void f(){
+                int i, j, k;
+                float x, y, z;
+                string str;
+                str = "MATH007";
+                boolean y;
+                if(y == "true") print(i,j,k);
+                else print(x,y,z);
+            }
+            void main(){
+                f();
+                return;
+            }
+        

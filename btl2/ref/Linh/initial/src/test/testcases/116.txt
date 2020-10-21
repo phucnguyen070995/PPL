@@ -1,0 +1,6 @@
+int[] main( float foo[]){
+            do{
+                x =x +1;
+            }while("LML");
+        }
+        

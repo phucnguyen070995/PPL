@@ -1,0 +1,19 @@
+
+            int main(){
+                int n, a, b, i, j;
+                a = 1;
+                b = 0;
+                if (n < 5) 
+                    printf("Error!");
+                else{
+                    for (i = 1; i < n; i = i + 1){
+                        for (j = i + 1; j < n; j = j + 1){
+                            float z;
+                            z = sqrt(i * i + j * j);
+                        }
+                    }
+                    printf(z);
+                }
+                return 0;
+            }
+        

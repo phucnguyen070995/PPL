@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[VarDecl(argc,IntType),VarDecl(argv,StringType)],IntType,Block([BinaryOp(=,Id(a),CallExpr(Id(f),[CallExpr(Id(a),[CallExpr(Id(b),[CallExpr(Id(c),[CallExpr(Id(d),[CallExpr(Id(e),[CallExpr(Id(f),[CallExpr(Id(g),[CallExpr(Id(f),[CallExpr(Id(f),[CallExpr(Id(f),[CallExpr(Id(f),[CallExpr(Id(f),[Id(f)])])])])])])])])])])])])]))]))])

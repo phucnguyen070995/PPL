@@ -1,0 +1,12 @@
+
+            int main(){
+            a[b[c[d]]] = 96;
+            do{
+                a;  
+            } 
+            while b;
+            print("Error");
+            system("pause");
+            return 0;
+        }
+        

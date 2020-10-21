@@ -1,0 +1,11 @@
+
+            int main(){  
+                int i, s, n;  
+                n = 100;
+                s = 1;
+                for(i = 1; i <= n; i = i + 1){  
+                    s = s * i;  
+                }
+                return s;
+            }
+        

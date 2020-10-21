@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],IntType,Block([Block([Block([Block([Continue()])]),Block([Id(a)])])]))])

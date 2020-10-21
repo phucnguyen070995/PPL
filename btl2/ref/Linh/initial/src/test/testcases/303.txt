@@ -1,0 +1,5 @@
+int b[1], c;
+        float c; 
+        string k; 
+        boolean n;
+    

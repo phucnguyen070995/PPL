@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],VoidType,Block([Dowhile([Id(something)],StringLiteral(true)),CallExpr(Id(funcall),[CallExpr(Id(funcall),[IntLiteral(1),BinaryOp(-,Id(exp),IntLiteral(10))]),Id(funcall)])]))])

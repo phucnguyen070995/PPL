@@ -1,0 +1,10 @@
+
+        int[] recursiveReversed(int list[]){
+            if (list){
+                return list[0] + recursiveReversed(remove(list,0));
+            }
+            else {
+                return list[null];
+            }
+        }
+        

@@ -1,0 +1,8 @@
+
+            int main(){
+                string test, str;
+                test = " MATH007 ";
+                str = "The Beauty of Mathematics";
+                print(test + str + " ");
+            }
+        

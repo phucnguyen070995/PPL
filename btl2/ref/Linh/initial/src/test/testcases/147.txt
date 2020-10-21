@@ -1,0 +1,9 @@
+ 
+        int main(int argc, string argv){
+            int data;
+            data = 100;
+            for(x = 0; x <= 100; x = x*x){
+                return "LOnglML";
+            }
+        }
+        

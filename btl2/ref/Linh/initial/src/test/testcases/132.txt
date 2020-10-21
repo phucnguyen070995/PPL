@@ -1,0 +1,29 @@
+void stringI(){
+                    println("How many incorrect times do you want to get? ");
+                    save(TimeRemaining);
+                    println("what minimum word lengh do you want? ");
+                    save(len);
+                    //fstream f;
+                    //f.open("input.txt",ios::in);
+                    string data;
+                    string List[255];
+                    int NumOfWord,n;
+                    NumOfWord=0;
+                    do{
+                        getline(f,data);
+                        if (data!="") List[NumOfWord]=data;
+
+                    }while(data!="");
+                    srand(time(NULL));
+                    n=random(NumOfWord);
+                    if(n<NumOfWord){
+                        if(strlen(List)==len){
+                            strncpy(TextOriginal,Tostring(List[n]),len);
+                            break;
+                        }
+                        if(n+1==NumOfWord) n=random(NumOfWord);
+                        n=n+1;
+                    println(TextOriginal);
+                }
+            }
+        

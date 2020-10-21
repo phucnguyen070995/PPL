@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],IntType,Block([BinaryOp(=,ArrayCell(Id(a),ArrayCell(Id(b),ArrayCell(Id(c),Id(d)))),IntLiteral(96)),Dowhile([Block([Id(a)])],Id(b)),CallExpr(Id(print),[StringLiteral(Error)]),CallExpr(Id(system),[StringLiteral(pause)]),Return(IntLiteral(0))]))])

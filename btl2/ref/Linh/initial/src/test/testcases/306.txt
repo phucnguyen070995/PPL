@@ -1,0 +1,8 @@
+
+    // 1710169 
+    /*my assignment 2*/
+    void main(int a, string b){
+        do {}{}{}
+        while (1);
+    }
+    

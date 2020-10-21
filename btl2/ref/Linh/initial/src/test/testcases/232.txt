@@ -1,0 +1,12 @@
+
+            int main(){
+                int a,b,c;
+                float x,y,z;
+                if (!true){
+                    float s;
+                    s = s *(a + b + c) * (x + y + z);
+                }
+                print(s); 
+                return 0;  
+            }
+        

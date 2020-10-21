@@ -1,0 +1,12 @@
+
+            int main(){
+                int number, i;
+                number = 37;
+                for(i=1; i <= number; i = i + 1)
+                {
+                    if (number % i == 0)
+                        printf(i);
+                }
+                return 0;
+            }
+        

@@ -1,0 +1,8 @@
+
+            void main(int a[], float x[]){
+                return;
+            }
+            int main(int b[], float y[]){
+                return 0;
+            }
+        

@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],IntType,Block([If(BinaryOp(=,BinaryOp(<,Id(a),Id(a)),Id(b)),Block([If(Id(a),Block([]),Block([If(Id(a),Block([]))]))]))])),FuncDecl(Id(b),[],BoolType,Block([BinaryOp(=,Id(check),BooleanLiteral(true)),CallExpr(Id(callme),[]),CallExpr(Id(println),[])]))])

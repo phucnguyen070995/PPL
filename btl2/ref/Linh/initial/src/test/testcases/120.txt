@@ -1,0 +1,5 @@
+int a;
+        string str(int dfx){
+            int a;
+        }
+        

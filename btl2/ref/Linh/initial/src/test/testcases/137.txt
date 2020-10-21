@@ -1,0 +1,9 @@
+
+        int global[4];
+        void somefunc(){
+            print("HAHAHAHA");
+        }
+        int main(){
+            callexpress(1, a+2, a[5]*prove(me));
+        }
+        

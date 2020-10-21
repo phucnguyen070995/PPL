@@ -1,0 +1,14 @@
+
+            float CV(float R){
+                int PI, p;
+                p = 1;
+                if (n > 0){
+                    p = 2 * PI * R;
+                    return p;
+                }
+                else{ 
+                    printf("MATH007!");
+                    return 0;
+                    }
+            }
+        

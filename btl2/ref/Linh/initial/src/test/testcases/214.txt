@@ -1,0 +1,6 @@
+
+            boolean a;
+            int foo(){}
+            int b;
+            float x[9];
+        

@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],IntType,Block([Dowhile([CallExpr(Id(print),[StringLiteral(test 188\n)])],BooleanLiteral(true))]))])

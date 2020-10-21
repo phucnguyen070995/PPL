@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],IntType,Block([VarDecl(str,StringType),CallExpr(Id(prinln),[Id(str),StringLiteral(\n)]),If(BooleanLiteral(true),Block([Block([Block([])])])),Block([]),Block([]),Block([]),Block([]),Block([]),Block([])]))])

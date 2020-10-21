@@ -1,0 +1,8 @@
+
+    int A1man(){
+        return "a" ;
+        {
+            a;b;v;
+        }
+    }
+    

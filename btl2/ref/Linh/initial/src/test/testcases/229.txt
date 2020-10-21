@@ -1,0 +1,19 @@
+
+            int main(){
+            int n,m,p;
+            float x;
+            if (m <= 0){
+                if (n <= 0){
+                    if (p <= 0) 
+                        print("MATH007!");
+                    else
+                        p = p + 1;
+                }
+                else 
+                    n = n + 1;
+            }
+            else 
+                x = x * (m + n + p);
+                m = m + 1;
+        }
+        

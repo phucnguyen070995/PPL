@@ -1,0 +1,9 @@
+
+        boolean type(float mctype[]){
+            
+        }
+        void main(){
+            callexpress(type(intinit));
+            return "something note good enough";
+        }
+        

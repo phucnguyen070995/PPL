@@ -1,0 +1,30 @@
+
+            int main(){
+                float a,b,c,d;
+                a = 1;
+                b = -2;
+                c = 1;
+                if(a == 0)
+                {
+                    if(b == 0)
+                        {
+                            if(c == 0)
+                                printf("PT VSN!");
+                            else
+                                printf("PT VN!");
+                        }
+                    else
+                        printf("PT co 1 Nghiem la: %f", -c/b);
+                }
+                else
+                {
+                    d = b*b - 4*a*c;
+                    if (d < 0)
+                        printf("PT VN!");
+                    else if (d == 0)
+                        printf("PT co Nghiem kep la: %f",-b/(2*a));
+                    else
+                        printf("PT co 2 Nghiem PB la: %f,%f",(-b+sqrt(d))/(2*a),(-b-sqrt(d))/(2*a));    
+                }    
+            }
+        

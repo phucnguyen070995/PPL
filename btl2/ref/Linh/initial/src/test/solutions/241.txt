@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main),[],IntType,Block([Dowhile([Block([If(UnaryOp(!,BooleanLiteral(true)),Block([])),If(UnaryOp(!,BooleanLiteral(true)),Block([])),If(UnaryOp(!,BooleanLiteral(true)),Block([]))])],StringLiteral(statement))]))])

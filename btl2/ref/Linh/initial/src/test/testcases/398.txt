@@ -1,0 +1,12 @@
+
+    int main(){
+        if (a<a=b){
+            if(a){}else{if(a){}}
+        }
+    }
+    boolean b(){
+        check = true; 
+        callme(); 
+        println();
+    }
+    
