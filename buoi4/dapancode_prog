@@ -1,0 +1,55 @@
+cau1
+def lessThan(lst, num):
+    return [item for item in lst if item < num]
+
+cau2
+def lessThan(lst, num):
+	return list(filter(lambda x: x < num, lst))
+
+cau3
+def lstSquare(n):
+    if n == 1:
+        return [1]
+    else: 
+        return lstSquare(n-1) + [n*n]
+
+cau4
+def lstSquare(n):
+	return [x**2 for x in range(1,n+1)]
+
+cau5
+def flatten(lst):
+    if len(lst) == 0:
+        return []
+    else:
+        return lst[0] + flatten(lst[1:])
+
+cau6
+from functools import reduce
+def flatten(lst):
+    return list(reduce(lambda x,y: x+y,lst,[]))
+
+cau7
+def dist(lst,n):
+    if len(lst) == 0:
+        return []
+    else:
+        return [(lst[0],n)] + dist(lst[1:],n)
+        
+cau8
+def dist(lst,n):
+    return list(map(lambda ele: (ele, n), lst))
+
+cau9
+def powGen(x):
+    def inner(y):
+        return y**x
+    return inner
+
+ cau10
+ from functools import reduce
+def compose(*func):
+    func = func[::-1]
+    def inner(x):
+        return reduce(lambda x, function: function(x), func,x)
+    return inner

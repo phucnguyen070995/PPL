@@ -3,15 +3,11 @@ def double1(lst):
     return [ele*2 for ele in lst]
 print(double1(lst))
 
-idx = 0
 def double2(lst):
-    global idx
-    if idx == len(lst):
-        return lst
+    if len(lst) == 0:
+        return []
     else:
-        lst[idx] = lst[idx]*2
-        idx += 1
-        return double2(lst)
+        return double2(lst[:-1]) + [lst[-1]*2]
 print(double2(lst))
 
 lst = [1,2,3,4,5]

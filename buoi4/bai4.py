@@ -17,17 +17,11 @@ def compose1(*func):
 func1 = compose1(increase, double, square)
 print(func1(3))
 
-idx = 0
 def compose2(*func):
-    func = func[::-1]
     def inner(x):
-        global idx
-        if idx == len(func):
-            return x
-        else:
-            x = func[idx](x)
-            idx += 1
-            return inner(x)
+        if len(func) == 1:
+            return inner(func[0](x))
+        return inner(func[0](compose2(*func[:-1])(x)))
     return inner
 func1 = compose2(increase, double,double, square)
 print(func1(3))

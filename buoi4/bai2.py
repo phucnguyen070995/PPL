@@ -9,18 +9,14 @@ def flatten1(lst):
     return [cell for ele in lst for cell in ele]
 print(flatten1(lst))
 
-res = []
 def flatten2(lst):
-    global res
     if len(lst) == 0:
-        return res
+        return []
     else:
-        res += lst[0]
-        return flatten2(lst[1:])
+        return lst[0] + flatten2(lst[1:])
 print(flatten2(lst))
 
 lst = [lst1, lst2, lst3]
 def flatten3(lst):
-    res = []
-    return list(reduce(lambda x,y: x+y,lst,res))
+    return list(reduce(lambda x,y: x+y,lst,[]))
 print(flatten3(lst))
