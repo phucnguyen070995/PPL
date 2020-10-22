@@ -67,7 +67,7 @@ def serializedATN():
         buf.write("\2\2\2T\u019e\3\2\2\2V\u01a1\3\2\2\2X\u01a4\3\2\2\2Z\u01a6")
         buf.write("\3\2\2\2\\\u01a8\3\2\2\2^\u01aa\3\2\2\2`a\5\4\3\2ab\5")
         buf.write("\6\4\2bc\7\2\2\3cl\3\2\2\2de\5\4\3\2ef\7\2\2\3fl\3\2\2")
-        buf.write("\2gh\5\6\4\2hi\7\2\2\3il\3\2\2\2jl\3\2\2\2k`\3\2\2\2k")
+        buf.write("\2gh\5\6\4\2hi\7\2\2\3il\3\2\2\2jl\7\2\2\3k`\3\2\2\2k")
         buf.write("d\3\2\2\2kg\3\2\2\2kj\3\2\2\2l\3\3\2\2\2mn\5\b\5\2no\5")
         buf.write("\4\3\2or\3\2\2\2pr\5\b\5\2qm\3\2\2\2qp\3\2\2\2r\5\3\2")
         buf.write("\2\2st\5\26\f\2tu\5\6\4\2ux\3\2\2\2vx\5\26\f\2ws\3\2\2")
@@ -437,7 +437,8 @@ class BKITParser ( Parser ):
 
             elif la_ == 4:
                 self.enterOuterAlt(localctx, 4)
-
+                self.state = 104
+                self.match(BKITParser.EOF)
                 pass
 
 
