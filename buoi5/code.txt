@@ -1,0 +1,127 @@
+cau1
+class ASTGeneration(MPVisitor):
+
+    def visitProgram(self,ctx:MPParser.ProgramContext):
+
+        return self.visit(ctx.vardecls())
+
+    def visitVardecls(self,ctx:MPParser.VardeclsContext):
+
+        return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail())
+
+    def visitVardecltail(self,ctx:MPParser.VardecltailContext): 
+        if ctx.vardecl(): 
+            return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail())
+        else:
+            return 1
+
+    def visitVardecl(self,ctx:MPParser.VardeclContext): 
+        return self.visit(ctx.mptype()) + self.visit(ctx.ids()) + 1
+
+    def visitMptype(self,ctx:MPParser.MptypeContext):
+        return 1
+
+    def visitIds(self,ctx:MPParser.IdsContext):
+        if ctx.ids():
+            return 2 + self.visit(ctx.ids())
+        return 1
+------------------------------------------------------------------------------------
+cau2
+class ASTGeneration(MPVisitor):
+
+    def visitProgram(self,ctx:MPParser.ProgramContext):
+
+        return self.visit(ctx.vardecls()) + 1
+
+    def visitVardecls(self,ctx:MPParser.VardeclsContext):
+
+        return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail()) + 1
+
+    def visitVardecltail(self,ctx:MPParser.VardecltailContext): 
+        if ctx.vardecl(): 
+            return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail()) + 1
+        else:
+            return 1
+
+    def visitVardecl(self,ctx:MPParser.VardeclContext): 
+        return self.visit(ctx.ids()) + self.visit(ctx.mptype()) + 1
+
+    def visitMptype(self,ctx:MPParser.MptypeContext):
+        return 1
+
+    def visitIds(self,ctx:MPParser.IdsContext):
+        if ctx.ids():
+            return self.visit(ctx.ids()) + 1
+        return 1
+
+------------------------------------------------------------------------------------
+cau3
+class ASTGeneration(MPVisitor):
+    def visitProgram(self,ctx:MPParser.ProgramContext):
+        return self.visit(ctx.vardecls())
+
+    def visitVardecls(self,ctx:MPParser.VardeclsContext):
+        return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail())
+
+    def visitVardecltail(self,ctx:MPParser.VardecltailContext): 
+        if ctx.vardecl(): 
+            return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail())
+        else:
+            return []
+
+    def visitVardecl(self,ctx:MPParser.VardeclContext):
+        type = self.visit(ctx.mptype())
+        return [VarDecl(x,type) for x in self.visit(ctx.ids())]
+	
+    def visitMptype(self,ctx:MPParser.MptypeContext):
+        if ctx.INTTYPE():
+            return IntType()
+        return FloatType()
+
+    def visitIds(self,ctx:MPParser.IdsContext):
+        if ctx.ids():
+            return [Id(ctx.ID().getText())] + self.visit(ctx.ids())
+        return [Id(ctx.ID().getText())]
+
+
+
+------------------------------------------------------------------------------------
+cau4
+class ASTGeneration(MPVisitor):
+    def visitProgram(self,ctx:MPParser.ProgramContext):
+        return self.visit(ctx.exp())
+        
+    def visitExp(self,ctx:MPParser.ExpContext):
+        if ctx.exp(): 
+            return Binary(ctx.ASSIGN().getText(), self.visit(ctx.term()), self.visit(ctx.exp()))
+        else:
+            return self.visit(ctx.term())
+
+    def visitTerm(self,ctx:MPParser.TermContext):
+        if ctx.COMPARE(): 
+            return Binary(ctx.COMPARE().getText(), self.visit(ctx.factor()), self.visit(ctx.factor()))
+        else:
+            return self.visit(ctx.factor())
+
+    def visitFactor(self,ctx:MPParser.FactorContext):
+        if ctx.factor(): 
+            return Binary(ctx.ANDOR().getText(), self.visit(ctx.factor()), self.visit(ctx.operand()))
+        else:
+            return self.visit(ctx.operand())
+
+    def visitOperand(self,ctx:MPParser.OperandContext):
+        if ctx.BOOLIT(): 
+            return BooleanLiteral(ctx.BOOLIT().getText())
+        elif ctx.INTLIT():
+            return IntLiteral(int(ctx.INTLIT().getText()))
+        elif ctx.ID():
+            return Id(ctx.ID().getText())
+        else: 
+            return self.visit(ctx.exp())
+
+------------------------------------------------------------------------------------
+cau5
+
+
+------------------------------------------------------------------------------------
+cau6

@@ -21,8 +21,7 @@ cau5
 def flatten(lst):
     if len(lst) == 0:
         return []
-    else:
-        return lst[0] + flatten(lst[1:])
+    return lst[0] + flatten(lst[1:])
 
 cau6
 from functools import reduce
@@ -33,8 +32,7 @@ cau7
 def dist(lst,n):
     if len(lst) == 0:
         return []
-    else:
-        return [(lst[0],n)] + dist(lst[1:],n)
+    return [(lst[0],n)] + dist(lst[1:],n)
         
 cau8
 def dist(lst,n):
