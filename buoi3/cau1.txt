@@ -14,3 +14,17 @@ L(F) = [F] + merge(L(D), L(B), L(E), [D,B,E]) = [F] + merge([D,B,A,O,object], [B
 
 Câu 1b)
 Class C call x.foo()
+
+L(A) = [A,o]
+L(B) = [B,A,o]
+L(C) = [C,B,A,o]
+L(D) = [D,A,o]
+L(E) = [E,A,o]
+L(F) = [F] + merge(L(D), L(E), [D,E]) = [F] + merge([D,A,o], [E,A,o], [D,E]) = [F,D,E,A,o]
+L(G) = [G] + merge(L(C), L(F), L(D), [C,F,D]) = [G] + merge([C,B,A,o], [F,D,E,A,o], [D,A,o]) = [G,C,B,F,D,E,A,o]
+print("F")
+
+def g(x):
+	def inner(y):
+		return x*y
+	return g
