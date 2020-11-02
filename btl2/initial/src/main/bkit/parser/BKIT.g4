@@ -243,8 +243,7 @@ fragment EXPONENT:      ('E' | 'e') (ADDOP | SUBOP)? NUMBER+;
 fragment DECIMAL_PART:  DOT NUMBER*;
 FLOAT:                  DECIMAL (DECIMAL_PART 
                         | EXPONENT
-                        | DECIMAL_PART EXPONENT
-                        | DECIMAL_PART);
+                        | DECIMAL_PART EXPONENT);
 
 //-------------------------------String---------------------------------
 
