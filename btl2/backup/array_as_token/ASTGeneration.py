@@ -62,12 +62,12 @@ class ASTGeneration(BKITVisitor):
         return VarDecl(Id(ctx.ID().getText()),[],None)
     
 
-    # composite_variable: composite_var_name ASSIG array
+    # composite_variable: composite_var_name ASSIG ARRAY
     #                     | composite_var_name;
     def visitComposite_variable(self, ctx:BKITParser.Composite_variableContext):
         if ctx.getChildCount() == 3:
             composite_var_name = self.visit(ctx.composite_var_name())
-            composite_var_name.varInit = self.visit(ctx.array())
+            composite_var_name.varInit = ArrayLiteral(ctx.ARRAY().getText())
             return composite_var_name
         return self.visit(ctx.composite_var_name())
 
@@ -90,7 +90,7 @@ class ASTGeneration(BKITVisitor):
 
     # func_dec:           FUNCTION COLON ID params func_body;
     def visitFunc_dec(self, ctx:BKITParser.Func_decContext):
-        return [FuncDecl(Id(ctx.ID().getText()), self.visit(ctx.params()), self.visit(ctx.func_body()))]
+        return FuncDecl(Id(ctx.ID().getText()), self.visit(ctx.params()), self.visit(ctx.func_body()))
 
     # params:             PARAMETER COLON param_list
     #                     | ;
@@ -168,21 +168,21 @@ class ASTGeneration(BKITVisitor):
             return self.visit(ctx.expression())
         return self.visit(ctx.operand())
 
-    # operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | array | callee;
+    # operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | ARRAY | callee;
     def visitOperand(self, ctx:BKITParser.OperandContext):
         if ctx.callee():
             return self.visit(ctx.callee())
         elif ctx.INTERGER():
-            return IntLiteral(int(ctx.INTERGER().getText(),0))
+            return VarDecl(Id(ctx.ID().getText()),[],IntLiteral(int(ctx.INTERGER().getText(),0)))
         elif ctx.FLOAT():
-            return FloatLiteral(float(ctx.FLOAT().getText()))
+            return VarDecl(Id(ctx.ID().getText()),[],FloatLiteral(float(ctx.FLOAT().getText())))
         elif ctx.BOOLEAN():
-            return BooleanLiteral(ctx.BOOLEAN().getText() == 'True')
+            return VarDecl(Id(ctx.ID().getText()),[],BooleanLiteral(ctx.BOOLEAN().getText() == 'True'))
         elif ctx.STRING():
-            return StringLiteral(ctx.STRING().getText())
+            return VarDecl(Id(ctx.ID().getText()),[],StringLiteral(ctx.STRING().getText()))
         elif ctx.ID():
-            return Id(ctx.ID().getText())
-        return self.visit(ctx.array())
+            return VarDecl(Id(ctx.ID().getText()),[],None)
+        return ArrayLiteral(ctx.ARRAY().getText())
 
 #-------------------------------Call function---------------------------------
 
@@ -249,8 +249,8 @@ class ASTGeneration(BKITVisitor):
     # assign:             expression (many_index | ) ASSIG expression;
     def visitAssign(self, ctx:BKITParser.AssignContext):
         if ctx.many_index():
-            return Assign(ArrayCell(self.visit(ctx.expression(0)), self.visit(ctx.many_index())), self.visit(ctx.expression(1)))
-        return Assign(self.visit(ctx.expression(0)), self.visit(ctx.expression(1)))
+            return Assign(ArrayCell(self.visit(ctx.expression()), self.visit(ctx.many_index())), self.visit(ctx.expression()))
+        return Assign(Id(ctx.ID().getText()), self.visit(ctx.expression()))
 
     # many_index:         one_index many_index
     #                     | one_index;
@@ -292,7 +292,7 @@ class ASTGeneration(BKITVisitor):
     def visitElse_one(self, ctx:BKITParser.Else_oneContext):
         if ctx.ELSE():
             return (self.visit(ctx.var_dec_many()), self.visit(ctx.statement_list()))
-        return None
+        return ([],[])
 
 #-------------------------------For Statement---------------------------------
 
@@ -351,23 +351,3 @@ class ASTGeneration(BKITVisitor):
     # relational:         EQ | NEQ | LT | GT | LTE | GTE | NEQF | LTF | GTF | LTEF | GTEF;
     def visitRelational(self, ctx:BKITParser.RelationalContext):
         return ctx.getChild(0).getText()
-
-#-------------------------------array---------------------------------
-
-    # array:              LCB (
-    #                         INTERGER (COMMA  INTERGER)*
-    #                         | FLOAT (COMMA  FLOAT)*
-    #                         | STRING (COMMA STRING)*
-    #                         | BOOLEAN (COMMA BOOLEAN)*
-    #                         | array (COMMA array)*
-    #                     )  RCB;
-    def visitArray(self, ctx:BKITParser.ArrayContext):
-        if ctx.INTERGER():
-            return ArrayLiteral([IntLiteral(int(x.getText(),0)) for x in ctx.INTERGER()])
-        if ctx.FLOAT():
-            return ArrayLiteral([FloatLiteral(float(x.getText())) for x in ctx.FLOAT()])
-        if ctx.STRING():
-            return ArrayLiteral([StringLiteral(x.getText()) for x in ctx.STRING()])
-        if ctx.BOOLEAN():
-            return ArrayLiteral([BooleanLiteral(x.getText() == 'True') for x in ctx.BOOLEAN()])
-        return ArrayLiteral([self.visit(x) for x in ctx.array()])

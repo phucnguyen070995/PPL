@@ -1,0 +1,8 @@
+Var: x = 5;
+        Function: main
+        Parameter: a[5][9][3], b[7]
+        Body:
+        Var: m[10][8] = {1,2,3,4};
+        Var: ngao, du = 3, thienha[5][9][1][2];
+        EndBody.
+        

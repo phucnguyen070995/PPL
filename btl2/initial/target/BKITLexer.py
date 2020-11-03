@@ -1,4 +1,4 @@
-# Generated from e:\computer_science\HK4\PPL\btl2\initial\src\main\bkit\parser\BKIT.g4 by ANTLR 4.8
+# Generated from main/bkit/parser/BKIT.g4 by ANTLR 4.8
 from antlr4 import *
 from io import StringIO
 from typing.io import TextIO

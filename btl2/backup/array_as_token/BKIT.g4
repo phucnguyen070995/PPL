@@ -48,7 +48,7 @@ var_one:            scalar_variable | composite_variable;
 scalar_variable:    ID ASSIG (INTERGER | FLOAT | BOOLEAN | STRING)
                     | ID;
 
-composite_variable: composite_var_name ASSIG array
+composite_variable: composite_var_name ASSIG ARRAY
                     | composite_var_name;
 
 composite_var_name: ID many_demension;
@@ -81,7 +81,7 @@ term4:              NOT term4 | term5;
 term5:              (SUBOP | SUBF) term5 | term6;
 term6:              term7 (LB expression RB)*;
 term7:              (LP expression RP) | operand;
-operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | array | callee;
+operand:            ID | FLOAT | INTERGER | STRING | BOOLEAN | ARRAY | callee;
 
 //-------------------------------Call function---------------------------------
 
@@ -161,17 +161,6 @@ multiplying:        MULOP | MULF | DIVOP | DIVF | MODOP;
 adding:             ADDOP | ADDF | SUBOP | SUBF;
 logical:            AND | OR;
 relational:         EQ | NEQ | LT | GT | LTE | GTE | NEQF | LTF | GTF | LTEF | GTEF;
-
-//-------------------------------array---------------------------------
-
-array:              LCB (
-                        INTERGER (COMMA  INTERGER)*
-                        | FLOAT (COMMA  FLOAT)*
-                        | STRING (COMMA STRING)*
-                        | BOOLEAN (COMMA BOOLEAN)*
-                        | array (COMMA array)*
-                    )  RCB;
-
 
 //-------------------------------Separators---------------------------------
 
@@ -270,6 +259,17 @@ STRING:                     DOUBLE_QUOTE (CHAR)*? DOUBLE_QUOTE {
                                 self.text = self.text[1:-1]
                             };
 
+//-------------------------------ARRAY---------------------------------
+
+ARRAY:                  LCB SPACE (
+                            INTERGER (SPACE COMMA SPACE INTERGER)*
+                            | FLOAT (SPACE COMMA SPACE FLOAT)*
+                            | STRING (SPACE COMMA SPACE STRING)*
+                            | ARRAY (SPACE COMMA SPACE ARRAY)*
+                            | BOOLEAN (SPACE COMMA SPACE BOOLEAN)*
+                        ) SPACE RCB;
+
+fragment SPACE:         [ ]*;
 //-------------------------------BOOLEAN---------------------------------
 
 BOOLEAN:    TRUE | FALSE;
