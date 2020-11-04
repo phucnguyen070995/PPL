@@ -1,0 +1,9 @@
+Var: x = 5;
+        Function: main
+        Parameter: a[0o123]
+        Body:
+        For (i = 0, i < 10, i + 2) Do
+        x = x + 10.0;
+        EndFor.
+        EndBody.
+        

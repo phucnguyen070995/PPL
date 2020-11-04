@@ -1,0 +1,16 @@
+Var: x = 5;
+        Function: main
+        Parameter: a[0o123]
+        Body:
+        Var: qq, dd, ee;
+        For (i = 0, i < 10, i + 2) Do
+            Var: y = True;
+            x = foo(i);
+            x[i] = foo[x+i];
+            For (j = 5, j >= 0, j -1) Do
+            Break;
+            Return 1;
+            EndFor.
+        EndFor.
+        EndBody.
+        

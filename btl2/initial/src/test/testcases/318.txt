@@ -1,0 +1,11 @@
+Var: x = 5;
+        Function: main
+        Parameter: a[0o123]
+        Body:
+            While x == True Do 
+                While y == 1 Do
+                    dd = nn;
+                EndWhile.
+            EndWhile.
+        EndBody.
+        
