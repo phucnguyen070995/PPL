@@ -1,0 +1,9 @@
+Var: x = 5;
+        Function: main
+        Parameter: a[0o123]
+        Body:
+            Do
+            While (x <= 1 || x != 10)
+            EndDo.
+        EndBody.
+        

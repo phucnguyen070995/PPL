@@ -220,37 +220,65 @@ class ASTGenSuite(unittest.TestCase):
     #     expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main),[VarDecl(Id(a),[83])],([],[While(BinaryOp(==,Id(x),BooleanLiteral(true)),[],[While(BinaryOp(==,Id(y),IntLiteral(1)),[],[Assign(Id(dd),Id(nn))])])]))])"""
     #     self.assertTrue(TestAST.checkASTGen(input,expect,318))
 
-    def test_whileFunc_4(self):
-        input = """Var: x = 5;
-        Function: main
-        Parameter: a[0o123]
-        Body:
-            While (x < 10.5) Do 
-                x = x + 1;
-                While y == 1 Do
-                    dd = nn;
-                    y[i] = x[y + i];
-                EndWhile.
-            EndWhile.
-        EndBody.
-        """
-        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main),[VarDecl(Id(a),[83])],([],[While(BinaryOp(<,Id(x),FloatLiteral(10.5)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1))),While(BinaryOp(==,Id(y),IntLiteral(1)),[],[Assign(Id(dd),Id(nn)),Assign(ArrayCell(Id(y),[Id(i)]),ArrayCell(Id(x),[BinaryOp(+,Id(y),Id(i))]))])])]))])"""
-        self.assertTrue(TestAST.checkASTGen(input,expect,319))
+    # def test_whileFunc_4(self):
+    #     input = """Var: x = 5;
+    #     Function: main
+    #     Parameter: a[0o123]
+    #     Body:
+    #         While (x < 10.5) Do
+    #             x = x + 1;
+    #             While y == 1 Do
+    #                 dd = nn;
+    #                 y[i] = x[y + i];
+    #             EndWhile.
+    #         EndWhile.
+    #     EndBody.
+    #     """
+    #     expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main),[VarDecl(Id(a),[83])],([],[While(BinaryOp(<,Id(x),FloatLiteral(10.5)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1))),While(BinaryOp(==,Id(y),IntLiteral(1)),[],[Assign(Id(dd),Id(nn)),Assign(ArrayCell(Id(y),[Id(i)]),ArrayCell(Id(x),[BinaryOp(+,Id(y),Id(i))]))])])]))])"""
+    #     self.assertTrue(TestAST.checkASTGen(input,expect,319))
 
-    def test_whileFunc_5(self):
+    # def test_whileFunc_5(self):
+    #     input = """Var: x = 5;
+    #     Function: main
+    #     Parameter: a[0o123]
+    #     Body:
+    #         While (x < 10.5) Do
+    #             x = x + 1;
+    #             While y == 1 Do
+    #                 dd = nn;
+    #                 y[i] = x[y + i];
+    #                 a[0xDD] = 10.9;
+    #             EndWhile.
+    #         EndWhile.
+    #     EndBody.
+    #     """
+    #     expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main),[VarDecl(Id(a),[83])],([],[While(BinaryOp(<,Id(x),FloatLiteral(10.5)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1))),While(BinaryOp(==,Id(y),IntLiteral(1)),[],[Assign(Id(dd),Id(nn)),Assign(ArrayCell(Id(y),[Id(i)]),ArrayCell(Id(x),[BinaryOp(+,Id(y),Id(i))])),Assign(ArrayCell(Id(a),[IntLiteral(221)]),FloatLiteral(10.9))])])]))])"""
+    #     self.assertTrue(TestAST.checkASTGen(input,expect,320))
+
+    # def test_DoWhileFunc_1(self):
+    #     input = """Var: x = 5;
+    #     Function: main
+    #     Parameter: a[0o123]
+    #     Body:
+    #         Do While 1
+    #         EndDo.
+    #     EndBody.
+    #     """
+    #     expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main),[VarDecl(Id(a),[83])],([],[Dowhile([],[],IntLiteral(1))]))])"""
+    #     self.assertTrue(TestAST.checkASTGen(input, expect, 321))
+
+    def test_DoWhileFunc_2(self):
         input = """Var: x = 5;
         Function: main
         Parameter: a[0o123]
         Body:
-            While (x < 10.5) Do 
-                x = x + 1;
-                While y == 1 Do
-                    dd = nn;
-                    y[i] = x[y + i];
-                    a[0xDD] = 10.9;
-                EndWhile.
-            EndWhile.
+            Do
+            While (x <= 1 || x != 10)
+            EndDo.
         EndBody.
         """
-        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main),[VarDecl(Id(a),[83])],([],[While(BinaryOp(<,Id(x),FloatLiteral(10.5)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1))),While(BinaryOp(==,Id(y),IntLiteral(1)),[],[Assign(Id(dd),Id(nn)),Assign(ArrayCell(Id(y),[Id(i)]),ArrayCell(Id(x),[BinaryOp(+,Id(y),Id(i))])),Assign(ArrayCell(Id(a),[IntLiteral(221)]),FloatLiteral(10.9))])])]))])"""
-        self.assertTrue(TestAST.checkASTGen(input,expect,320))
+        expect = """"""
+        self.assertTrue(TestAST.checkASTGen(input, expect, 322))
+
+        # expect = """"""
+        # self.assertTrue(TestAST.checkASTGen(input, expect, 321))

@@ -1,0 +1,8 @@
+Var: x = 5;
+        Function: main
+        Parameter: a[0o123]
+        Body:
+            Do While 1
+            EndDo.
+        EndBody.
+        
