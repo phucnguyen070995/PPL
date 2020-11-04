@@ -76,8 +76,8 @@ class FuncDecl(Decl):
     body: Tuple[List[VarDecl],List[Stmt]]
 
     def __str__(self):
-        return "FuncDecl(" + str(self.name) + "," + \
-                printlist(self.param)+ ",(" + printlist(self.body[0]) + ',' + \
+        return "FuncDecl(" + str(self.name) + \
+                printlist(self.param)+ ",(" + printlist(self.body[0]) + \
                 printlist(self.body[1]) + "))"
     
     def accept(self, v, param):

@@ -3,7 +3,11 @@ Var: x = 5;
         Parameter: a[0o123]
         Body:
             Do
-            While (x <= 1 || x != 10)
+                Do 
+                    Var: a = 10, c = 100.5;
+                While (x <= 1) || (x != 10)
+                EndDo.
+            While (x <= 1) || (x != 10)
             EndDo.
         EndBody.
         

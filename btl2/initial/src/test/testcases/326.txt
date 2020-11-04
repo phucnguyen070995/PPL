@@ -1,0 +1,15 @@
+
+        Var: i[123][1][2]={1,2,3,4,5};
+        Function: main
+        Parameter: a, b
+        Body:
+        Var: r = 10., v;
+        If 5 + 2 == 3 Then 
+            Var:a;
+            a = x +3;
+        ElseIf 5+2 == 3 Then 
+            Var:a;
+            a = x +3;
+        EndIf.
+        EndBody.
+        

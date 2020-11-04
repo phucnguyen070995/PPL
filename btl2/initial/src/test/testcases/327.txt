@@ -1,0 +1,29 @@
+
+            Var: i;
+            Function: main
+            Parameter: a, b
+            Body:
+            Var: r = 10., v;
+            If 5 + 2 == 3 Then 
+                Var:a;
+                Var:b;
+                a = x +3;
+                a = x +3;
+            ElseIf 5+2 == 3 Then 
+                Var:a;
+                Var:b;
+                a = x +3;
+                a = x +3;
+            ElseIf 5+2 == 3 Then 
+                Var:a;
+                Var:b;
+                a = x +3;
+                a = x +3;
+            Else
+                Var:a;
+                Var:b;
+                a = x +3;
+                a = x +3;
+            EndIf.
+            EndBody.
+            

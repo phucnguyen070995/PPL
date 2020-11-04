@@ -1,0 +1,1 @@
+Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][Assign(Id(y),BinaryOp(-,Id(x),UnaryOp(!,UnaryOp(!,BooleanLiteral(true))))),Return()])),FuncDecl(Id(count)[VarDecl(Id(i))],([][Assign(Id(y),BinaryOp(-,Id(x),UnaryOp(!,UnaryOp(!,BooleanLiteral(true))))),Return()]))])

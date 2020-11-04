@@ -194,7 +194,7 @@ class ASTGeneration(BKITVisitor):
     #                 | expression
     #                 | ;
     def visitParameter_callee(self, ctx:BKITParser.Parameter_calleeContext):
-        if ctx.getChildCount() == 2:
+        if ctx.getChildCount() == 3:
             return [self.visit(ctx.expression())] + self.visit(ctx.parameter_callee())
         elif ctx.getChildCount() == 1:
             return [self.visit(ctx.expression())]

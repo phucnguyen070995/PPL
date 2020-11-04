@@ -1,0 +1,14 @@
+Var: x = 5;
+        Function: main
+        Parameter: a[0o123]
+        Body:
+            y = x-(!(!True));
+            Return;
+        EndBody.
+        Function: count
+        Parameter: i
+        Body:
+            y = x-(!(!True));
+            Return;
+        EndBody.
+        

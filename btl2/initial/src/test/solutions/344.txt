@@ -1,0 +1,1 @@
+Program([VarDecl(Id(a),IntLiteral(1)),VarDecl(Id(b),[2,3],ArrayLiteral(IntLiteral(5))),VarDecl(Id(c),[2],ArrayLiteral(ArrayLiteral(IntLiteral(1),IntLiteral(3)),ArrayLiteral(IntLiteral(1),IntLiteral(5),IntLiteral(7)))),FuncDecl(Id(test)[VarDecl(Id(n))],([][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[Return(IntLiteral(5))])Else([],[Return(BooleanLiteral(false))])]))])

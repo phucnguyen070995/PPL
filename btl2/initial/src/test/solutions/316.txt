@@ -1,1 +1,1 @@
-Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main),[VarDecl(Id(a),[83])],([],[While(BinaryOp(==,Id(x),BooleanLiteral(true)),[],[])]))])
+Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][While(BinaryOp(==,Id(x),BooleanLiteral(true)),[],[])]))])

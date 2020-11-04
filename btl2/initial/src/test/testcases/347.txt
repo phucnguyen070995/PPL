@@ -1,0 +1,16 @@
+Function: test
+Body:
+    If n > 10 Then
+        Return n;
+    ElseIf n > 8 Then
+        Return n + 1;
+    ElseIf n > 6 Then
+        Return n + 2;
+    ElseIf n > 4 Then
+        Return n + 3;
+    ElseIf n > 2 Then
+        Return n + 4;
+    Else
+        Return False;
+    EndIf.
+EndBody.

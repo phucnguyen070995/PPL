@@ -1,0 +1,2 @@
+Var: a = "Xin chao moi nguoi!";
+Var: b = 5, c = False;

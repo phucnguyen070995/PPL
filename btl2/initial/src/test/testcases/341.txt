@@ -1,0 +1,7 @@
+Var: a = 0;
+Function: main
+Body:
+    foo(a[1][2] + 2, x + 1);
+    foo (2 + x, 4. \. y);
+    goo ();
+EndBody.
