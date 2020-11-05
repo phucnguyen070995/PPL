@@ -1,0 +1,40 @@
+Var: a = 0;
+Function: main
+Body:
+    While (a <= - 5) Do 
+        print("Hello World!");
+        While (a <= - 5) Do
+            Do
+                Do
+                    Do
+                        print("Hello World!");
+                    While a > b
+                    EndDo.
+                    print("Hello World!");
+                While a > b
+                EndDo.
+                print("Hello World!");
+            While a > b
+            EndDo.
+            print("Hello World!");
+            While (a <= - 5) Do 
+                print("Hello World!");
+                While (a <= - 5) Do 
+                    Do
+                        Do
+                            Do
+                                print("Hello World!");
+                            While a > b
+                            EndDo.
+                            print("Hello World!");
+                        While a > b
+                        EndDo.
+                        print("Hello World!");
+                    While a > b
+                    EndDo.
+                    print("Hello World!");
+                EndWhile.
+            EndWhile.
+        EndWhile.
+    EndWhile.
+EndBody.

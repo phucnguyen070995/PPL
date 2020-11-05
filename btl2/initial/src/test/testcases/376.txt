@@ -1,0 +1,20 @@
+Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10, 2) Do
+        print("Hello World!");
+        For (i = 0, i < 10, -2) Do
+            For (i = 0, i < 10, 2) Do
+                print("Hello World!");
+                For (i = 0, i < 10, 2) Do
+                    For (i = 0, i < 10, 2) Do
+                        print("Hello World!");
+                    EndFor.
+                    print("Hello World!");
+                EndFor.
+            EndFor.
+            print("Hello World!");
+        EndFor.
+    EndFor.
+EndBody.

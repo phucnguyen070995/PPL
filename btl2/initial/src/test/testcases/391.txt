@@ -1,0 +1,14 @@
+
+Var: i[123][1][2]={{1}, {2}};
+Function: main
+Parameter: a, b
+Body:
+Var: r = 10., v;
+If (5 + 2 == 3) Then 
+Else
+    Var:a;
+    a = x +3;
+    Return;
+EndIf.
+Return;
+EndBody.

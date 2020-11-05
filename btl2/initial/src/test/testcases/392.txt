@@ -1,0 +1,8 @@
+
+Var: i[123][1][2]={{1}, {2}};
+Function: main
+Parameter: a, b
+Body:
+Var: r = 10., v;
+a[3 + foo(2)] = -.(a[b[2][3]] =/= 4);
+EndBody.

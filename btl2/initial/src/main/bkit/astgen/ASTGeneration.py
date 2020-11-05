@@ -292,7 +292,7 @@ class ASTGeneration(BKITVisitor):
     def visitElse_one(self, ctx:BKITParser.Else_oneContext):
         if ctx.ELSE():
             return (self.visit(ctx.var_dec_many()), self.visit(ctx.statement_list()))
-        return None
+        return ([],[])
 
 #-------------------------------For Statement---------------------------------
 

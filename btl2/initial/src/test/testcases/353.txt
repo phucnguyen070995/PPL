@@ -1,0 +1,12 @@
+Var: x;
+Function: fact
+Parameter: n
+Body:
+    For (i = 0, i < 10,  2) Do
+        Return 1;
+        Break;
+        Continue;
+        foo(float_of_int (a) + 2);
+        goo(a+1);
+    EndFor.
+EndBody.

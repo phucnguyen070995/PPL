@@ -1,0 +1,26 @@
+Var: x, y = 1, z = 3.5;
+Var: t;
+Var: sp, yz;
+Function: you
+Parameter: q , d[5]
+Body:
+Var: a = "string", b;
+Var: c = False;
+foo(a + c);
+If (z == True) Then
+    x = d[y *. z +. t -. c \ 10];
+    Return 1;
+ElseIf x != 4.e5 Then
+    x = (a + b) * y - z + (sp *. yz);
+Else
+    Continue;
+EndIf.
+While (True)  Do    
+    foo();
+    goo(a);
+    Break;                      
+EndWhile.
+For (i = 0, i < 10, -2) Do
+    x = i;
+EndFor.
+EndBody.

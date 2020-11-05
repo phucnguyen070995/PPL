@@ -1,0 +1,19 @@
+
+Var: i[123][1][2]={{1}, {2}};
+Function: main
+Parameter: a, b
+Body:
+Var: r = 10., v;
+For (i = 0, i < 10, i + 10.23) Do
+    Var:a;
+    If 5 + 2 == 3 Then 
+        For (i = 0, i < 10, i + 10.23) Do
+        Var:a;
+        If 5 + 2 == 3 Then 
+        EndIf.
+        a = x +3;
+        EndFor.
+    EndIf.
+    a = x +3;
+EndFor.
+EndBody.

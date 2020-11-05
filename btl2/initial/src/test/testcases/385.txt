@@ -1,0 +1,22 @@
+Function: foo
+            Parameter: a,b,c
+            Body:
+                a = 0x123456;
+                If a < b Then
+                    While True Do
+                        Break;
+                    EndWhile.
+                ElseIf a == b Then
+                    For (i = 1, i < 10, 1) Do
+                        foo(foo(foo(5)));
+                    EndFor.
+                Else
+                    Do
+                        Do
+                            Continue;
+                        While (a \. 10.0 =/= 10.5e-3)
+                        EndDo.
+                    While (a \. 10.0 =/= 10.5e-3)
+                    EndDo.
+                EndIf.
+            EndBody.

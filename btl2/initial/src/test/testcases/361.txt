@@ -1,0 +1,10 @@
+Var: a = "a string";
+** Day la comment
+* Day cung la comment
+* Comment luon 
+* Day cung la comment nhung chua dong lai**
+Function: main
+Body:
+    x = y + (z -q) *. 10;
+    x = n >=. z;
+EndBody.

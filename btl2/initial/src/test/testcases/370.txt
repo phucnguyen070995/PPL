@@ -1,0 +1,9 @@
+Var: x;
+Function: fact
+Parameter: n, y
+Body:
+    While n[1] == a[2] Do
+        **Check**
+        Break;
+    EndWhile.
+EndBody.
