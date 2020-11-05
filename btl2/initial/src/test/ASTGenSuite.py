@@ -79,7 +79,7 @@ class ASTGenSuite(unittest.TestCase):
         EndIf.
         EndBody.
         """
-        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][If(BinaryOp(==,Id(x),Id(y)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(x),Id(y)),[],[Assign(Id(y),BinaryOp(+,Id(y),IntLiteral(1)))])ElseIf(BinaryOp(<,Id(x),Id(y)),[],[Assign(Id(y),BinaryOp(-,Id(y),Id(x)))])Else([],[])]))])"""
+        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][If(BinaryOp(==,Id(x),Id(y)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(x),Id(y)),[],[Assign(Id(y),BinaryOp(+,Id(y),IntLiteral(1)))])ElseIf(BinaryOp(<,Id(x),Id(y)),[],[Assign(Id(y),BinaryOp(-,Id(y),Id(x)))])]))])"""
         self.assertTrue(TestAST.checkASTGen(input,expect,308))
 
     def test_ifStmtInFunc_3(self):
@@ -96,7 +96,7 @@ class ASTGenSuite(unittest.TestCase):
         EndIf.
         EndBody.
         """
-        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][If(BinaryOp(==,Id(x),Id(y)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(x),Id(y)),[VarDecl(Id(a),IntLiteral(1))],[])ElseIf(BinaryOp(<,Id(x),Id(y)),[VarDecl(Id(b),IntLiteral(2))],[])Else([],[If(BinaryOp(>,Id(y),IntLiteral(10)),[],[Assign(Id(y),BinaryOp(\,Id(y),IntLiteral(2)))])Else([],[])])]))])"""
+        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][If(BinaryOp(==,Id(x),Id(y)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(x),Id(y)),[VarDecl(Id(a),IntLiteral(1))],[])ElseIf(BinaryOp(<,Id(x),Id(y)),[VarDecl(Id(b),IntLiteral(2))],[])Else([],[If(BinaryOp(>,Id(y),IntLiteral(10)),[],[Assign(Id(y),BinaryOp(\,Id(y),IntLiteral(2)))])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input,expect,309))
 
     def test_ifStmtInFunc_4(self):
@@ -113,7 +113,7 @@ class ASTGenSuite(unittest.TestCase):
         EndIf.
         EndBody.
         """
-        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][If(BinaryOp(==,Id(x),Id(y)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(x),Id(y)),[VarDecl(Id(a),IntLiteral(1))],[Assign(Id(x),BinaryOp(*,Id(a),FloatLiteral(10.5)))])ElseIf(BinaryOp(<,Id(x),Id(y)),[VarDecl(Id(b),IntLiteral(2))],[Assign(Id(y),BinaryOp(+,Id(b),CallExpr(Id(foo),[])))])Else([],[If(BinaryOp(>,Id(y),IntLiteral(10)),[],[Assign(Id(y),BinaryOp(\,Id(y),IntLiteral(2))),Return(IntLiteral(1))])Else([],[])])]))])"""
+        expect = """Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][If(BinaryOp(==,Id(x),Id(y)),[],[Assign(Id(x),BinaryOp(+,Id(x),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(x),Id(y)),[VarDecl(Id(a),IntLiteral(1))],[Assign(Id(x),BinaryOp(*,Id(a),FloatLiteral(10.5)))])ElseIf(BinaryOp(<,Id(x),Id(y)),[VarDecl(Id(b),IntLiteral(2))],[Assign(Id(y),BinaryOp(+,Id(b),CallExpr(Id(foo),[])))])Else([],[If(BinaryOp(>,Id(y),IntLiteral(10)),[],[Assign(Id(y),BinaryOp(\,Id(y),IntLiteral(2))),Return(IntLiteral(1))])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input,expect,310))
 
     def test_funcDeclar_2(self):
@@ -361,7 +361,7 @@ class ASTGenSuite(unittest.TestCase):
         EndIf.
         EndBody.
         """
-        expect = """Program([VarDecl(Id(i),[123,1,2],ArrayLiteral(IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5))),FuncDecl(Id(main)[VarDecl(Id(a)),VarDecl(Id(b))],([VarDecl(Id(r),FloatLiteral(10.0)),VarDecl(Id(v))][If(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])ElseIf(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])Else([],[])]))])"""
+        expect = """Program([VarDecl(Id(i),[123,1,2],ArrayLiteral(IntLiteral(1),IntLiteral(2),IntLiteral(3),IntLiteral(4),IntLiteral(5))),FuncDecl(Id(main)[VarDecl(Id(a)),VarDecl(Id(b))],([VarDecl(Id(r),FloatLiteral(10.0)),VarDecl(Id(v))][If(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])ElseIf(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 326))
 
     def test_ifStmtInFunc_7(self):
@@ -580,7 +580,7 @@ Body:
         goo ();
     EndIf.
 EndBody."""
-        expect = """Program([VarDecl(Id(a),IntLiteral(0)),FuncDecl(Id(main)[],([][CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[]),If(CallExpr(Id(bool_of_string),[StringLiteral(True)]),[],[Assign(Id(a),CallExpr(Id(int_of_string),[CallExpr(Id(read),[])])),Assign(Id(b),BinaryOp(+.,CallExpr(Id(float_of_int),[Id(a)]),FloatLiteral(2.0))),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[])])Else([],[])]))])"""
+        expect = """Program([VarDecl(Id(a),IntLiteral(0)),FuncDecl(Id(main)[],([][CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[]),If(CallExpr(Id(bool_of_string),[StringLiteral(True)]),[],[Assign(Id(a),CallExpr(Id(int_of_string),[CallExpr(Id(read),[])])),Assign(Id(b),BinaryOp(+.,CallExpr(Id(float_of_int),[Id(a)]),FloatLiteral(2.0))),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input,expect,342))
 
     def test_all_11(self):
@@ -678,7 +678,7 @@ Body:
         Return n + 4;
     EndIf.
 EndBody."""
-        expect = """Program([FuncDecl(Id(test)[],([][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[Return(Id(n))])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[Return(BinaryOp(+,Id(n),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(n),IntLiteral(6)),[],[Return(BinaryOp(+,Id(n),IntLiteral(2)))])ElseIf(BinaryOp(>,Id(n),IntLiteral(4)),[],[Return(BinaryOp(+,Id(n),IntLiteral(3)))])ElseIf(BinaryOp(>,Id(n),IntLiteral(2)),[],[Return(BinaryOp(+,Id(n),IntLiteral(4)))])Else([],[])]))])"""
+        expect = """Program([FuncDecl(Id(test)[],([][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[Return(Id(n))])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[Return(BinaryOp(+,Id(n),IntLiteral(1)))])ElseIf(BinaryOp(>,Id(n),IntLiteral(6)),[],[Return(BinaryOp(+,Id(n),IntLiteral(2)))])ElseIf(BinaryOp(>,Id(n),IntLiteral(4)),[],[Return(BinaryOp(+,Id(n),IntLiteral(3)))])ElseIf(BinaryOp(>,Id(n),IntLiteral(2)),[],[Return(BinaryOp(+,Id(n),IntLiteral(4)))])]))])"""
         self.assertTrue(TestAST.checkASTGen(input,expect,349))
 
     def test_all_18(self):
@@ -695,7 +695,7 @@ Body:
         EndIf.
     EndFor.
 EndBody."""
-        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([VarDecl(Id(i)),VarDecl(Id(x),IntLiteral(0))][For(Id(i),IntLiteral(1),BinaryOp(<,Id(i),IntLiteral(3)),UnaryOp(-.,IntLiteral(5)),[],[Assign(Id(x),BinaryOp(+,Id(i),IntLiteral(7))),If(BinaryOp(>,Id(n),IntLiteral(100)),[],[Break()])Else([],[])])]))])"""
+        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([VarDecl(Id(i)),VarDecl(Id(x),IntLiteral(0))][For(Id(i),IntLiteral(1),BinaryOp(<,Id(i),IntLiteral(3)),UnaryOp(-.,IntLiteral(5)),[],[Assign(Id(x),BinaryOp(+,Id(i),IntLiteral(7))),If(BinaryOp(>,Id(n),IntLiteral(100)),[],[Break()])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 350))
     def test_all_19(self):
         input = """Var: x[0O56]  = {{1,2},{2}};"""
@@ -838,7 +838,7 @@ While (True)  Do
     Break;                      
 EndWhile.
 EndBody."""
-        expect = """Program([VarDecl(Id(x)),VarDecl(Id(y),FloatLiteral(2.0)),VarDecl(Id(z),FloatLiteral(3.5)),FuncDecl(Id(you)[VarDecl(Id(x)),VarDecl(Id(y),[5])],([VarDecl(Id(a)),VarDecl(Id(b)),VarDecl(Id(c),StringLiteral(string)),VarDecl(Id(a),BooleanLiteral(false))][If(BinaryOp(==,Id(z),BooleanLiteral(true)),[],[Return(IntLiteral(1))])Else([],[]),While(BooleanLiteral(true),[],[CallExpr(Id(foo),[]),CallExpr(Id(goo),[Id(a)]),Break()])]))])"""
+        expect = """Program([VarDecl(Id(x)),VarDecl(Id(y),FloatLiteral(2.0)),VarDecl(Id(z),FloatLiteral(3.5)),FuncDecl(Id(you)[VarDecl(Id(x)),VarDecl(Id(y),[5])],([VarDecl(Id(a)),VarDecl(Id(b)),VarDecl(Id(c),StringLiteral(string)),VarDecl(Id(a),BooleanLiteral(false))][If(BinaryOp(==,Id(z),BooleanLiteral(true)),[],[Return(IntLiteral(1))]),While(BooleanLiteral(true),[],[CallExpr(Id(foo),[]),CallExpr(Id(goo),[Id(a)]),Break()])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 364))
     def test_all_33(self):
         input = """Var: x, y = 1, z = 3.5;
@@ -915,7 +915,7 @@ Parameter: q , d[5]
     y = foo(x + goo(True));
     print(x + y);
 EndBody."""
-        expect = """Program([VarDecl(Id(a)),FuncDecl(Id(main)[VarDecl(Id(q)),VarDecl(Id(d),[5])],([VarDecl(Id(x)),VarDecl(Id(y),IntLiteral(1)),VarDecl(Id(z),FloatLiteral(3.5))][If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()])Else([],[]),Assign(Id(x),BinaryOp(+,CallExpr(Id(foo),[StringLiteral(ahihi)]),CallExpr(Id(goo),[IntLiteral(10)]))),Assign(Id(y),CallExpr(Id(foo),[BinaryOp(+,Id(x),CallExpr(Id(goo),[BooleanLiteral(true)]))])),CallExpr(Id(print),[BinaryOp(+,Id(x),Id(y))])]))])"""
+        expect = """Program([VarDecl(Id(a)),FuncDecl(Id(main)[VarDecl(Id(q)),VarDecl(Id(d),[5])],([VarDecl(Id(x)),VarDecl(Id(y),IntLiteral(1)),VarDecl(Id(z),FloatLiteral(3.5))][If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()]),Assign(Id(x),BinaryOp(+,CallExpr(Id(foo),[StringLiteral(ahihi)]),CallExpr(Id(goo),[IntLiteral(10)]))),Assign(Id(y),CallExpr(Id(foo),[BinaryOp(+,Id(x),CallExpr(Id(goo),[BooleanLiteral(true)]))])),CallExpr(Id(print),[BinaryOp(+,Id(x),Id(y))])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 369))
     def test_all_38(self):
         input = """Var: x;
@@ -1084,7 +1084,7 @@ Body:
         EndFor.
     EndFor.
 EndBody."""
-        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-.,IntLiteral(2)),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])])]))])"""
+        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-.,IntLiteral(2)),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 377))
 
     def test_all_46(self):
@@ -1106,7 +1106,7 @@ Body:
         EndFor.
     EndFor.
 EndBody."""
-        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()])Else([],[]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-,IntLiteral(2)),[],[If(BinaryOp(&&,BinaryOp(==,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()])Else([],[])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])])]))])"""
+        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-,IntLiteral(2)),[],[If(BinaryOp(&&,BinaryOp(==,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 378))
     def test_all_47(self):
         input = """Function: test
@@ -1141,7 +1141,7 @@ Body:
         print("Hello World!");
     EndIf.
 EndBody."""
-        expect = """Program([FuncDecl(Id(test)[],([][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(2)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[CallExpr(Id(print),[StringLiteral(Hello World!)])])]))])"""
+        expect = """Program([FuncDecl(Id(test)[],([][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(2)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[CallExpr(Id(print),[StringLiteral(Hello World!)])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 379))
 
     def test_all_48(self):
@@ -1172,7 +1172,7 @@ Body:
         print("Hello World!");
     EndIf.
 EndBody."""
-        expect = """Program([FuncDecl(Id(test)[],([][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(!=,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[])]))])"""
+        expect = """Program([FuncDecl(Id(test)[],([][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(!=,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 380))
 
     def test_all_49(self):
@@ -1309,7 +1309,7 @@ Body:
         EndFor.
     EndFor.
 EndBody."""
-        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-,IntLiteral(2)),[],[If(BinaryOp(>=,BinaryOp(!=,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])])]))])"""
+        expect = """Program([VarDecl(Id(x)),FuncDecl(Id(fact)[VarDecl(Id(n))],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-,IntLiteral(2)),[],[If(BinaryOp(>=,BinaryOp(!=,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 387))
 
     def test_all_56(self):
@@ -1509,10 +1509,7 @@ EndBody.
                                                             []
                                                             )
                                                         ],
-                                                            (
-                                                                [],
-                                                                []
-                                                            )
+                                                            []
                                                         ),
                                                         Assign(Id('a'),BinaryOp('+',Id('x'),IntLiteral(3)))
                                                     ]
@@ -1521,10 +1518,7 @@ EndBody.
                                         ]
                                         )
                                     ],
-                                        (
-                                            [],
-                                            []
-                                        )
+                                        []
                                     ),
                                     Assign(Id('a'),BinaryOp('+',Id('x'),IntLiteral(3)))
                                 ]
@@ -1607,7 +1601,7 @@ EndBody."""
         EndIf.
         EndBody.
         """
-        expect = """Program([VarDecl(Id(i),[123,1,2],ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),FuncDecl(Id(main)[VarDecl(Id(a)),VarDecl(Id(b))],([VarDecl(Id(r),FloatLiteral(10.0)),VarDecl(Id(v))][If(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])ElseIf(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])Else([],[])]))])"""
+        expect = """Program([VarDecl(Id(i),[123,1,2],ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),FuncDecl(Id(main)[VarDecl(Id(a)),VarDecl(Id(b))],([VarDecl(Id(r),FloatLiteral(10.0)),VarDecl(Id(v))][If(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])ElseIf(BinaryOp(==,BinaryOp(+,IntLiteral(5),IntLiteral(2)),IntLiteral(3)),[VarDecl(Id(a))],[Assign(Id(a),BinaryOp(+,Id(x),IntLiteral(3)))])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 396))
 
     def test_all_65(self):
@@ -1767,6 +1761,6 @@ Body:
         print("Hello World!");
     EndIf.
 EndBody."""
-        expect = """Program([VarDecl(Id(b),[2,3],ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),VarDecl(Id(c)),VarDecl(Id(d),IntLiteral(6)),VarDecl(Id(e)),VarDecl(Id(f)),VarDecl(Id(m)),VarDecl(Id(n),[10]),FuncDecl(Id(test)[],([VarDecl(Id(b),[2,3],ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),VarDecl(Id(c)),VarDecl(Id(d),IntLiteral(6)),VarDecl(Id(e)),VarDecl(Id(f)),VarDecl(Id(m)),VarDecl(Id(n),[10])][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(!=,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[While(BinaryOp(<,Id(i),IntLiteral(5)),[],[Assign(ArrayCell(Id(a),[Id(i)]),BinaryOp(+.,Id(b),FloatLiteral(1.0))),Assign(Id(i),BinaryOp(+,Id(i),IntLiteral(1)))]),Assign(Id(x),ArrayCell(Id(d),[BinaryOp(-.,BinaryOp(+.,BinaryOp(*.,Id(y),Id(z)),Id(t)),BinaryOp(\,Id(c),IntLiteral(10)))])),Assign(ArrayCell(Id(b),[IntLiteral(2),IntLiteral(3)]),ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),Assign(ArrayCell(Id(a),[BinaryOp(+,IntLiteral(3),CallExpr(Id(foo),[IntLiteral(2)]))]),BinaryOp(+,ArrayCell(Id(a),[ArrayCell(Id(b),[IntLiteral(2),IntLiteral(3)])]),IntLiteral(4))),Assign(Id(v),BinaryOp(*.,BinaryOp(*.,BinaryOp(*.,BinaryOp(*.,BinaryOp(\.,FloatLiteral(4.0),FloatLiteral(3.0)),FloatLiteral(3.14)),Id(r)),Id(r)),Id(r))),Assign(Id(x),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))])),Assign(Id(x),BinaryOp(+,Id(y),BinaryOp(*.,BinaryOp(-,Id(z),Id(q)),IntLiteral(10)))),Assign(Id(x),BinaryOp(>=.,Id(n),Id(z))),Assign(Id(x),ArrayCell(Id(d),[BinaryOp(-.,BinaryOp(+.,BinaryOp(*.,Id(y),Id(z)),Id(t)),BinaryOp(\,Id(c),IntLiteral(10)))])),Assign(Id(x),BinaryOp(+,BinaryOp(-,BinaryOp(*,BinaryOp(+,Id(a),UnaryOp(-,Id(b))),Id(y)),Id(z)),BinaryOp(*.,Id(sp),Id(yz)))),Assign(Id(a),BinaryOp(-,BinaryOp(+,BinaryOp(+,Id(a),UnaryOp(-,IntLiteral(1))),UnaryOp(-,IntLiteral(5))),UnaryOp(-,IntLiteral(5)))),CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>=.,Id(n),BinaryOp(-.,IntLiteral(8),Id(a))),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()])Else([],[]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-,IntLiteral(2)),[],[If(BinaryOp(&&,BinaryOp(==,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()])Else([],[])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])]),CallExpr(Id(print),[StringLiteral(Hello World!)]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),While(BinaryOp(<,Id(i),IntLiteral(5)),[],[Assign(ArrayCell(Id(a),[Id(i)]),BinaryOp(+.,Id(b),FloatLiteral(1.0))),Assign(Id(i),BinaryOp(+,Id(i),IntLiteral(1))),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[]),If(CallExpr(Id(bool_of_string),[StringLiteral(True)]),[],[Assign(Id(a),CallExpr(Id(int_of_string),[CallExpr(Id(read),[])])),Assign(Id(b),BinaryOp(+.,CallExpr(Id(float_of_int),[Id(a)]),FloatLiteral(2.0))),Dowhile([],[Dowhile([],[Dowhile([],[CallExpr(Id(print),[StringLiteral(Hello World!)])],BinaryOp(>,Id(a),Id(b))),CallExpr(Id(print),[StringLiteral(Hello World!)])],BinaryOp(>,Id(a),Id(b))),CallExpr(Id(print),[StringLiteral(Hello World!)])],BinaryOp(>,Id(a),Id(b))),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[])])Else([],[])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[Return(IntLiteral(1)),Break(),Continue(),CallExpr(Id(foo),[BinaryOp(+,CallExpr(Id(float_of_int),[Id(a)]),IntLiteral(2))]),CallExpr(Id(goo),[BinaryOp(+,Id(a),IntLiteral(1))])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[]),CallExpr(Id(print),[StringLiteral(Hello World!)])])Else([],[])]))])"""
+        expect = """Program([VarDecl(Id(b),[2,3],ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),VarDecl(Id(c)),VarDecl(Id(d),IntLiteral(6)),VarDecl(Id(e)),VarDecl(Id(f)),VarDecl(Id(m)),VarDecl(Id(n),[10]),FuncDecl(Id(test)[],([VarDecl(Id(b),[2,3],ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),VarDecl(Id(c)),VarDecl(Id(d),IntLiteral(6)),VarDecl(Id(e)),VarDecl(Id(f)),VarDecl(Id(m)),VarDecl(Id(n),[10])][If(BinaryOp(>,Id(n),IntLiteral(10)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(!=,Id(n),IntLiteral(10)),[],[CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>,Id(n),IntLiteral(8)),[],[If(BinaryOp(>,Id(n),IntLiteral(10)),[],[While(BinaryOp(<,Id(i),IntLiteral(5)),[],[Assign(ArrayCell(Id(a),[Id(i)]),BinaryOp(+.,Id(b),FloatLiteral(1.0))),Assign(Id(i),BinaryOp(+,Id(i),IntLiteral(1)))]),Assign(Id(x),ArrayCell(Id(d),[BinaryOp(-.,BinaryOp(+.,BinaryOp(*.,Id(y),Id(z)),Id(t)),BinaryOp(\,Id(c),IntLiteral(10)))])),Assign(ArrayCell(Id(b),[IntLiteral(2),IntLiteral(3)]),ArrayLiteral(ArrayLiteral(IntLiteral(2),IntLiteral(3),IntLiteral(4)),ArrayLiteral(IntLiteral(4),IntLiteral(5),IntLiteral(6)))),Assign(ArrayCell(Id(a),[BinaryOp(+,IntLiteral(3),CallExpr(Id(foo),[IntLiteral(2)]))]),BinaryOp(+,ArrayCell(Id(a),[ArrayCell(Id(b),[IntLiteral(2),IntLiteral(3)])]),IntLiteral(4))),Assign(Id(v),BinaryOp(*.,BinaryOp(*.,BinaryOp(*.,BinaryOp(*.,BinaryOp(\.,FloatLiteral(4.0),FloatLiteral(3.0)),FloatLiteral(3.14)),Id(r)),Id(r)),Id(r))),Assign(Id(x),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))])),Assign(Id(x),BinaryOp(+,Id(y),BinaryOp(*.,BinaryOp(-,Id(z),Id(q)),IntLiteral(10)))),Assign(Id(x),BinaryOp(>=.,Id(n),Id(z))),Assign(Id(x),ArrayCell(Id(d),[BinaryOp(-.,BinaryOp(+.,BinaryOp(*.,Id(y),Id(z)),Id(t)),BinaryOp(\,Id(c),IntLiteral(10)))])),Assign(Id(x),BinaryOp(+,BinaryOp(-,BinaryOp(*,BinaryOp(+,Id(a),UnaryOp(-,Id(b))),Id(y)),Id(z)),BinaryOp(*.,Id(sp),Id(yz)))),Assign(Id(a),BinaryOp(-,BinaryOp(+,BinaryOp(+,Id(a),UnaryOp(-,IntLiteral(1))),UnaryOp(-,IntLiteral(5))),UnaryOp(-,IntLiteral(5)))),CallExpr(Id(print),[StringLiteral(Hello World!)])])ElseIf(BinaryOp(>=.,Id(n),BinaryOp(-.,IntLiteral(8),Id(a))),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[If(BinaryOp(&&,BinaryOp(>,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),UnaryOp(-,IntLiteral(2)),[],[If(BinaryOp(&&,BinaryOp(==,Id(a),Id(b)),BinaryOp(<,Id(c),Id(d))),[],[Break()])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])]),CallExpr(Id(print),[StringLiteral(Hello World!)]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),While(BinaryOp(<,Id(i),IntLiteral(5)),[],[Assign(ArrayCell(Id(a),[Id(i)]),BinaryOp(+.,Id(b),FloatLiteral(1.0))),Assign(Id(i),BinaryOp(+,Id(i),IntLiteral(1))),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[]),If(CallExpr(Id(bool_of_string),[StringLiteral(True)]),[],[Assign(Id(a),CallExpr(Id(int_of_string),[CallExpr(Id(read),[])])),Assign(Id(b),BinaryOp(+.,CallExpr(Id(float_of_int),[Id(a)]),FloatLiteral(2.0))),Dowhile([],[Dowhile([],[Dowhile([],[CallExpr(Id(print),[StringLiteral(Hello World!)])],BinaryOp(>,Id(a),Id(b))),CallExpr(Id(print),[StringLiteral(Hello World!)])],BinaryOp(>,Id(a),Id(b))),CallExpr(Id(print),[StringLiteral(Hello World!)])],BinaryOp(>,Id(a),Id(b))),CallExpr(Id(foo),[BinaryOp(+,ArrayCell(Id(a),[IntLiteral(1),IntLiteral(2)]),IntLiteral(2)),BinaryOp(+,Id(x),IntLiteral(1))]),CallExpr(Id(foo),[BinaryOp(+,IntLiteral(2),Id(x)),BinaryOp(\.,FloatLiteral(4.0),Id(y))]),CallExpr(Id(goo),[])])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[Return(IntLiteral(1)),Break(),Continue(),CallExpr(Id(foo),[BinaryOp(+,CallExpr(Id(float_of_int),[Id(a)]),IntLiteral(2))]),CallExpr(Id(goo),[BinaryOp(+,Id(a),IntLiteral(1))])]),CallExpr(Id(print),[StringLiteral(Hello World!)])]),CallExpr(Id(print),[StringLiteral(Hello World!)])])]))])"""
         self.assertTrue(TestAST.checkASTGen(input, expect, 399))
 
