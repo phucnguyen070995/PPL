@@ -1,1 +1,1 @@
-Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[CallExpr(Id(writeln),[Id(i)])])]))])
+Program([VarDecl(Id(x),IntLiteral(5)),FuncDecl(Id(main)[VarDecl(Id(a),[83])],([][For(Id(i),IntLiteral(0),BinaryOp(<,Id(i),IntLiteral(10)),IntLiteral(2),[],[CallStmt(Id(writeln),[Id(i)])])]))])

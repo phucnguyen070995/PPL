@@ -153,7 +153,7 @@ do_while_stm:       DO var_dec_many statement_list WHILE expression ENDDO DOT;
 
 break_stm:          BREAK SEMI;
 continue_stm:       CONTINUE SEMI;
-call_stm:           callee SEMI;
+call_stm:           ID LP parameter_callee RP SEMI;
 
 //-------------------------------Operator Group---------------------------------
 

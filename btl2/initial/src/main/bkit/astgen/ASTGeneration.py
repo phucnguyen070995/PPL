@@ -330,9 +330,9 @@ class ASTGeneration(BKITVisitor):
     def visitContinue_stm(self, ctx:BKITParser.Continue_stmContext):
         return Continue()
 
-    # call_stm:           callee SEMI;
+    # call_stm:           ID LP parameter_callee RP SEMI;
     def visitCall_stm(self, ctx:BKITParser.Call_stmContext):
-        return self.visit(ctx.callee())
+        return CallStmt(Id(ctx.ID().getText()), self.visit(ctx.parameter_callee()))
 
 #-------------------------------Operator Group---------------------------------
 
