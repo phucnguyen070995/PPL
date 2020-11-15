@@ -58,7 +58,7 @@ class ASTGeneration(MPVisitor):
 cau3
 class ASTGeneration(MPVisitor):
     def visitProgram(self,ctx:MPParser.ProgramContext):
-        return self.visit(ctx.vardecls())
+        return Program(self.visit(ctx.vardecls()))
 
     def visitVardecls(self,ctx:MPParser.VardeclsContext):
         return self.visit(ctx.vardecl()) + self.visit(ctx.vardecltail())
