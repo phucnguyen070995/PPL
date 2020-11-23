@@ -69,7 +69,7 @@ class StaticCheck(Visitor):
             if type(exp) is BoolLit:
                 raise TypeMismatchInExpression(ctx)
             if type(exp) is IntLit:
-                return IntLitLit(ctx)
+                return IntLit(ctx)
             if type(exp) is FloatLit:
                 return FloatLit(ctx)
         raise TypeMismatchInExpression(ctx)
@@ -91,26 +91,19 @@ class StaticCheck(Visitor):
         o = [self.visit(x,[]) for x in ctx.decl]
         self.visit(ctx.exp,o)
         
-    def visitVarDecl(self,ctx:VarDecl,o): 
-        return self.visit(x,[])
+    def visitVarDecl(self,ctx:VarDecl,o):
+        return (ctx.name, ctx.typ)
     
     def visitBinOp(self,ctx:BinOp,o):
         operator = ctx.op
-        lexp = []
-        rexp = []
-        if type(ctx.e1) is Id or type(ctx.e2) is Id:
-            if type(ctx.e1) is Id
-                name, typ = self.visit(ctx.e1,[])[0], self.visit(ctx.e1,[])[1]
-                o_name = [x[0] for x in o]
-                if name not in o_name:
-                    raise UndeclaredIdentifier(name)
-                idx = o_name.index(name)
+        o_name = [x[0] for x in o]
+        lexp = self.visit(ctx.e1,o_name)
+        rexp = self.visit(ctx.e2,o_name)
+        if type(lexp) is str or type(rexp) is str:
+            if type(lexp) is str:
+                idx = o_name.index(lexp)
                 lexp = o[idx][1]
-            if type(ctx.e2) is Id
-                name, typ = self.visit(ctx.e2,[])[0], self.visit(ctx.e2,[])[1]
-                o_name = [x[0] for x in o]
-                if name not in o_name:
-                    raise UndeclaredIdentifier(name)
+            if type(ctx.e2) is Id:
                 idx = o_name.index(name)
                 rexp = o[idx][1]
         else:
@@ -138,7 +131,17 @@ class StaticCheck(Visitor):
             
     def visitUnOp(self,ctx:UnOp,o):
         operator = ctx.op
-        exp = self.visit(ctx.e,[])
+        exp = []
+        if type(ctx.e) is Id:
+            name = self.visit(ctx.e,[])
+            o_name = [x[0] for x in o]
+            if name not in o_name:
+                raise UndeclaredIdentifier(name)
+            idx = o_name.index(name)
+            exp = o[idx][1]
+        else:
+            exp = self.visit(ctx.e,[])
+    
         if operator == '!':
             if type(exp) is BoolLit:
                 return BoolLit(ctx)
@@ -147,7 +150,7 @@ class StaticCheck(Visitor):
             if type(exp) is BoolLit:
                 raise TypeMismatchInExpression(ctx)
             if type(exp) is IntLit:
-                return IntLitLit(ctx)
+                return IntLit(ctx)
             if type(exp) is FloatLit:
                 return FloatLit(ctx)
         raise TypeMismatchInExpression(ctx)
@@ -163,5 +166,6 @@ class StaticCheck(Visitor):
         return BoolLit(ctx.val)
     
     def visitId(self,ctx:Id,o:object):
-        return (ctx.name, ctx.typ)
-    
+        if ctx.name not in o:
+            raise UndeclaredIdentifier(ctx.name)
+        return ctx.name

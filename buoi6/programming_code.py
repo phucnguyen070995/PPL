@@ -154,7 +154,7 @@ class StaticCheck(Visitor):
         return ctx.name
 
 
-#Cau 4 (cach 2)
+#Cau 4 (cach Kiet + Tin)
 from functools import reduce
 class StaticCheck(Visitor):
 
