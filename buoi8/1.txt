@@ -1,0 +1,37 @@
+Let a and b  be declared as an one-dimension arrays of shorts whose index is 2 and  3, respectively. 
+What is the Jasmin code of expression a[10] = b[3] * 4. Answer the following questions by filling in the blanks?
+aload_2
+bipush 10
+aload_3
+iconst_3
+iaload
+iconst_4
+imul
+istore_2
+
+Let a and b be an int variables whose index is 1 and 2, respectively. What is the Jasmin code of the following Java code?
+if (a < 10) then b = 100; else b = 1000;
+iload_1
+bipush 10
+if_icmpge Label0
+bipush 100
+istore_2
+goto Label1
+Label0:
+sipush 1000
+istore_2
+Label1:
+
+Given the following instance method declaration in java:
+int foo(float a) { int c; if (a < 10.0f) c = 22; else c = 400; return c;}
+fload_1
+ldc 10.0
+fcmpl
+ifge Label0
+bipush 22
+istore_2
+goto Label1
+Label0:
+sipush 400
+istore_2
+Label1:
