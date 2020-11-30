@@ -334,3 +334,98 @@ class StaticCheck(Visitor):
                 elif type(vardecl[1]) == FloatType:
                     return FloatLit(0)
         raise UndeclaredIdentifier(ctx.name)
+
+#cau 3 (tu lam)
+from functools import reduce
+class StaticCheck(Visitor):
+    def visitProgram(self,ctx:Program,o):
+        o = [self.visit(x,[]) for x in ctx.decl]
+        reduce(lambda acc, x: acc + self.visit(x,acc), ctx.stmts,o)  
+        
+    def visitVarDecl(self,ctx:VarDecl,o):
+        return (ctx.name, None)
+        
+    def visitAssign(self,ctx:Assign,o):
+        rtype = self.visit(ctx.lhs,o)
+        ltype = self.visit(ctx.rhs,o)
+        if type(ltype) == str:
+            if type(rtype) == str:
+                raise TypeCannotBeInferred(ctx)
+            for i in range(len(o)):
+            	if o[i][0] == ltype:
+            		x[i][1] = rtype
+            		break
+            return o
+        if ltype != rtype:
+            raise TypeMismatchInStatement(ctx)
+
+
+    def visitBinOp(self,ctx:BinOp,o):
+        operator = ctx.op
+        lexp = self.visit(ctx.e1,o)
+        rexp = self.visit(ctx.e2,o)
+        if operator in ['+', '-', '*','/']:
+            if any([(x is BoolLit or x is FloatLit) for x in [type(lexp), type(rexp)]]):
+                raise TypeMismatchInExpression(ctx)
+            return IntLit(ctx)
+        if operator in ['+.', '-.', '*.','/.']:
+            if any([(x is BoolLit or x is IntLit) for x in [type(lexp), type(rexp)]]):
+                raise TypeMismatchInExpression(ctx)
+            return FloatLit(ctx)
+        if operator in ['>', '=']:
+            if any([(x is BoolLit or x is FloatLit) for x in [type(lexp), type(rexp)]]):
+                raise TypeMismatchInExpression(ctx)
+            return BoolLit(ctx)
+        if operator in ['>.', '=.']:
+            if any([(x is BoolLit or x is IntLit) for x in [type(lexp), type(rexp)]]):
+                raise TypeMismatchInExpression(ctx)
+            return BoolLit(ctx)
+        if operator in ['&&', '||', '>b', '=b']:
+            if any([(x is FloatLit or x is IntLit) for x in [type(lexp), type(rexp)]]):
+                raise TypeMismatchInExpression(ctx)
+            return BoolLit(ctx)
+        raise TypeMismatchInExpression(ctx)
+            
+    def visitUnOp(self,ctx:UnOp,o):
+        operator = ctx.op
+        exp = self.visit(ctx.e,o)
+        if operator == '!':
+            if type(exp) is BoolLit:
+                return BoolLit(ctx)
+            raise TypeMismatchInExpression(ctx)
+        if operator == '-.':
+            if type(exp) is FloatLit:
+                return FloatLit(ctx)
+        if operator == '-':
+            if type(exp) is IntLit:
+                return IntLit(ctx)
+        if operator == 'i2f':
+            if type(exp) is IntLit:
+                return FloatLit(ctx)
+        if operator == 'floor':
+            if type(exp) is FloatLit:
+                return IntLit(ctx)
+        raise TypeMismatchInExpression(ctx)
+        
+
+    def visitIntLit(self,ctx:IntLit,o):
+        return IntLit(ctx.val)
+        
+    def visitFloatLit(self,ctx,o):
+        return FloatLit(ctx.val)
+        
+    def visitBoolLit(self,ctx,o):
+        return BoolLit(ctx.val)
+        
+    def visitId(self,ctx,o):
+        for vardecl in o:
+            if ctx.name == vardecl[0]:
+                return ctx.name
+        raise UndeclaredIdentifier(ctx.name)
+
+Program([VarDecl("x"),VarDecl("y"),VarDecl("z")],
+	[Assign(Id("x"),
+		BinOp(">b",BinOp("&&",Id("x"),Id("y")),BinOp("||",BoolLit(False),BinOp(">",Id("z"),IntLit(3))))),
+	Assign(Id("z"),Id("x"))])
+
+
