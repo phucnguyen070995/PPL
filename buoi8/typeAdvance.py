@@ -18,28 +18,23 @@ class StaticCheck(Visitor):
         env = [self.visit(x,o1) for x in ctx.param]
         dict_param = {}
         for i in range(len(o1[0])):
-            dict_param[i] = o1[0][i]
+            dict_param[i] = o1[0][ctx.name][i]
         o[0][ctx.name] = dict_param
-        var_inner = [x for x in ctx.local if type(x) == VarDecl]
-        func_inner = [x for x in ctx.local if type(x) == FuncDecl]
-        env1 = [self.visit(x,o1) for x in var_inner]
+        if ctx.name not in o[1]:
+            o[1][ctx.name] = dict_param
+
+        for keys, values in o[1].items():
+            if keys not in o1[1]:
+                o1[1][keys] = values
         
-        o2 = o1.copy()
-        
-        for keys, values in o.items():
-            if keys not in o2:
-                o2[keys] = values
-                
-        o3 = [o1, o2]
-        
-        env2 = [self.visit(x,o3) for x in func_inner]
-        stmt = [self.visit(x,o2) for x in ctx.stmts]
-        for keys, values in o3.items():
+        env2 = [self.visit(x,o1) for x in ctx.local]
+        stmt = [self.visit(x,o1) for x in ctx.local]
+        for keys, values in o1[1].items():
             if keys in o and o[keys] == keys:
-                o[keys] = values
+                o[0][keys] = values
 
     def visitCallStmt(self,ctx:CallStmt,o):
-        if ctx.name not in o[0]:
+        if ctx.name not in o[1]:
             raise UndeclaredIdentifier(ctx.name)
         elif len(ctx.args) != len(o[0][ctx.name]):
             raise TypeMismatchInStatement(ctx)
@@ -51,8 +46,8 @@ class StaticCheck(Visitor):
                 raise TypeMismatchInStatement(ctx)
 
     def visitAssign(self,ctx:Assign,o):
-        rtype = self.visit(ctx.rhs,o)
-        ltype = self.visit(ctx.lhs,o)
+        rtype = self.visit(ctx.rhs,o[1])
+        ltype = self.visit(ctx.lhs,o[1])
         if ltype not in ['int', 'float', 'bool']:
             if rtype not in ['int', 'float', 'bool']:
                 raise TypeCannotBeInferred(ctx)
