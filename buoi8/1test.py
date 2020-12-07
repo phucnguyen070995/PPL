@@ -36,15 +36,7 @@ class StaticCheck(Visitor):
         env2 = [self.visit(x,o1) for x in ctx.local]
         stmt = [self.visit(x,o1) for x in ctx.stmts]
         print('o1', o1)
-        for keys, values in o1[1].items():
-            if type(values) == dict:
-                print('dict')
-                for k, v in values.items():
-                    print(keys, values, k, v)
-                    o1[1][keys][k] = o1[1][v]
-                    print(o1[1][keys][k])
-                    print(type(k), type(v))
-                    print(o1[1][v])
+        
         for keys, values in o1[1].items():
             if keys in o[0] and keys not in o1[0] and o[0][keys] == keys:
                 o[0][keys] = values
@@ -91,6 +83,15 @@ class StaticCheck(Visitor):
             o[0][rtype] = ltype
         elif ltype != rtype:
             raise TypeMismatchInStatement(ctx)
+        for keys, values in o[1].items():
+            if type(values) == dict:
+                print('dict')
+                for k, v in values.items():
+                    print(keys, values, k, v)
+                    o[1][keys][k] = o[1][v]
+                    print(o[1][keys][k])
+                    print(type(k), type(v))
+                    print(o[1][v])
         print('ass',o)
 
     def visitIntLit(self,ctx:IntLit,o):
@@ -112,3 +113,55 @@ class StaticCheck(Visitor):
 
 #o1 [{'y': 'y', 'z': 'z'}, {'y': 'y', 'z': 'z', 'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
 #funcdecl [{'x': 'x', 'foo': {0: 'y', 1: 'z'}}, {'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
+
+
+# vardecl [{'x': 'x'}, {'x': 'x'}]
+# vardecl [{'x': 'x'}, {'x': 'x'}]
+# param {0: 'x'}
+# o1 [{'x': 'x'}, {'x': 'x'}]
+# o [{'x': 'x'}, {'x': 'x'}]
+# o [{'x': 'x', 'foo': {0: 'x'}}, {'x': 'x', 'foo': {0: 'x'}}]
+# o1 [{'x': 'x'}, {'x': 'x', 'foo': {0: 'x'}}]
+# ass [{'x': 'float'}, {'x': 'float', 'foo': {0: 'x'}}]
+# o1 [{'x': 'float'}, {'x': 'float', 'foo': {0: 'x'}}]
+# dict
+# foo {0: 'x'} 0 x
+# float
+# <class 'int'> <class 'str'>
+# float
+# funcdecl [{'x': 'x', 'foo': {0: 'float'}}, {'x': 'x', 'foo': {0: 'float'}}]
+# ass [{'x': 'int', 'foo': {0: 'float'}}, {'x': 'int', 'foo': {0: 'float'}}]
+# callstmt [{'x': 'int', 'foo': {0: 'float'}}, {'x': 'int', 'foo': {0: 'float'}}]
+# 1
+# 0
+# arg int
+# Type Mismatch In Statement: CallStmt("foo",[Id("x")])
+
+
+# vardecl [{'x': 'x'}, {'x': 'x'}]
+# vardecl [{'y': 'y'}, {'y': 'y'}]
+# vardecl [{'y': 'y', 'z': 'z'}, {'y': 'y', 'z': 'z'}]
+# param {0: 'y', 1: 'z'}
+# o1 [{'y': 'y', 'z': 'z'}, {'y': 'y', 'z': 'z'}]
+# o [{'x': 'x'}, {'x': 'x'}]
+# o [{'x': 'x', 'foo': {0: 'y', 1: 'z'}}, {'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
+# o1 [{'y': 'y', 'z': 'z'}, {'y': 'y', 'z': 'z', 'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
+# o1 [{'y': 'y', 'z': 'z'}, {'y': 'y', 'z': 'z', 'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
+# dict
+# foo {0: 'y', 1: 'z'} 0 y
+# y
+# <class 'int'> <class 'str'>
+# y
+# foo {0: 'y', 1: 'z'} 1 z
+# z
+# <class 'int'> <class 'str'>
+# z
+# funcdecl [{'x': 'x', 'foo': {0: 'y', 1: 'z'}}, {'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
+# callstmt [{'x': 'x', 'foo': {0: 'y', 1: 'z'}}, {'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
+# 1
+# 0
+# arg int
+# [{'x': 'x', 'foo': {0: 'int', 1: 'z'}}, {'x': 'x', 'foo': {0: 'int', 1: 'z'}}]
+# 1
+# arg x
+# Type Cannot Be Inferred: CallStmt("foo",[IntLit(3),Id("x")])

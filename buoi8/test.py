@@ -32,25 +32,11 @@ class StaticCheck(Visitor):
             if keys not in o1[1]:
                 o1[1][keys] = values
         print('o1', o1)
-        
+        print('o', o)
         env2 = [self.visit(x,o1) for x in ctx.local]
         stmt = [self.visit(x,o1) for x in ctx.stmts]
         print('o1', o1)
-        for keys, values in o1[1].items():
-            if type(values) == dict:
-                print('dict')
-                for k, v in values.items():
-                    print(keys, values, k, v)
-                    o1[1][keys][k] = o1[1][v]
-                    print(o1[1][keys][k])
-                    print(type(k), type(v))
-                    print(o1[1][v])
-        for keys, values in o1[1].items():
-            if keys in o[0] and keys not in o1[0] and o[0][keys] == keys:
-                o[0][keys] = values
-            elif keys in o[0] and type(values) == dict:
-                o[0][keys] = values
-                o[1][keys] = values
+        print('o', o)
         print('funcdecl',o)
 
     def visitCallStmt(self,ctx:CallStmt,o):
@@ -59,7 +45,6 @@ class StaticCheck(Visitor):
             raise UndeclaredIdentifier(ctx.name)
         elif len(ctx.args) != len(o[1][ctx.name]):
             raise TypeMismatchInStatement(ctx)
-        print(1)
         for i in range(len(ctx.args)):
             print(i)
             arg = self.visit(ctx.args[i],o[0])
@@ -79,6 +64,7 @@ class StaticCheck(Visitor):
         print('callstmt',o)
 
     def visitAssign(self,ctx:Assign,o):
+        print('ass',o)
         rtype = self.visit(ctx.rhs,o[1])
         ltype = self.visit(ctx.lhs,o[1])
         if ltype not in ['int', 'float', 'bool']:
@@ -91,6 +77,12 @@ class StaticCheck(Visitor):
             o[0][rtype] = ltype
         elif ltype != rtype:
             raise TypeMismatchInStatement(ctx)
+        print('ass',o)
+        for keys, values in o[1].items():
+            if type(values) == dict:
+                for k, v in values.items():
+                    if o[1][keys][k] not in ['int', 'float', 'bool']:
+                        o[1][keys][k] = o[1][v]
         print('ass',o)
 
     def visitIntLit(self,ctx:IntLit,o):
@@ -106,9 +98,3 @@ class StaticCheck(Visitor):
         if ctx.name in o:
             return o[ctx.name]
         raise UndeclaredIdentifier(ctx.name)
-
-#o1 [{'x': 'float'}, {'x': 'float', 'foo': {0: 'x'}}]
-#funcdecl [{'x': 'x', 'foo': {0: 'x'}}, {'x': 'x', 'foo': {0: 'x'}}]
-
-#o1 [{'y': 'y', 'z': 'z'}, {'y': 'y', 'z': 'z', 'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
-#funcdecl [{'x': 'x', 'foo': {0: 'y', 1: 'z'}}, {'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
