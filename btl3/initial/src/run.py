@@ -5,7 +5,7 @@ import unittest
 from antlr4 import *
 
 #Make sure that ANTLR_JAR is set to antlr-4.7.2-complete.jar
-ANTLR_JAR = os.environ.get('ANTLR_JAR')
+ANTLR_JAR = "antlr-4.8-complete.jar"
 TARGET = '../target/main/bkit/parser' if os.name == 'posix' else os.path.normpath('../target/')
 locpath = ['./main/bkit/parser/','./main/bkit/astgen/','./main/bkit/utils/','./main/bkit/checker']
 for p in locpath:
