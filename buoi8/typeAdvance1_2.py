@@ -288,25 +288,24 @@ class StaticCheck(Visitor):
             i += 1
         o[0][ctx.name] = dict_param
         o[1][ctx.name] = dict_param
+
         for keys, values in o[1].items():
             if keys not in o1[1]:
                 o1[1][keys] = values
         
         env2 = [self.visit(x,o1) for x in ctx.local]
         stmt = [self.visit(x,o1) for x in ctx.stmts]
-        # for keys, values in o1[1].items():
-        #     if type(values) == dict:
-        #         for k, v in values.items():
-        #             o1[1][keys][k] = o1[1][v]
+        
         for keys, values in o1[1].items():
             if keys in o[0] and keys not in o1[0] and o[0][keys] == keys:
                 o[0][keys] = values
+                o[1][keys] = values
             elif keys in o[0] and type(values) == dict:
                 o[0][keys] = values
                 o[1][keys] = values
 
     def visitCallStmt(self,ctx:CallStmt,o):
-        if ctx.name not in o[1]:
+        if ctx.name not in o[1] or type(o[1][ctx.name]) != dict:
             raise UndeclaredIdentifier(ctx.name)
         elif len(ctx.args) != len(o[1][ctx.name]):
             raise TypeMismatchInStatement(ctx)
@@ -340,7 +339,8 @@ class StaticCheck(Visitor):
         for keys, values in o[1].items():
             if type(values) == dict:
                 for k, v in values.items():
-                    o[1][keys][k] = o[1][v]
+                    if o[1][keys][k] not in ['int', 'float', 'bool']:
+                        o[1][keys][k] = o[1][v]
 
     def visitIntLit(self,ctx:IntLit,o):
         return 'int'

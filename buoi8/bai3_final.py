@@ -39,7 +39,7 @@ class StaticCheck(Visitor):
                 o[1][keys] = values
 
     def visitCallStmt(self,ctx:CallStmt,o):
-        if ctx.name not in o[1]:
+        if ctx.name not in o[1] or type(o[1][ctx.name]) != dict:
             raise UndeclaredIdentifier(ctx.name)
         elif len(ctx.args) != len(o[1][ctx.name]):
             raise TypeMismatchInStatement(ctx)

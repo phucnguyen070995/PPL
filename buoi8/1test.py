@@ -114,8 +114,9 @@ class StaticCheck(Visitor):
 #o1 [{'y': 'y', 'z': 'z'}, {'y': 'y', 'z': 'z', 'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
 #funcdecl [{'x': 'x', 'foo': {0: 'y', 1: 'z'}}, {'x': 'x', 'foo': {0: 'y', 1: 'z'}}]
 
-
-# vardecl [{'x': 'x'}, {'x': 'x'}]
+o = [{}, {}] local, global
+func : name : dict_para
+# vardecl [{'x': 'x'}, {'x': 'x'}] o
 # vardecl [{'x': 'x'}, {'x': 'x'}]
 # param {0: 'x'}
 # o1 [{'x': 'x'}, {'x': 'x'}]
