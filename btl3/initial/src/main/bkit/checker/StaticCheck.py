@@ -65,18 +65,41 @@ Symbol("printStrLn",MType([StringType()],VoidType()))]
         return self.visit(self.ast,self.global_envi)
 
     def visitProgram(self,ast, c):
-        [self.visit(x,c) for x in ast.decl]
-
-    
+        c = [self.visit(x,[]) for x in ast.decl]
 
 
+    def visitVarDecl(self, ast, c):
+        varName = ast.variable.name
+
+        if self.lookup(varName, c, lambda x: x.name):
+            raise Redeclared(Variable(), varName)
+
+        if (ast.varInit):
+            typeVar = self.visit(ast.varInit, c)
+        else:
+            typeVar = Unknown()
+
+        if ast.varDimen:
+            return c + [Symbol(varName, ArrayType(ast.varDimen, typeVar))]
+
+        return c + [Symbol(varName, typeVar)]
+
+    def visitFuncDecl(self, ast, c):
+
+        lookupFunctionName = self.lookup(ast.name.name, c, lambda x: x.name)
+        pa = lookupFunctionName.mtype.intype  # List[Symbol] of params
+
+        pa = reduce(lambda acc, x: self.visit(x, acc), ast.body[0], pa)
+        [self.visit(x, (pa + c, VoidType(), lookupFunctionName)) for x in ast.body[1]]
 
 
 
 
 
 
-    # class Dowhile(Stmt):
+
+
+        # class Dowhile(Stmt):
     # sl:Tuple[List[VarDecl],List[Stmt]]
     # exp: Expr
     def visitDowhile(self, ast, c):
