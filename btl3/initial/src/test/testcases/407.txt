@@ -1,0 +1,20 @@
+
+                    Var: x, y, z;
+                    Function: main
+                    Parameter: a,b,c
+                    Body:
+                        Var: i, j, k;
+                        x = 1;
+                        y = 2;
+                        If (j == 2) Then
+                            Var: f;
+                            f = x;
+                        Else
+                            z = 3.0;
+                        EndIf.
+                    EndBody.
+                    Function: foo
+                    Body:
+                        y = 5.0;
+                    EndBody.
+                
