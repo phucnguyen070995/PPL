@@ -379,7 +379,27 @@ Symbol("printStrLn",MType([Symbol('x', StringType())],VoidType()))]
     # class ArrayLiteral(Literal):
     # value:List[Literal]
     def visitArrayLiteral(self, ast, c):
-        print(ast.value)
+        arr = ast.value
+        print(arr)
+        dimen = []
+        type_ele = Unknown()
+        while True:
+            one_dimen = len(arr)
+            dimen.append(one_dimen)
+            arr = arr[0].value
+            if type(arr) != list:
+                type_ele = type(arr)
+                break
+        if type_ele  == int:
+            type_ele = IntType()
+        elif type_ele == float:
+            type_ele = FloatType()
+        elif type_ele == str:
+            type_ele = StringType()
+        else:
+            type_ele = BoolType()
+        print(dimen)
+        print(type_ele)
 
 
 
