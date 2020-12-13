@@ -1,0 +1,16 @@
+Var: uh;
+Function: main
+Parameter: q , d[5], x, y
+Body:                                       
+    x = foo(1.2) +. 1.2;
+    y = foo(1.2 +. foo(1.2));
+    printStr(string_of_float(x +. y));
+EndBody.
+Function: foo
+Parameter: y
+Body: 
+    Var: x;
+    x = 1;
+    foo(1.2);
+    y = 2;
+EndBody.

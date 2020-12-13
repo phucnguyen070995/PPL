@@ -1,0 +1,12 @@
+
+Function: main
+Parameter: x
+Body: 
+x = 1;
+Do       
+    Var: a;
+    a = x;               
+While True
+EndDo.
+x = a;
+EndBody.

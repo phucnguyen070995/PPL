@@ -1,0 +1,15 @@
+Var: uh, d[5];
+Function: main
+Parameter: q , x, y, t
+Body:                                       
+    y = foo(float_of_string("1.2") +. foo(1.2));
+    uh = string_of_float(y);
+    t = foo(1.2);
+    d[4] = 1;
+EndBody.
+Function: foo
+Parameter: y
+Body: 
+    Var: x, f[3] = {1.,2.,3.};
+    d[3] = f[1];
+EndBody.

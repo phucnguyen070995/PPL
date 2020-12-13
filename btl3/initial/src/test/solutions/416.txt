@@ -1,0 +1,1 @@
+Type Mismatch In Statement: VarDecl(Id(y),[2],ArrayLiteral(ArrayLiteral(IntLiteral(1),IntLiteral(2)),ArrayLiteral(IntLiteral(1),IntLiteral(2))))

@@ -1,0 +1,16 @@
+Var: x[2][2], y[2][2] = {{1,2},{1,2}}, m[3][3];
+Function: main
+Parameter: t, q, k, n, e, o
+Body:
+    t = y[1][1] + 1;
+    q = x[1][1] + 1;
+    x[k][1] = 1;
+    e = foo(m) + 1;
+    n = foo(m);
+    o = foo(1);
+EndBody.
+Function: foo
+Parameter: x[1][2]
+Body:
+EndBody.
+        

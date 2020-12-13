@@ -1,0 +1,11 @@
+Var: x, y, z;
+Function: main
+Body:
+    z = 1.0;
+    y = x + foo(z);
+EndBody.
+Function: foo
+Parameter: a
+Body:
+    foo(z);
+EndBody.

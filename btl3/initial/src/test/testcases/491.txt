@@ -1,0 +1,22 @@
+Var: a;
+Function: main
+Parameter: q
+    Body: 
+    Var: x, y = 1, z = 3;
+    **If((x > y) && (q < z)) Then
+        Break;
+    EndIf.   **                                       
+    x = foo("ahihi") + goo(0o12);
+    y = foo(x + goo(3));
+    printStr(string_of_int(x + y));
+EndBody.
+Function: goo
+Parameter: x
+Body:
+    Return 1;
+EndBody.
+Function: foo
+Parameter: x
+Body:
+    Return 1;
+EndBody.

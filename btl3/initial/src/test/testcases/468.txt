@@ -1,0 +1,15 @@
+
+Var: x;
+Function: fact
+Parameter: n
+Body:
+    n = 0;
+    If n == 0 Then
+        Return 1;
+    EndIf.
+EndBody.
+Function: main
+Body:
+    x = 10.5;
+    fact(x);
+EndBody.                 

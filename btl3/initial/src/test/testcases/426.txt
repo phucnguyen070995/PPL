@@ -1,0 +1,13 @@
+
+Var: x;  
+Function: main
+Parameter: a[4], b, c
+Body: 
+    Var: m;
+EndBody.
+
+Function: main
+Parameter: a[4], b, c
+Body: 
+    Var: m;
+EndBody.

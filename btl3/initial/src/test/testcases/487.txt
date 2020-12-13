@@ -1,0 +1,16 @@
+Var: a = 0,b;
+Function: main
+Body:
+    Do
+        Do
+            Do
+                printStrLn("Hello World!");
+            While a > b
+            EndDo.
+            printStrLn("Hello World!");
+        While a > b
+        EndDo.
+        printStrLn("Hello World!");
+    While a > b + 2.
+    EndDo.
+EndBody.

@@ -1,0 +1,15 @@
+Var: x, y, z, main;
+Function: foo0
+Parameter: a,b,c
+Body:
+    Var: i, j, k;
+    a = 1;
+    b = 2;
+    If (j == 2) Then
+        Var: f;
+        f = a;
+    EndIf.
+EndBody.
+Function: foo
+Body:
+EndBody.

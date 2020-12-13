@@ -1,0 +1,22 @@
+Var: x, y[2][2] = {{1,2},{1,2}};
+Function: main
+Body:
+    x = 1;
+EndBody.
+Function: foo
+Parameter: x
+Body:
+    Return y;
+EndBody.
+Function: foo1
+Parameter: z
+Body:
+    z = 1;
+    z = 3;
+EndBody.
+Function: foo2
+Parameter: z
+Body:
+    z = foo1(x);
+EndBody.
+        

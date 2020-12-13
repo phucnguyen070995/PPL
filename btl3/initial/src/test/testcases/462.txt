@@ -1,0 +1,14 @@
+
+Function: main
+Parameter: x
+Body: 
+    x = True;
+    If x Then 
+    Var: x;
+    x = 5;
+    ElseIf False Then
+    Var: x;
+    x = 5.5;
+    x = True;
+    EndIf.
+EndBody.

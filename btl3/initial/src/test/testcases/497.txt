@@ -1,0 +1,27 @@
+Var: a;
+Function: main
+Parameter: q
+    Body: 
+    Var: x, y = 1, z = 3,f,g,h;
+    f = x > y;
+    g = q < z;
+    h = f && g;
+    If((x > y) && (q < z)) Then
+        Break;
+    EndIf.                                      
+    x = foo("ahihi") + goo(0o12);
+    y = foo(string_of_int(x + y));
+    printStr(string_of_int(x + y));
+EndBody.
+Function: goo
+Parameter: x
+Body:
+    Var: y[2][2], z[1][2];
+    y = z;
+    Return 1;
+EndBody.
+Function: foo
+Parameter: x
+Body:
+    Return 1;
+EndBody.

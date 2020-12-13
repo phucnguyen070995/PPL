@@ -1,0 +1,12 @@
+
+Function: foo
+Parameter: x
+Body: 
+    Return 1;
+EndBody.                    
+Function: main
+Parameter: x
+Body: 
+    x = foo(1);
+    x = True;
+EndBody.                   

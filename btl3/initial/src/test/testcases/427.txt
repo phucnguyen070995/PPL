@@ -1,0 +1,10 @@
+
+                    Var: x;  
+                    Function: main
+                    Parameter: a[4], b, c
+                    Body: 
+                        Var: m;
+                        b = 2;
+                        x = 3.0;
+                        x = b;
+                    EndBody.

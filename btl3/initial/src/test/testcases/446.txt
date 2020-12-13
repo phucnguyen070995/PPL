@@ -1,0 +1,13 @@
+
+                    Function: main
+                    Parameter: x
+                    Body: 
+                    x = 1;
+                    While True Do 
+                        While False Do
+                        Var: a;
+                        EndWhile.
+                    EndWhile.
+                    x = a + 10;
+                    EndBody.
+                   

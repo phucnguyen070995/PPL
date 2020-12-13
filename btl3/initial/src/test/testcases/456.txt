@@ -1,0 +1,10 @@
+
+Function: main
+Parameter: x
+Body: 
+    x = True;
+    If x Then 
+    x = False;
+    ElseIf 10 Then
+    EndIf.
+EndBody.

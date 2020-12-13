@@ -1,0 +1,7 @@
+
+Function: main
+Parameter: x, y[5]
+Body: 
+    x = y[1] + 1;
+    y[2] = 5.5;
+EndBody.

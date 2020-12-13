@@ -1,0 +1,17 @@
+
+                    Var: u, d[5];
+                    Function: main
+                    Parameter: q , x, y, t
+                    Body:                                       
+                        y = foo(1.0);
+                        t = foo(1.2);
+                        d[4] = t;
+                    EndBody.
+                    Function: foo
+                    Parameter: y
+                    Body: 
+                        Var: x;
+                        d[3] = 1;
+                        Return 1.0;
+                    EndBody.
+                

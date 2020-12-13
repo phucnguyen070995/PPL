@@ -1,0 +1,13 @@
+
+Function: main
+Parameter: x
+Body: 
+For (x = 1, True,  -1) Do
+    Var: a;
+    x = x + 1;
+    For (x = 1, True, -1) Do
+        Var: b;
+        a = b;
+    EndFor.
+EndFor.
+EndBody.

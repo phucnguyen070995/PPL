@@ -1,0 +1,19 @@
+Var: x;
+Function: main
+Parameter: n
+Body:
+    Var: i, a, b, c, d;
+    For (i = 0, i < 10, 2) Do
+        For (i = 0, i < 10, 2) Do
+            If((a > b) && (c < d)) Then
+                Break;
+            EndIf. 
+            For (i = 0, i < 10, -2) Do         
+                If((a == b) && (c < d)) Then
+                    i = i + 1.;
+                EndIf. 
+            EndFor.
+            printStrLn("Hello World!");
+        EndFor.
+    EndFor.
+EndBody.

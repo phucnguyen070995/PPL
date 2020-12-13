@@ -1,0 +1,12 @@
+
+                    Function: main
+                    Parameter: x
+                    Body: 
+                    x = 1;
+                    While True Do 
+                    Var: a;
+                    Var: a;
+                    x = 1.0; 
+                    EndWhile.
+                    EndBody.
+                   

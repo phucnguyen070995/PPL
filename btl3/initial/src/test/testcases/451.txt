@@ -1,0 +1,8 @@
+
+Function: main
+Parameter: x
+Body: 
+x = 1;
+For (x = 1.0, True, 2) Do
+EndFor.
+EndBody.
