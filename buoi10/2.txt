@@ -1,0 +1,17 @@
+    def visitId(self,ctx,o):
+        sym = list(filter(lambda x: x.name.lower() == ctx.name.lower(), o.sym))[0]
+        if o.isLeft:
+            if type(sym.value) is CName:
+                #print(self.emit.emitPUTSTATIC(sym.value.value + "." + sym.name,sym.mtype,o.frame))
+                return self.emit.emitPUTSTATIC(sym.value.value + "." + sym.name,sym.mtype,o.frame), sym.mtype #store
+            else:
+                #print(self.emit.emitWRITEVAR(sym.name, sym.mtype, sym.value.value, o.frame))
+                return self.emit.emitWRITEVAR(sym.name, sym.mtype, sym.value.value, o.frame), sym.mtype
+        else:
+            if type(sym.value) is CName:
+                #print(self.emit.emitGETSTATIC(sym.value.value + "." + sym.name,sym.mtype,o.frame))
+                return self.emit.emitGETSTATIC(sym.value.value + "." + sym.name,sym.mtype,o.frame), sym.mtype #load
+            else:
+                #print(self.emit.emitREADVAR(sym.name, sym.mtype, sym.value.value, o.frame))
+                return self.emit.emitREADVAR(sym.name, sym.mtype, sym.value.value, o.frame), sym.mtype
+        

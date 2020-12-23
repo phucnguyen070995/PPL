@@ -1,12 +1,9 @@
-# Nguyen Hoang Phuc
-# 1927030
+
 """
  * @author nhphung
 """
 from abc import ABC, abstractmethod, ABCMeta
 from dataclasses import dataclass
-from main.bkit.checker.StaticError import TypeMismatchInExpression, TypeMismatchInStatement
-from main.bkit.utils.AST import FuncDecl, VarDecl
 from typing import List, Tuple
 from AST import * 
 from Visitor import *
@@ -47,411 +44,305 @@ class Symbol:
     name: str
     mtype:Type
 
+@dataclass
+class cVariable:
+    local: List[Symbol]
+    isVariable: bool = True
+    nonLocal: List[Symbol] = None
+
+
+@dataclass
+class cExp:
+    local: List[Symbol]
+    nonLocal: List[Symbol]
+    isFunction: bool = False
+    inferType: Type = Unknown()
+    callStmt: Stmt = None
+
+
+@dataclass
+class cStmt:
+    nonLocal: List[Symbol]
+    currentFunc: Symbol
+
+
 class StaticChecker(BaseVisitor):
     def __init__(self,ast):
         self.ast = ast
         self.global_envi = [
-Symbol("int_of_float",MType([Symbol('x', FloatType())],IntType())),
-Symbol("float_of_int",MType([Symbol('x', IntType())],FloatType())),
-Symbol("int_of_string",MType([Symbol('x', StringType())],IntType())),
-Symbol("string_of_int",MType([Symbol('x', IntType())],StringType())),
-Symbol("float_of_string",MType([Symbol('x', StringType())],FloatType())),
-Symbol("string_of_float",MType([Symbol('x', FloatType())],StringType())),
-Symbol("bool_of_string",MType([Symbol('x', StringType())],BoolType())),
-Symbol("string_of_bool",MType([Symbol('x', BoolType())],StringType())),
+Symbol("int_of_float",MType([FloatType()],IntType())),
+Symbol("float_of_int",MType([IntType()],FloatType())),
+Symbol("int_of_string",MType([StringType()],IntType())),
+Symbol("string_of_int",MType([IntType()],StringType())),
+Symbol("float_of_string",MType([StringType()],FloatType())),
+Symbol("string_of_float",MType([FloatType()],StringType())),
+Symbol("bool_of_string",MType([StringType()],BoolType())),
+Symbol("string_of_bool",MType([BoolType()],StringType())),
 Symbol("read",MType([],StringType())),
-Symbol("printLn",MType([],VoidType())),                       
-Symbol("printStr",MType([Symbol('x', StringType())],VoidType())),
-Symbol("printStrLn",MType([Symbol('x', StringType())],VoidType()))]      
+Symbol("printLn",MType([],VoidType())),
+Symbol("printStr",MType([StringType()],VoidType())),
+Symbol("printStrLn",MType([StringType()],VoidType()))]                           
+   
     def check(self):
         return self.visit(self.ast,self.global_envi)
 
-    def globalfuncVisit(self, func, c):
-        funcName = func.name.name
-        if funcName in c:
-            raise Redeclared(Function(), funcName)
-        dictParam = {}
-        try:
-            [self.visit(x, dictParam) for x in func.param]
-            listParam = list(dictParam.values())
-        except Redeclared as error:
-            raise Redeclared(Parameter(), error.n)
-        c[funcName] = Symbol(funcName, MType(listParam, Unknown()))
+    # def visitProgram(self,ast, c):
+    #     [self.visit(x,c) for x in ast.decl]
+    def lookup(self,name,lst,func):
+        for x in lst:
+            if name == func(x):
+                return x
+        return None
 
-    # class Program(AST):
-    # decl : List[Decl]
-    def visitProgram(self,ast, c):
-        o = {}
-        for symbol in c:
-            o[symbol.name] = symbol
-        varDecl = [x for x in ast.decl if type(x) is VarDecl]
-        [self.visit(x, o) for x in varDecl]
-        funcDecl = [x for x in ast.decl if type(x) is FuncDecl]
-        [self.globalfuncVisit(x, o) for x in funcDecl]
-        if 'main' not in o or type(o['main'].mtype) != MType:
-            raise NoEntryPoint(ast)
-        [self.visit(x, o) for x in funcDecl]
-        
+    def visitProgram(self, ast: Program, c):
 
-    # class VarDecl(Decl):
-    # variable : Id
-    # varDimen : List[int] # empty list for scalar variable
-    # varInit  : Literal   # null if no initial
-    def visitVarDecl(self, ast, c):
-        varName = ast.variable.name
-        if varName in c:
-            raise Redeclared(Variable(), varName)
-        if ast.varInit:
-            # lay kieu cuar init
-            typeVar = self.visit(ast.varInit, c)
-            if ast.varDimen and ast.varDimen != typeVar.dimen:
-                raise TypeMismatchInStatement(ast)
-        elif ast.varDimen:
-            typeVar = ArrayType(ast.varDimen, Unknown())
-        else:
-            typeVar = Unknown()
-        c[varName] = Symbol(varName, typeVar)
-
-
-    # class FuncDecl(Decl):
-    # name: Id
-    # param: List[VarDecl]
-    # body: Tuple[List[VarDecl],List[Stmt]]
-    def visitFuncDecl(self, ast, c):
-        symbolFunction = c[ast.name.name]
-        #params da co luc globalfuncVisit
-        params = symbolFunction.mtype.intype  # List[Symbol] of params
-        varLocal = {}
-        for symbol in params:
-            varLocal[symbol.name] = symbol
-        # Vardecl in body
-        [self.visit(x, varLocal) for x in ast.body[0]]
-        # merge 2 dict
-        for name, symbol in c.items():
-            if name not in varLocal:
-                varLocal[name] = symbol
-        flagReturn = False
-        for x in ast.body[1]:
-            if type(x) is Return:
-                flagReturn = True
-            self.visit(x, (varLocal, VoidType(), symbolFunction))
-        if not(flagReturn) and type(symbolFunction.mtype.restype) == Unknown:
-            symbolFunction.mtype.restype = VoidType()
-        
-    # class ArrayCell(LHS):
-    # arr:Expr
-    # idx:List[Expr]
-    def visitArrayCell(self, ast, c):
-        try:
-            # print(4444)
-            if len(c) == 3:
-                arrMtype = self.visit(ast.arr, (c[0], ArrayType([0]*len(ast.idx),c[1]), c[2]))
-            else: arrMtype = self.visit(ast.arr, (c[0], ArrayType([0]*len(ast.idx),c[1])))
-        except TypeMismatchInExpression:
-            # print(5555)
-            raise TypeMismatchInExpression(ast)
-        if(len(arrMtype.dimen) is not len(ast.idx)):
-            raise TypeMismatchInExpression(ast)
-        for i in ast.idx:
-            
-            idxType = self.visit(i, (c[0], IntType()))
-            if (type(idxType) is not IntType):
-                raise TypeMismatchInExpression(ast)
-        if type(arrMtype.eletype) is Unknown and type(c[1]) not in [Unknown, ArrayType]:
-            arrMtype.eletype = c[1]
-        return arrMtype.eletype
-
-    # class BinaryOp(Expr):
-    # op:str
-    # left:Expr
-    # right:Expr
-    def visitBinaryOp(self, ast, c):
-        op = ast.op
-        opInt = ['+', '-', '*', '\\', '%', '==', '!=', '<', '>', '<=', '>=']
-        resIntBool = ['==', '!=', '<', '>', '<=', '>=']
-        opFloat = ['+.', '-.', '*.', '\\.', '=/=', '<.', '>.', '<=.', '>=.']
-        resFloatBool = ['=/=', '<.', '>.', '<=.', '>=.']
-        opBool = ['&&', '||']
-        if (op in opInt):
-            leftType = self.visit(ast.left, (c[0], IntType()))
-            rightType = self.visit(ast.right, (c[0], IntType()))
-            if (type(leftType) is IntType and type(rightType) is IntType):
-                if (op in resIntBool):
-                    return BoolType()
-                return IntType()
-            raise TypeMismatchInExpression(ast)
-        if (op in opFloat):
-            leftType = self.visit(ast.left, (c[0], FloatType()))
-            rightType = self.visit(ast.right, (c[0], FloatType()))
-            if (type(leftType) is FloatType and type(rightType) is FloatType):
-                if (op in resFloatBool):
-                    return BoolType()
-                return FloatType()
-            raise TypeMismatchInExpression(ast)
-        if (op in opBool):
-            leftType = self.visit(ast.left, (c[0], BoolType()))
-            rightType = self.visit(ast.right, (c[0], BoolType()))
-            if (type(leftType) is BoolType and type(rightType) is BoolType):
-                return BoolType()
-            raise TypeMismatchInExpression(ast)
-
-    # class UnaryOp(Expr):
-    # op:str
-    # body:Expr
-    def visitUnaryOp(self, ast, c):
-        op = ast.op
-        if (op == "-"):
-            bodyType = self.visit(ast.body, (c[0], IntType()))
-            if (type(bodyType) is IntType):
-                return IntType()
-        if (op == '-.'):
-            bodyType = self.visit(ast.body, (c[0], FloatType()))
-            if (type(bodyType) is FloatType):
-                return FloatType()
-        if (op == '!'):
-            bodyType = self.visit(ast.body, (c[0], BoolType()))
-            if (type(bodyType) is BoolType):
-                return BoolType()
-        raise TypeMismatchInExpression(ast)
-
-    # class CallExpr(Expr):
-    # method:Id
-    # param:List[Expr]
-    # [Symbol(funcName, MType(listParam, Unknown()))]
-    def visitCallExpr(self, ast, c):
-        functionName = ast.method.name
-        if functionName not in c[0]:
-            raise Undeclared(Function(), functionName)
-        symbolFunction = c[0][functionName]
-        funcMtype = symbolFunction.mtype
-        #co the la VarDecl trung name, raise Undeclared(Function(), functionName)
-        if type(funcMtype) is not MType:
-            raise Undeclared(Function(), functionName)
-        funcIntype = funcMtype.intype 
-        if(len(funcIntype) is not len(ast.param)):
-            raise TypeMismatchInExpression(ast)
-        for index in range(len(funcIntype)):
-            # print(6666)
-            paramType = funcIntype[index]
-            # print(paramType, paramType.mtype)
-            referType = self.visit(ast.param[index], (c[0], paramType.mtype))
-            # print(111111111011111111)
-            if type(referType) is ArrayType:
-                # print(111111111211111111)
-                if type(paramType.mtype) is ArrayType:
-                    if type(referType.eletype) == type(paramType.mtype.eletype) and type(referType.eletype) == Unknown:
-                        # print(111111111111111111)
-                        raise TypeCannotBeInferred(ast)
-                if (type(paramType.mtype) is ArrayType and type(paramType.mtype.eletype) is Unknown) :
-                    paramType.mtype.eletype = referType.eletype
-                elif (type(paramType.mtype) is ArrayType and type(referType.eletype) is Unknown):
-                    referType.eletype = paramType.mtype.eletype
-                elif (type(paramType.mtype) is ArrayType and type(referType.eletype) != type(paramType.mtype.eletype)):
-                    raise TypeMismatchInExpression(ast)
-            elif type(referType) is not Unknown:
-                if type(paramType.mtype) is Unknown:
-                    paramType.mtype = referType
-            elif type(paramType.mtype) not in [ArrayType, Unknown]:
-                referType = paramType.mtype
-            if ((type(paramType.mtype) is Unknown) or (type(paramType.mtype) is ArrayType and type(paramType.mtype.eletype) is Unknown)):
-                #them
-                if type(referType) == ArrayType:
-                    if type(referType) is ArrayType and type(referType.eletype) is Unknown:
-                        raise TypeCannotBeInferred(ast)
-                    elif type(paramType.mtype) == Unknown and type(referType.eletype) != Unknown:
-                        paramType.mtype = referType
-                else: raise TypeCannotBeInferred(ast)
-            if type(paramType.mtype) is not type(referType):
-                raise TypeMismatchInExpression(ast)
-        if (type(funcMtype.restype) is Unknown and type(c[1]) is not Unknown):
-            funcMtype.restype = c[1]
-        return funcMtype.restype
-
-    # class Assign(Stmt):
-    # lhs: LHS
-    # rhs: Expr
-    def visitAssign(self, ast, c):
-        try:
-            # print(0)
-            lhs = self.visit(ast.lhs, (c[0], Unknown(), False))
-            # print(lhs)
-            # print(1)
-            rhs = self.visit(ast.rhs, (c[0], lhs))
-            # print(2)
-            lhs = self.visit(ast.lhs, (c[0], rhs))
-            # print(3)
-        except TypeCannotBeInferred:
-            raise TypeCannotBeInferred(ast)
-        except TypeMismatchInStatement:
-            raise TypeMismatchInStatement(ast)
-        if type(lhs) is VoidType:
-            raise TypeMismatchInStatement(ast)
-        if type(lhs) is not type(rhs):
-            raise TypeMismatchInStatement(ast)
-        if type(lhs) is Unknown or (type(lhs) is ArrayType and type(lhs.eletype) is Unknown):
-            raise TypeCannotBeInferred(ast)
-        # [print(x, y ) for x, y in c[0].items()]
-        # print('---------------------------------------------')
-
-    # class If(Stmt):
-    # ifthenStmt:List[Tuple[Expr,List[VarDecl],List[Stmt]]]
-    # elseStmt:Tuple[List[VarDecl],List[Stmt]]
-    def visitIf(self, ast, c):
-        for ifthenStmt in ast.ifthenStmt:
-            try:
-                expr = self.visit(ifthenStmt[0], (c[0], BoolType()))
-            except TypeCannotBeInferred:
-                raise TypeCannotBeInferred(ast)
-            if (type(expr) is not BoolType):
-                raise TypeMismatchInStatement(ast)
-            varLocal = {}
-            [self.visit(x, varLocal) for x in ifthenStmt[1]]
-            # merge 2 dict
-            for name, symbol in c[0].items():
-                if name not in varLocal:
-                    varLocal[name] = symbol
-            [self.visit(x, (varLocal, VoidType(), c[2])) for x in ifthenStmt[2]]
-        varLocal = {}
-        [self.visit(x, varLocal) for x in ast.elseStmt[0]]
-        # merge 2 dict
-        for name, symbol in c[0].items():
-            if name not in varLocal:
-                varLocal[name] = symbol
-        [self.visit(i, (varLocal, Unknown())) for i in ast.elseStmt[1]]
-
-    # class For(Stmt):
-    # idx1: Id
-    # expr1:Expr
-    # expr2:Expr
-    # expr3:Expr
-    # loop: Tuple[List[VarDecl],List[Stmt]]
-    def visitFor(self, ast, c):
-        try:
-            id = self.visit(ast.idx1, (c[0], IntType()))
-            e1 = self.visit(ast.expr1, (c[0], IntType()))
-            e2 = self.visit(ast.expr2, (c[0], BoolType()))
-            e3 = self.visit(ast.expr3, (c[0], IntType()))
-        except TypeCannotBeInferred:
-            raise TypeCannotBeInferred(ast)
-        if type(id) is not IntType or type(e1) is not IntType or type(e2) is not BoolType or type(e3) is not IntType:
-            raise TypeMismatchInStatement(ast)
-        varLocal = {}
-        [self.visit(x, varLocal) for x in ast.loop[0]]
-        # merge 2 dict
-        for name, symbol in c[0].items():
-            if name not in varLocal:
-                varLocal[name] = symbol
-        [self.visit(x, (varLocal, VoidType(), c[2])) for x in ast.loop[1]]
-
-    # class Return(Stmt):
-    # expr:Expr # None if no expression
-    def visitReturn(self, ast, c):
-        reType = VoidType() 
-        if ast.expr:
-            try:
-                reType = self.visit(ast.expr, (c[0], Unknown()))
-            except TypeCannotBeInferred:
-                raise TypeCannotBeInferred(ast)
-        if type(reType) is Unknown:
-            raise TypeCannotBeInferred(ast)
-        if type(c[2].mtype.restype) is Unknown:
-            c[2].mtype.restype = reType
-        if type(c[2].mtype.restype) is not type(reType):
-            raise TypeMismatchInStatement(ast)
-        if type(reType) is ArrayType and type(c[2].mtype.restype) is ArrayType:
-            if len(reType.dimen) != len(c[2].mtype.restype.dimen):
-                raise TypeMismatchInExpression(ast)
-            elif type(reType.eletype) == Unknown and type(c[2].mtype.restype.eletype) == Unknown:
-                raise TypeCannotBeInferred(ast)
-            elif type(reType.eletype) == Unknown:
-                reType.eletype = c[2].mtype.restype.eletype
-            elif type(c[2].mtype.restype.eletype) == Unknown:
-                c[2].mtype.restype.eletype = reType.eletype
-            elif type(c[2].mtype.restype.eletype) != type(reType.eletype):
-                raise TypeMismatchInStatement(ast)
-
-    # class Dowhile(Stmt):
-    # sl:Tuple[List[VarDecl],List[Stmt]]
-    # exp: Expr
-    def visitDowhile(self, ast, c):
-        try:
-            expr = self.visit(ast.exp, (c[0], BoolType()))
-        except TypeCannotBeInferred:
-            raise TypeCannotBeInferred(ast)
-        if type(expr) is not BoolType:
-            raise TypeMismatchInStatement(ast)
-        varLocal = {}
-        [self.visit(x, varLocal) for x in ast.sl[0]]
-        # merge 2 dict
-        for name, symbol in c[0].items():
-            if name not in varLocal:
-                varLocal[name] = symbol
-        [self.visit(x, (varLocal, VoidType(), c[2])) for x in ast.sl[1]]
-
-    # class While(Stmt):
-    # exp: Expr
-    # sl:Tuple[List[VarDecl],List[Stmt]]
-    def visitWhile(self, ast, c):
-        try:
-            expr = self.visit(ast.exp, (c[0], BoolType()))
-        except TypeCannotBeInferred:
-            raise TypeCannotBeInferred(ast)
-        if type(expr) is not BoolType:
-            raise TypeMismatchInStatement(ast)
-        varLocal = {}
-        [self.visit(x, varLocal) for x in ast.sl[0]]
-        # merge 2 dict
-        for name, symbol in c[0].items():
-            if name not in varLocal:
-                varLocal[name] = symbol
-        [self.visit(x, (varLocal, VoidType(), c[2])) for x in ast.sl[1]]
-
-    # class CallStmt(Stmt):
-    # method:Id
-    # param:List[Expr]
-    def visitCallStmt(self, ast, c):
-        try:
-            CallStmtType = self.visitCallExpr(ast, (c[0], VoidType(), c[2]))
-            if type(CallStmtType) is not VoidType:
-                raise TypeMismatchInStatement(ast)
-        except TypeMismatchInExpression as error:
-            if error.exp is ast:
-                raise TypeMismatchInStatement(ast)
+        # check redeclare in global, get all symbol
+        for decl in ast.decl:
+            if type(decl) is VarDecl:
+                c.append(self.visit(decl, cVariable(c, True)))
             else:
-                raise TypeMismatchInExpression(error.exp)
+                if self.lookup(decl.name.name, c, lambda x: x.name) is not None:
+                    raise Redeclared(Function(), decl.name.name)
+                param_list = [self.visit(varDecl, cVariable([], False, [])) for varDecl in
+                              decl.param]  # list Symbol, not check Redeclare
+                c.append(Symbol(decl.name.name, MType([sym.mtype for sym in param_list], Unknown())))
 
-    def visitId(self, ast, c):
-        # print(1111111111)
-        idName = ast.name
-        if idName not in c[0]:
-            raise Undeclared(Identifier(), idName)
-        typeId = c[0][idName]
-        # print(typeId)
-        if type(typeId.mtype) is Unknown and type(c[1]) is not Unknown and type(c[1]) is not ArrayType:
-            typeId.mtype = c[1]
-        elif type(typeId.mtype) == ArrayType and type(c[1]) == ArrayType:
-            # print(typeId.mtype, c[1])
-            # print(3333333333)
-            if len(typeId.mtype.dimen) != len(c[1].dimen):
-                raise TypeMismatchInExpression(ast)
-            if type(typeId.mtype.eletype) == type(c[1].eletype) and type(typeId.mtype.eletype) == Unknown:
-                if len(c) == 2:
-                    raise TypeCannotBeInferred(ast)
-            if type(typeId.mtype.eletype) == Unknown:
-                typeId.mtype.eletype = c[1].eletype
-            elif type(c[1].eletype) == Unknown:
-                c[1].eletype = typeId.mtype.eletype
-            elif type(typeId.mtype.eletype) != type(c[1].eletype):
-                # print(typeId.mtype.eletype, c[1].eletype)
-                # print(555555555)
+        for decl in ast.decl:
+            if type(decl) is FuncDecl:
+                self.visit(decl, c)
+        #check main function
+        #globl_env = reduce(lambda x,y: x + [self.visit(y,x)], ast.decl, StaticChecker.global_envi) #create global enviroment, check name only
+        globl_env = [self.visit(x,c) for x in ast.decl]+ StaticChecker.global_envi
+        mainFunc = self.lookup("main", filter(lambda x: type(x.mtype) == MType, globl_env), lambda x: x.name)
+        if mainFunc is None:
+             raise NoEntryPoint()
+
+    def visitVarDecl(self, ast: VarDecl, c: cVariable):
+        if self.lookup(ast.variable.name, c.local, lambda x: x.name) is not None:
+            raise Redeclared(Variable() if c.isVariable else Parameter(), ast.variable.name)
+        if len(ast.varDimen) > 0:  # array type
+            if type(ast.varInit) is ArrayType:
+
+                return Symbol(ast.variable.name,
+                          ArrayType(ast.varDimen, self.visit(ast.varInit, c) if ast.varInit else Unknown()))
+        else:  # prim type
+            return Symbol(ast.variable.name, self.visit(ast.varInit, c) if ast.varInit else Unknown())
+
+
+    def visitFuncDecl(self, ast: FuncDecl, c):  # c: global_envi
+        local = []  # env: new list
+        for param in ast.param:
+            local.append(self.visit(param, cVariable(local, False, c)))
+        for decl in ast.body[0]:  # list VarDecl
+            local.append(self.visit(decl, cVariable(local, True, c)))
+
+        currentFunc = self.lookup(ast.name.name, self.global_envi, lambda x: x.name)
+        for stmt in ast.body[1]:
+            print(1)
+            self.visit(stmt, cStmt(local + c, currentFunc))
+
+    def visitIf(self, ast: If, c: cStmt):
+        for tup in ast.ifthenStmt:
+            if type(self.visit(tup[0], cExp([], c.nonLocal, inferType=BoolType(), callStmt=ast))) is not BoolType:
                 raise TypeMismatchInStatement(ast)
-        return typeId.mtype
+            local = []
+            for decl in tup[1]:  # List[VarDecl]
+                local.append(self.visit(decl, cVariable(local, True, c.nonLocal)))
+            for stmt in tup[2]:
+                self.visit(stmt, cStmt(local + c.nonLocal, c.currentFunc))  # visit Stmt
+
+        tup = ast.elseStmt
+        if tup:
+            local = []
+            for decl in tup[0]:
+                local.append(self.visit(decl, cVariable(local, True, c.nonLocal)))
+            for stmt in tup[1]:
+                self.visit(stmt, cStmt(local + c.nonLocal, c.currentFunc))  # visit Stmt
+
+    def visitFor(self, ast: For, c: cStmt):
+        exp1 = self.visit(ast.expr1, cExp([], c.nonLocal, inferType=IntType(), callStmt=ast))
+        exp2 = self.visit(ast.expr2, cExp([], c.nonLocal, inferType=BoolType(), callStmt=ast))
+        exp3 = self.visit(ast.expr3, cExp([], c.nonLocal, inferType=IntType(), callStmt=ast))
+
+        if type(exp1) is not IntType or type(exp2) is not BoolType or type(exp3) is not IntType:
+            raise TypeMismatchInStatement(ast)
+
+        idx1 = self.visit(ast.idx1, cExp([], c.nonLocal, False, inferType=IntType(), callStmt=ast))
+        #idx2 = self.visit(ast.idx2, cExp([], c.nonLocal, False, inferType=IntType(), callStmt=ast))
+        #####
+        if type(idx1) is not IntType : #or type(idx2) is not IntType:
+            raise TypeMismatchInStatement(ast)
+        local = []
+        for decl in ast.loop[0]:
+            local.append(self.visit(decl, cVariable(local, True, c.nonLocal)))
+        for stmt in ast.loop[1]:
+            self.visit(stmt, cStmt(local + c.nonLocal, c.currentFunc))
+
+
+    def visitDowhile(self, ast: Dowhile, c: cStmt):
+        exp = self.visit(ast.exp, cExp([], c.nonLocal, inferType=BoolType(), callStmt=ast))
+        if type(exp) is not BoolType:
+            raise TypeMismatchInStatement(ast)
+
+        local = []
+        for decl in ast.sl[0]:
+            local.append(self.visit(decl, cVariable(local, True, c.nonLocal)))
+        for stmt in ast.sl[1]:
+            self.visit(stmt, cStmt(local + c.nonLocal, c.currentFunc))
+
+    def visitWhile(self, ast: While, c: cStmt):
+        exp = self.visit(ast.exp, cExp([], c.nonLocal, inferType=BoolType(), callStmt=ast))
+        if type(exp) is not BoolType:
+            raise TypeMismatchInStatement(ast)
+
+        local = []
+        for decl in ast.sl[0]:
+            local.append(self.visit(decl, cVariable(local, True, c.nonLocal)))
+        for stmt in ast.sl[1]:
+            self.visit(stmt, cStmt(local + c.nonLocal, c.currentFunc))
+
+    def visitAssign(self, ast: Assign, c: cStmt):
+        try:
+            # infer from rhs to lhs
+            rhs = self.visit(ast.rhs, cExp([], c.nonLocal, False, callStmt=ast))
+            lhs = self.visit(ast.lhs, cExp([], c.nonLocal, False, inferType=rhs, callStmt=ast))
+
+        except TypeCannotBeInferred:
+            # if rhs cannot be resolved, infer from lhs to rhs
+            lhs = self.visit(ast.lhs, cExp([], c.nonLocal, False, callStmt=ast))
+            rhs = self.visit(ast.rhs, cExp([], c.nonLocal, False, inferType=lhs, callStmt=ast))
+
+        if type(rhs) is VoidType:
+            raise TypeMismatchInStatement(ast)
+        if type(lhs) is VoidType or type(lhs) is not type(rhs):
+            raise TypeMismatchInStatement(ast)
+
+    def visitCallStmt(self, ast: CallStmt, c: cStmt):
+        print(2)
+        method = self.visit(ast.method,
+                            cExp([], c.nonLocal, isFunction=True, inferType=VoidType(), callStmt=ast))  # MType
+        # elif type(method.restype) is not VoidType:
+        #     raise TypeMismatchInStatement(ast)
+        if len(ast.param) != len(method.intype):
+            raise TypeMismatchInStatement(ast)
+
+        for i in range(len(ast.param)):  # check type param
+            declarationParam = method.intype[i]
+            actualParam = self.visit(ast.param[i], cExp([], c.nonLocal, False, inferType=declarationParam, callStmt=ast))
+            if type(declarationParam) is Unknown:
+                method.intype[i] = actualParam
+            elif type(actualParam) is not type(declarationParam):
+                raise TypeMismatchInStatement(ast)
+
+    def visitReturn(self, ast: Return, c: cStmt):
+        resType = c.currentFunc.mtype.restype
+        if ast.expr:  # return with Exp
+            if type(resType) is VoidType:
+                raise TypeMismatchInStatement(ast)
+            exp = self.visit(ast.expr, cExp([], c.nonLocal, False, resType, ast))  # return Exp
+            if type(resType) is Unknown:
+                c.currentFunc.mtype.restype = exp
+            elif type(exp) is not type(resType):
+                raise TypeMismatchInStatement(ast)
+        else:  # return with no Exp
+            if type(resType) is Unknown:
+                c.currentFunc.mtype.restype = VoidType()
+            elif type(resType) is not VoidType:
+                raise TypeMismatchInStatement(ast)
+
+    def visitBreak(self, ast: Break, c: cExp):
+        pass
+
+    def visitContinue(self, ast:Continue, c:cExp):
+        pass
+
+    def visitArrayCell(self, ast: ArrayCell, c: cExp):
+        arr = self.visit(ast.arr, cExp(c.local, c.nonLocal, inferType=c.inferType, callStmt=c.callStmt))  # arr -> ArrayType
+        if type(arr) is not ArrayType or len(ast.idx) != len(arr.dimen):
+            raise TypeMismatchInExpression(ast)
+
+        idx_list = [self.visit(idx, cExp(c.local, c.nonLocal, False, IntType())) for idx in ast.idx] # ast.indx : List[Exp] -> List[Type]
+        if not all([type(x) is IntType for x in idx_list]):
+            raise TypeMismatchInExpression(ast)
+        return arr.eletype
+
+    def visitId(self, ast: Id, c: cExp):
+        symbol = self.lookup(ast.name, c.local, lambda x: x.name)
+        if symbol is None:  # find in local -> not found -> find in nonLocal
+            symbol = self.lookup(ast.name, c.nonLocal, lambda x: x.name)
+            if symbol is None:  # not found in nonLocal -> raise Exception
+                raise Undeclared(Function() if c.isFunction else Identifier(), ast.name)
+        # find a Symbol, but not a function for Call Stmt/Func
+        if c.isFunction and type(symbol.mtype) is not MType:
+            raise Undeclared(Function(), ast.name)
+
+        if type(symbol.mtype) is Unknown:
+            if type(c.inferType) is Unknown:
+                raise TypeCannotBeInferred(c.callStmt)
+            symbol.mtype = c.inferType
+        elif type(symbol.mtype) is ArrayType and type(symbol.mtype.eletype) is Unknown:
+            if type(c.inferType)is Unknown:
+                raise TypeCannotBeInferred(c.callStmt)
+            symbol.mtype.eletype = c.inferType
+        elif type(symbol.mtype) is MType and type(symbol.mtype.restype) is Unknown:
+            if type(c.inferType) is Unknown:
+                raise TypeCannotBeInferred(c.callStmt)
+            symbol.mtype.restype = c.inferType
+
+        return symbol.mtype
+
+
+    def visitCallExpr(self, ast: CallExpr, c: cExp):
+        print(3)
+        print('-------------')
+        print(c)
+        print('------------------------')
+        method = self.visit(ast.method, cExp(c.local, c.nonLocal, isFunction=True, inferType=c.inferType))  # MType -> declaration
+        if type(method) is Unknown:
+            method.restype = c.inferType
+
+        if len(method.intype) != len(ast.param):
+            raise TypeMismatchInExpression(ast)
+
+        for i in range(len(ast.param)):
+            declarationType = method.intype[i]
+            actualType = self.visit(ast.param[i], cExp(c.local, c.nonLocal, inferType=declarationType, callStmt=c.callStmt))
+            if type(declarationType) is Unknown:
+                method.intype[i] = actualType
+            elif type(declarationType) is not type(actualType):
+                raise TypeMismatchInExpression(ast)
+        return method.restype
+
+
+    def visitBinaryOp(self, ast: BinaryOp, c: cExp):
+        typ = IntType() if ast.op in ('-', '+', '*', '\\', '%', '==', '!=', '<', '>', '<=', '>=') \
+            else FloatType() if ast.op in ('-.', '+.', '*.', '\\.', '=/=', '<.', '>.', '<=.', '>=.') \
+            else BoolType() 
+        left = self.visit(ast.left, cExp(local=c.local, nonLocal=c.nonLocal, isFunction=False, inferType=typ,
+                                         callStmt=c.callStmt))
+        right = self.visit(ast.right, cExp(local=c.local, nonLocal=c.nonLocal, isFunction=False, inferType=typ,
+                                           callStmt=c.callStmt))
+        if type(typ) is not type(left) or type(typ) is not type(right):
+            raise TypeMismatchInExpression(ast)
+
+        return BoolType() if ast.op in ('==', '!=', '<', '>', '<=', '>=', '<.', '>.', '<=.', '>=.') else typ
+
+
+    def visitUnaryOp(self, ast: UnaryOp, c: cExp):
+        typ = IntType() if ast.op == '-' else FloatType() if ast.op == '-.' else BoolType() 
+        body = self.visit(ast.body, cExp(local=c.local, nonLocal=c.nonLocal, isFunction=False, inferType=typ,
+                                         callStmt=c.callStmt))
+        if type(typ) is not type(body):
+            raise TypeMismatchInExpression(ast)
+
+        return typ
+
+    # int, string, .....
+    def visitFloatLiteral(self, ast, c):
+        return FloatType()
 
     def visitIntLiteral(self, ast, c):
         return IntType()
-
-    def visitFloatLiteral(self, ast, c):
-        return FloatType()
 
     def visitBooleanLiteral(self, ast, c):
         return BoolType()
@@ -459,30 +350,31 @@ Symbol("printStrLn",MType([Symbol('x', StringType())],VoidType()))]
     def visitStringLiteral(self, ast, c):
         return StringType()
 
-    # class ArrayLiteral(Literal):
-    # value:List[Literal]
+
     def visitArrayLiteral(self, ast, c):
-        arr = ast.value
-        dimen = []
-        type_ele = Unknown()
-        while True:
-            one_dimen = len(arr)
-            dimen.append(one_dimen)
-            arr = arr[0].value
-            if type(arr) != list:
-                type_ele = type(arr)
-                break
-        if type_ele  == int:
-            type_ele = IntType()
-        elif type_ele == float:
-            type_ele = FloatType()
-        elif type_ele == str:
-            type_ele = StringType()
-        else:
-            type_ele = BoolType()
-        return ArrayType(dimen, type_ele)
-
-
+        pass
 
 
         
+    # def checkArrLit(self,arr1, arr2):
+    #     if type(arr1) == type(arr2):
+    #         if type(arr1) != ArrayType :
+    #             return True
+    #         if len(arr1.dimen) == len(arr2.dimen) :
+    #             for i in range(len(arr1.dimen)):
+    #                 if (arr1.dimen[i])!= (arr2.dimen[i]):
+    #                     return False
+    #         if (type(arr1.eletype) == type(arr2.eletype)) :
+    #             return True
+    #     return False
+    # def visitArrayLiteral(self, ast, c):
+    #     lit =ast.value
+    #     eletype = [self.visit(x,c).mtype for x in lit]
+    #     checkSame = all(self.checkArrLit(eletype[0],x) for x in eletype)
+    #     if checkSame is False :
+    #         raise TypeMismatchInExpression(ast)
+    #     mtype= ArrayType([len(lit)] ,eletype[0].mtype.eletype if type(eletype[0])== ArrayType else eletype[0] )
+    #     if type(eletype[0])== ArrayType:
+    #         mtype.dimen+=eletype[0].dimen 
+        
+    #     return Symbol(None,mtype)
