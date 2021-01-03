@@ -80,8 +80,6 @@
         
 #cau6
     def visitFuncDecl(self, ctx, o):
-        #import inspect
-        #print(inspect.getmembers(Frame, lambda a:not(inspect.isroutine(a))))
         parTypes = [varDecl.typ for varDecl in ctx.param]
         self.emit.printout(self.emit.emitMETHOD(ctx.name, MType(parTypes, ctx.returnType), True))
         

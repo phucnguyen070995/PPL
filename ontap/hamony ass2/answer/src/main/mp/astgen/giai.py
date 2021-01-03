@@ -10,8 +10,17 @@ class ASTGeneration(Q1Visitor):
 	def visitExp(self, ctx:Q1Parser.ExpContext):
 		if ctx.ADDOP():
 			merge = [(ctx.ADDOP(i), ctx.term(i + 1)) for in range(len(ctx.ADDOP()))]
-			return reduce(lambda x,y: Add(x, self.visit(y[1])) if y[0] == '+' else Minus(x, self.visit(y[1])) if y[0], merge, self.visit(ctx.term(0)))
+			return reduce(lambda x,y: Add(x, self.visit(y[1])) if y[0] == '+' else Minus(x, self.visit(y[1])), merge, self.visit(ctx.term(0)))
 		return self.visit(ctx.term(0))
+
+	def visitExp(self, ctx:Q1Parse.ExpContext):
+		if ctx.ASSIGN():
+			lterm = ctx.term()[::-1]
+			lAssign = ctx.ASSIGN()[::-1]
+			merge = list(zip(lterm[1:],lAssign))
+			return reduce(lambda x, y: Binary(y[1].getText(),self.visit(y[0]),x),merge,self.visit(lterm[0]))
+		return self.
+																	             
 
 	def visitTerm(self, ctx:Q1Paerser.Term):
 		if ctx.term() == 3:
