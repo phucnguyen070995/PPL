@@ -124,7 +124,7 @@ Symbol("printStrLn",MType([Symbol('abc', StringType())],VoidType()))]
         pa = lookupFunctionName.mtype.intype #List[Symbol] of params
 
         pa = reduce(lambda acc, x: self.visit(x, acc), ast.body[0], pa)
-        [self.visit(x, (pa + c, VoidType(), lookupFunctionName)) for x in ast.body[1]] 
+        [self.visit(x, (pa + c, VoidType(), lookupFunctionName)) for x in ast.body[1]]
 
 
     def visitAssign(self, ast, c):
